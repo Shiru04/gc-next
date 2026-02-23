@@ -165,7 +165,7 @@ export default function ContactPage() {
             <Card className="overflow-hidden p-0">
               <div className="relative aspect-[16/10] w-full">
                 <ResponsiveImage
-                  srcBase="/hero/service-areas-map.webp"
+                  srcBase="/hero/service-areas-map"
                   alt="Service area map for Los Angeles and Orange County"
                   fill
                   widths={[640, 960, 1200, 1600]}
