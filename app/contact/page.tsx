@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -10,28 +11,50 @@ export const metadata = buildMetadata({
     "Call or book online for HVAC service in Los Angeles & Orange County. Get fast scheduling and reliable service.",
 });
 
-// Static “mailto” form: works with static export.
-// Later we can swap to a form provider (Formspree/Netlify Forms/etc.) without SSR.
 export default function ContactPage() {
   const mailto = `mailto:info@gcheatingandcooling.com?subject=${encodeURIComponent(
     "Service Request",
-  )}&body=${encodeURIComponent("Hi GC Heating & Cooling,%0D%0A%0D%0AI'm looking for help with:%0D%0A%0D%0AName:%0D%0APhone:%0D%0AAddress/City:%0D%0ADetails:%0D%0A")}`;
+  )}&body=${encodeURIComponent(
+    "Hi GC Heating & Cooling,%0D%0A%0D%0AI'm looking for help with:%0D%0A%0D%0AName:%0D%0APhone:%0D%0AAddress/City:%0D%0ADetails:%0D%0A",
+  )}`;
 
   return (
     <>
-      <Section className="pt-10 sm:pt-14">
-        <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-          <div>
-            <div className="text-sm font-extrabold tracking-wide text-black/60">
-              CONTACT
+      {/* HERO (Wix-like) */}
+      <Section className="relative overflow-hidden pt-10 sm:pt-14">
+        {/* Background image */}
+        <div className="pointer-events-none absolute inset-0">
+          <Image
+            src="/brand/red-gradient.webp"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          {/* subtle overlay for readability */}
+          <div className="absolute inset-0 bg-black/10" />
+          <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-white" />
+        </div>
+
+        <div className="relative grid gap-8 lg:grid-cols-12 lg:items-stretch">
+          {/* Left copy */}
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-extrabold tracking-wide text-white ring-1 ring-white/20 backdrop-blur">
+              WE SERVICE, INSTALL & REPAIR HVAC SYSTEMS
             </div>
-            <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
-              We’re ready to help
+
+            <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
+              We are ready
+              <br />
+              to help!
             </h1>
-            <p className="mt-4 text-lg text-black/70">
-              Call for fast help or book an onsite consultation. We serve Los
-              Angeles and Orange County.
-            </p>
+
+            <div className="mt-4 max-w-xl text-base text-white/85 sm:text-lg">
+              Call us for fast scheduling or book an onsite consultation. We
+              serve <span className="font-semibold">Los Angeles</span> and{" "}
+              <span className="font-semibold">Orange County</span>.
+            </div>
 
             <div className="mt-7 flex flex-wrap gap-3">
               <Button
@@ -46,37 +69,117 @@ export default function ContactPage() {
               </Button>
             </div>
 
-            <Card className="mt-7 p-6">
-              <div className="font-extrabold">Office</div>
-              <div className="mt-2 text-black/70">
-                <div>{BUSINESS.addressLine1}</div>
-                <div>{BUSINESS.cityStateZip}</div>
-                <div className="mt-3">{BUSINESS.hoursShort}</div>
+            {/* Contact details (Wix-style block) */}
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <Card className="bg-white/95 p-6 shadow-soft">
+                <div className="text-sm font-extrabold text-black/60">
+                  Customer Support
+                </div>
+                <div className="mt-2 text-xl font-extrabold">
+                  {BUSINESS.phoneDisplay}
+                </div>
+                <div className="mt-2 text-sm text-black/70">
+                  {BUSINESS.hoursShort}
+                </div>
+                <div className="mt-4">
+                  <Button
+                    href={`tel:${BUSINESS.phoneE164}`}
+                    variant="primary"
+                    size="md"
+                  >
+                    Tap to Call
+                  </Button>
+                </div>
+              </Card>
+
+              <Card className="bg-white/95 p-6 shadow-soft">
+                <div className="text-sm font-extrabold text-black/60">
+                  Our Address
+                </div>
+                <div className="mt-2 font-extrabold">
+                  {BUSINESS.addressLine1}
+                </div>
+                <div className="text-black/70">{BUSINESS.cityStateZip}</div>
+
+                <div className="mt-4 text-sm text-black/70">
+                  Need to confirm your service area?{" "}
+                  <a
+                    href="/service-areas"
+                    className="font-bold text-brand-red underline underline-offset-2"
+                  >
+                    View service areas
+                  </a>
+                </div>
+              </Card>
+            </div>
+          </div>
+
+          {/* Right visual + “Contact card” (no form) */}
+          <div className="lg:col-span-5">
+            <div className="relative h-full">
+              {/* vertical hero photo (9:16) */}
+              <div className="relative hidden h-full min-h-[520px] overflow-hidden rounded-3xl lg:block">
+                <Image
+                  src="/hero/contact-hero.webp"
+                  alt="GC Heating & Cooling technician"
+                  fill
+                  priority={false}
+                  sizes="(min-width: 1024px) 40vw, 0px"
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
+              </div>
+
+              {/* floating contact options card */}
+              <Card className="relative mt-6 bg-white/98 p-6 shadow-soft lg:absolute lg:bottom-6 lg:left-6 lg:right-6 lg:mt-0">
+                  <div className="font-extrabold text-black">Office Hours</div>
+                  <div className="mt-1">{BUSINESS.hoursShort}</div>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* SERVICE AREA (map + CTA to /service-areas) */}
+      <Section className="pt-10 sm:pt-14">
+        <div className="grid gap-8 lg:grid-cols-12 lg:items-center">
+          <div className="lg:col-span-5">
+            <div className="text-sm font-extrabold tracking-wide text-black/60">
+              GC HEATING & COOLING
+            </div>
+            <h2 className="mt-2 text-4xl font-extrabold tracking-tight">
+              Service Area
+            </h2>
+            <p className="mt-4 text-lg text-black/70">
+              We provide heating and air conditioning services for residential
+              and commercial properties across{" "}
+              <span className="font-semibold">Los Angeles County</span> and{" "}
+              <span className="font-semibold">Orange County</span>.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button href="/service-areas" variant="primary" size="lg">
+                View Service Areas
+              </Button>
+              <Button href={BUSINESS.bookingUrl} variant="secondary" size="lg">
+                Book Onsite Consultation
+              </Button>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7">
+            <Card className="overflow-hidden p-0">
+              <div className="relative aspect-[16/10] w-full">
+                <Image
+                  src="/hero/service-areas-map.webp"
+                  alt="Service area map for Los Angeles and Orange County"
+                  fill
+                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  className="object-cover"
+                />
               </div>
             </Card>
           </div>
-
-          <Card className="p-6">
-            <div className="text-2xl font-extrabold">Quick message</div>
-            <p className="mt-2 text-black/70">
-              Since this site is static, the simplest option is email. Click
-              below to start a pre-filled message.
-            </p>
-            <div className="mt-5">
-              <Button
-                href={mailto}
-                variant="primary"
-                size="lg"
-                target="_self"
-                rel=""
-              >
-                Email us
-              </Button>
-            </div>
-            <p className="mt-4 text-sm text-black/60">
-              Prefer booking? Use “Book Now” and we’ll confirm your appointment.
-            </p>
-          </Card>
         </div>
       </Section>
     </>

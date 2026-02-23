@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { BUSINESS } from "@/lib/constants";
 import { SERVICES } from "@/lib/services";
 import { REVIEW_BADGES, REVIEWS } from "@/lib/reviews";
+import Image from "next/image";
 
 function Stars({ rating }: { rating: number }) {
   const full = Math.round(rating);
@@ -18,7 +19,82 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
+const ASSETS = {
+  heroFamily: "/hero/home-hero.webp",
+  redGradient: "/brand/red-gradient.webp",
+  reviewsBg: "/sections/reviews-bg.webp",
+  techWorking: "/sections/tech-working.webp",
+  trust: [
+    {
+      src: "/trust/american-standard.webp",
+      alt: "American Standard Customer Care Dealer",
+    },
+    { src: "/trust/angieslist.webp", alt: "Angi's List" },
+    { src: "/trust/homeadvisor.webp", alt: "HomeAdvisor" },
+  ],
+};
+
+/**
+
+ * Solo 3 servicios principales: Installation, Repairs, Maintenance.
+ * Se filtra por includes para que sea robusto contra slugs distintos.
+ */
+function pickTop3CoreServices() {
+  const candidates = SERVICES.map((s) => ({
+    ...s,
+    _slug: (s.slug ?? "").toLowerCase(),
+    _name: (s.name ?? "").toLowerCase(),
+  }));
+
+  const isMaintenance = (x: any) =>
+    x._slug.includes("maintenance") || x._name.includes("maintenance");
+
+  const isRepair = (x: any) =>
+    x._slug.includes("repair") ||
+    x._slug.includes("repairs") ||
+    x._name.includes("repair");
+
+  const isInstall = (x: any) =>
+    x._slug.includes("install") ||
+    x._slug.includes("installation") ||
+    x._name.includes("install");
+
+  const maintenance = candidates.find(isMaintenance);
+  const repair = candidates.find(isRepair);
+  const install = candidates.find(isInstall);
+
+  // Si algo no existe por naming raro, caemos al siguiente match “parecido”
+  const fallback = candidates.filter(
+    (x) => x !== maintenance && x !== repair && x !== install,
+  );
+
+  return [install, repair, maintenance]
+    .filter(Boolean)
+    .concat(fallback)
+    .slice(0, 3);
+}
+
+/**
+ * Imagen por servicio (estilo Wix).
+ * Ajusta estas rutas si tus imágenes viven en otro path dentro de /public.
+ */
+function getServiceCardImage(slug: string) {
+  const s = (slug ?? "").toLowerCase();
+
+  // Si tus imágenes están organizadas como /public/services/<category>/<category>-hero.webp
+  if (s.includes("maintenance"))
+    return "/services/maintenance/maintenance-hero.webp";
+  if (s.includes("repair") || s.includes("repairs"))
+    return "/services/repairs/repairs-hero.webp";
+  if (s.includes("install") || s.includes("installation"))
+    return "/services/installation/installation-hero.webp";
+
+  // Fallback seguro
+  return "/hero/services-hero.webp";
+}
+
 export default function HomePage() {
+  const top3 = pickTop3CoreServices();
   return (
     <>
       {/* HERO */}
@@ -28,24 +104,26 @@ export default function HomePage() {
             <div className="text-sm font-extrabold tracking-wide text-black/60">
               AIR CONDITIONING & HEATING
             </div>
+
             <h1 className="mt-3 text-4xl font-extrabold tracking-tight sm:text-5xl">
               High-quality, affordable HVAC services for your home or business
             </h1>
+
             <p className="mt-4 text-lg text-black/70">
               Expert repairs, maintenance, and installation — proudly serving
               Los Angeles and Orange County.
             </p>
 
             <div className="mt-7 flex flex-wrap gap-3">
+              <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
+                Book Onsite Consultation
+              </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
                 variant="secondary"
                 size="lg"
               >
                 Call {BUSINESS.phoneDisplay}
-              </Button>
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-                Book Onsite Consultation
               </Button>
             </div>
 
@@ -57,8 +135,28 @@ export default function HomePage() {
               <span>{BUSINESS.cityStateZip}</span>
             </div>
 
-            {/* Proof row */}
+            {/* TRUST LOGOS (como Wix) */}
             <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
+              {ASSETS.trust.map((x) => (
+                <div
+                  key={x.src}
+                  className="relative h-14 overflow-hidden rounded-xl bg-white ring-1 ring-black/10"
+                >
+                  <Image
+                    src={x.src}
+                    alt={x.alt}
+                    fill
+                    loading="lazy"
+                    fetchPriority="low"
+                    sizes="(min-width: 640px) 180px, 45vw"
+                    className="object-contain p-2"
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Proof row (tu layout original) */}
+            <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
               <Card className="p-4">
                 <div className="text-2xl font-extrabold">25+</div>
                 <div className="text-sm text-black/60">Years experience</div>
@@ -67,36 +165,44 @@ export default function HomePage() {
                 <div className="text-2xl font-extrabold">10,000+</div>
                 <div className="text-sm text-black/60">Happy clients</div>
               </Card>
-              <Card className="p-4">
+              <Card className="p-4 sm:col-span-1 col-span-2">
                 <div className="text-2xl font-extrabold">12+</div>
                 <div className="text-sm text-black/60">Qualified experts</div>
               </Card>
             </div>
           </div>
 
-          {/* Hero media placeholder (Phase 2: you’ll drop optimized images) */}
-          <Card className="overflow-hidden">
-            <div className="relative h-[360px] bg-brand-gray">
-              <div className="absolute inset-0 p-8">
-                <div className="max-w-sm rounded-2xl bg-white/90 p-5 shadow-soft">
-                  <div className="text-xs font-bold uppercase tracking-wide text-black/50">
-                    Serving
-                  </div>
-                  <div className="mt-1 text-lg font-extrabold">
-                    Los Angeles & Orange County
-                  </div>
-                  <div className="mt-2 text-sm text-black/70">
-                    Reliable scheduling. Clear options. Professional
-                    workmanship.
-                  </div>
+          {/* Hero image */}
+          <div className="relative overflow-hidden rounded-3xl border border-black/10 shadow-sm min-h-[520px] lg:min-h-[560px]">
+            <Image
+              src={ASSETS.heroFamily}
+              alt="Comfortable home with HVAC airflow"
+              fill
+              priority
+              fetchPriority="high"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/5 to-transparent" />
+
+            <div className="absolute inset-x-0 bottom-10 flex justify-center px-8 sm:px-10">
+              <div className="w-full max-w-md rounded-2xl bg-white/85 p-6 shadow-xl border border-white/40 md:backdrop-blur-md md:bg-white/75">
+                <div className="text-xs font-bold uppercase tracking-wide text-black/50">
+                  Serving
+                </div>
+                <div className="mt-1 text-lg font-extrabold">
+                  Los Angeles &amp; Orange County
+                </div>
+                <div className="mt-2 text-sm text-black/70">
+                  Reliable scheduling. Clear options. Professional workmanship.
                 </div>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </Section>
 
-      {/* TRUST BADGES */}
+      {/* TRUST BADGES (ratings) - dejamos esto pero ya no es lo único */}
       <Section className="py-10">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {REVIEW_BADGES.map((b) => (
@@ -113,146 +219,214 @@ export default function HomePage() {
         </div>
       </Section>
 
-      {/* SERVICES HIGHLIGHTS (unified) */}
-      <Section className="bg-brand-red text-white">
-        <div className="text-center">
-          <div className="text-sm font-extrabold tracking-wide text-white/80">
-            OUR SERVICES
+      {/* SATISFACTION / TECH (como Wix) */}
+      <Section className="py-12 sm:py-14">
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-stretch">
+          <div className="relative overflow-hidden rounded-3xl border border-black/10 shadow-sm min-h-[320px] sm:min-h-[380px] lg:min-h-[420px]">
+            <Image
+              src={ASSETS.techWorking}
+              alt="Technician working on HVAC system"
+              fill
+              sizes="(min-width: 1024px) 45vw, 100vw"
+              className="object-cover object-center"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent" />
           </div>
-          <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
-            Residential and commercial HVAC services
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-white/85">
-            From fast repairs to complete installations — we’ll help you get
-            comfortable and stay efficient.
-          </p>
-        </div>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
-          {SERVICES.slice(0, 3).map((s) => (
-            <Card key={s.slug} className="bg-white text-brand-black">
-              <div className="p-6">
-                <div className="text-xl font-extrabold">{s.name}</div>
-                <p className="mt-2 text-black/70">{s.short}</p>
-                <div className="mt-5">
-                  <Button
-                    href={`/services/${s.slug}`}
-                    variant="primary"
-                    size="md"
-                  >
-                    Read more
-                  </Button>
+          <div className="flex flex-col justify-center">
+            <div className="text-sm font-extrabold tracking-wide text-black/60">
+              ONE OF A KIND CUSTOMER SERVICE
+            </div>
+            <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+              The 100% customer satisfaction is not just a slogan
+            </h2>
+            <p className="mt-4 text-black/70">
+              We take responsibility to make sure customers are completely
+              satisfied. Our phones are answered immediately and our team is
+              ready to help.
+            </p>
+
+            <div className="mt-8 grid grid-cols-3 gap-4 rounded-3xl bg-black/[0.03] p-6 ring-1 ring-black/10">
+              <div className="text-center">
+                <div className="text-3xl font-extrabold tracking-tight">
+                  25+
+                </div>
+                <div className="mt-1 text-sm text-black/60">
+                  Years of experience
                 </div>
               </div>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-6 text-center">
-          <Button href="/services" variant="secondary" size="lg">
-            Browse all services
-          </Button>
-        </div>
-      </Section>
-
-      {/* VALUE PROPS */}
-      <Section>
-        <div className="text-center">
-          <div className="text-sm font-extrabold tracking-wide text-black/60">
-            OUR VALUE
-          </div>
-          <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
-            Why choose us?
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-black/70">
-            We focus on quality, clear communication, and professional service —
-            with strong local reputation.
-          </p>
-        </div>
-
-        <div className="mt-10 grid gap-5 md:grid-cols-4">
-          {[
-            {
-              title: "Peace of mind",
-              desc: "Licensed, bonded, and insured for liability and workers compensation.",
-            },
-            {
-              title: "Transparency",
-              desc: "Clear options and guidance to help you make an informed decision.",
-            },
-            {
-              title: "Trustworthy",
-              desc: "Knowledgeable team with professional workmanship standards.",
-            },
-            {
-              title: "Financing available",
-              desc: "Short and long term financing options for qualified customers.",
-            },
-          ].map((x) => (
-            <Card key={x.title} className="p-6">
-              <div className="text-lg font-extrabold">{x.title}</div>
-              <p className="mt-2 text-black/70">{x.desc}</p>
-            </Card>
-          ))}
-        </div>
-
-        <div className="mt-10 text-center">
-          <Button href="/financing" variant="secondary" size="lg">
-            Explore financing
-          </Button>
-        </div>
-      </Section>
-
-      {/* REVIEWS PREVIEW */}
-      <Section className="bg-brand-gray">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <div className="text-sm font-extrabold tracking-wide text-black/60">
-              WHAT CUSTOMERS SAY
+              <div className="text-center">
+                <div className="text-3xl font-extrabold tracking-tight">
+                  10,000+
+                </div>
+                <div className="mt-1 text-sm text-black/60">Happy clients</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-extrabold tracking-tight">
+                  12+
+                </div>
+                <div className="mt-1 text-sm text-black/60">
+                  Qualified experts
+                </div>
+              </div>
             </div>
-            <h2 className="mt-2 text-3xl font-extrabold">Recent feedback</h2>
+
+            <div className="mt-6">
+              <Button href="/services" variant="primary" size="lg">
+                Browse our services
+              </Button>
+            </div>
           </div>
-          <div className="hidden sm:block">
-            <Button href="/reviews" variant="secondary" size="md">
-              View all reviews
+        </div>
+      </Section>
+
+      {/* SERVICES (solo 3 principales) con imagen por card */}
+      <Section className="relative overflow-hidden text-white">
+        <div className="absolute inset-0">
+          <Image
+            src={ASSETS.redGradient}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-red/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/15" />
+        </div>
+
+        <div className="relative">
+          <div className="text-center">
+            <div className="text-sm font-extrabold tracking-wide text-white/85">
+              OUR SERVICES
+            </div>
+            <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+              Residential and commercial HVAC services
+            </h2>
+            <p className="mx-auto mt-3 max-w-2xl text-white/90">
+              From fast repairs to complete installations — we&apos;ll help you
+              get comfortable and stay efficient.
+            </p>
+          </div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {top3.map((s: any) => {
+              const img = getServiceCardImage(s.slug);
+
+              return (
+                <Card
+                  key={s.slug}
+                  className="overflow-hidden bg-white text-brand-black ring-1 ring-black/10 shadow-soft"
+                >
+                  <div className="relative h-44">
+                    <Image
+                      src={img}
+                      alt={s.name}
+                      fill
+                      sizes="(min-width: 768px) 33vw, 100vw"
+                      className="object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/5 to-transparent" />
+                  </div>
+
+                  <div className="p-6">
+                    <div className="text-xl font-extrabold">{s.name}</div>
+                    <p className="mt-2 text-black/70">{s.short}</p>
+
+                    <div className="mt-5">
+                      <Button
+                        href={`/services/${s.slug}`}
+                        variant="primary"
+                        size="md"
+                      >
+                        Read more
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 text-center">
+            <Button href="/services" variant="secondary" size="lg">
+              Browse all services
             </Button>
           </div>
         </div>
+      </Section>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {REVIEWS.map((r) => (
-            <Card key={`${r.name}-${r.date}`} className="p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <div className="font-extrabold">{r.name}</div>
-                  <div className="text-sm text-black/60">
-                    {r.source} • {r.date}
-                  </div>
-                </div>
-                <Stars rating={r.rating} />
-              </div>
-              <p className="mt-4 text-black/70">{r.text}</p>
-            </Card>
-          ))}
+      {/* REVIEWS con background (como Wix) */}
+      <Section className="relative overflow-hidden py-14">
+        <div className="absolute inset-0">
+          <Image
+            src={ASSETS.reviewsBg}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-black/35" />
         </div>
 
-        <div className="mt-8 sm:hidden">
-          <Button href="/reviews" variant="secondary" size="lg">
-            View all reviews
-          </Button>
+        <div className="relative">
+          <div className="text-center text-white">
+            <div className="text-sm font-extrabold tracking-wide text-white/85">
+              WHAT OUR CUSTOMERS SAY
+            </div>
+            <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+              Trusted by homeowners across LA &amp; OC
+            </h2>
+          </div>
+
+          <div className="mx-auto mt-8 max-w-4xl">
+            <Card className="p-6 sm:p-8 bg-white/85 backdrop-blur-md ring-1 ring-white/40 shadow-xl">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="text-lg font-extrabold">
+                    {REVIEWS[0]?.name ?? "Customer"}
+                  </div>
+                  <div className="text-sm text-black/60">
+                    {REVIEWS[0]?.source ?? "Google"} •{" "}
+                    {REVIEWS[0]?.date ?? "Recently"}
+                  </div>
+                </div>
+                <Stars rating={REVIEWS[0]?.rating ?? 5} />
+              </div>
+              <p className="mt-4 text-black/75">
+                {REVIEWS[0]?.text ??
+                  "Great service, clear communication, and professional workmanship. Highly recommended."}
+              </p>
+
+              <div className="mt-6">
+                <Button href="/reviews" variant="secondary" size="md">
+                  View all reviews
+                </Button>
+              </div>
+            </Card>
+          </div>
         </div>
       </Section>
 
-      {/* CTA STRIP */}
-      <Section className="bg-brand-red text-white">
-        <div className="text-center">
+      {/* CTA final con red-gradient */}
+      <Section className="relative overflow-hidden text-white">
+        <div className="absolute inset-0">
+          <Image
+            src={ASSETS.redGradient}
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-brand-red/75" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/20" />
+        </div>
+
+        <div className="relative text-center">
           <h2 className="text-3xl font-extrabold sm:text-4xl">
-            Ready to make your home or business comfortable?
+            Ready to make your home or business comfortable no matter how the
+            weather is outside?
           </h2>
-          <p className="mx-auto mt-3 max-w-3xl text-white/85">
-            Talk to our team about repairs, maintenance, or a new system. We’ll
-            guide you to the right option.
-          </p>
+
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Button
               href={`tel:${BUSINESS.phoneE164}`}
