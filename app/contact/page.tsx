@@ -29,7 +29,7 @@ export default function ContactPage() {
             src="/brand/red-gradient.webp"
             alt=""
             fill
-            priority
+            priority={false}
             sizes="100vw"
             className="object-cover"
           />

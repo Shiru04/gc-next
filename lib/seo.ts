@@ -33,7 +33,7 @@ export function buildMetadata(args: BuildMetadataArgs): Metadata {
   const siteUrl = getSiteUrl();
   const canonical = args.path ? absoluteUrl(args.path)?.toString() : undefined;
 
-  const ogImage = args.image ?? "/og.jpg";
+  const ogImage = args.image ?? "/og.png";
   const ogImageAbs = siteUrl
     ? new URL(ogImage, `${siteUrl}/`).toString()
     : undefined;
