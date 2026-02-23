@@ -1,6 +1,5 @@
 // lib/promotions.ts
-import { SITE } from "./site";
-
+import SITE from "./site";
 export type PromotionKey = "new-installation" | "repairs";
 
 export const PROMOTIONS: Record<

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SERVICES } from "@/lib/services";
-import { SERVICE_AREAS } from "@/lib/serviceAreas";
-import { RESOURCES } from "@/lib/resources";
+import { SERVICE_AREAS } from "@/lib/areas";
+import { POSTS } from "@/lib/posts";
 
 function getSiteUrl(): string {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
@@ -91,7 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  const resourceRoutes: MetadataRoute.Sitemap = RESOURCES.map((r) => ({
+  const resourceRoutes: MetadataRoute.Sitemap = POSTS.map((r) => ({
     url: url(`/resources/${r.slug}`),
     lastModified: now,
     changeFrequency: "monthly",
