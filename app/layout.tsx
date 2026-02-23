@@ -27,7 +27,7 @@ function localBusinessJsonLd() {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
     name: BUSINESS.name,
-    telephone: BUSINESS.phoneE164,
+    telephone: BUSINESS.phone,
     url,
     areaServed: [
       {
