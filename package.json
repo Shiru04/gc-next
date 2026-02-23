@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
+    "predev": "tsx scripts/optimize-images.ts",
     "dev": "next dev",
     "prebuild": "tsx scripts/optimize-images.ts && tsx scripts/generate-sitemap.ts",
     "build": "next build",
