@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { cn } from "@/lib/utils";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 type Props = {
   eyebrow?: string;
@@ -28,11 +28,12 @@ export function PageHero({
 
   return (
     <section className={cn("relative overflow-hidden", minH)}>
-      <Image
-        src={media.src}
+      <ResponsiveImage
+        srcBase={media.src.replace(".webp", "")}
         alt={media.alt}
         fill
         priority={!!media.priority}
+        widths={[640, 960, 1200, 1600]}
         sizes="100vw"
         className="object-cover"
       />

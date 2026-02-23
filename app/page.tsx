@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { BUSINESS } from "@/lib/constants";
 import { SERVICES } from "@/lib/services";
 import { REVIEW_BADGES, REVIEWS } from "@/lib/reviews";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import Image from "next/image";
 
 function Stars({ rating }: { rating: number }) {
@@ -140,14 +141,13 @@ export default function HomePage() {
               {ASSETS.trust.map((x) => (
                 <div
                   key={x.src}
-                  className="relative h-14 overflow-hidden rounded-xl bg-white ring-1 ring-black/10"
+                  className="flex h-14 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-black/10"
                 >
-                  <Image
-                    src={x.src}
+                  {/* logos: chiquitos + srcset real */}
+                  <ResponsiveImage
+                    srcBase={x.src.replace(".webp", "")}
                     alt={x.alt}
-                    fill
-                    loading="lazy"
-                    fetchPriority="low"
+                    widths={[64, 96, 128, 192, 256]}
                     sizes="(min-width: 640px) 180px, 45vw"
                     className="object-contain p-2"
                   />
@@ -174,12 +174,12 @@ export default function HomePage() {
 
           {/* Hero image */}
           <div className="relative overflow-hidden rounded-3xl border border-black/10 shadow-sm min-h-[520px] lg:min-h-[560px]">
-            <Image
-              src={ASSETS.heroFamily}
+            <ResponsiveImage
+              srcBase={ASSETS.heroFamily.replace(".webp", "")}
               alt="Comfortable home with HVAC airflow"
               fill
               priority
-              fetchPriority="high"
+              widths={[420, 640, 768, 960, 1200]}
               sizes="(min-width: 1024px) 50vw, 100vw"
               className="object-cover object-center"
             />
@@ -223,10 +223,11 @@ export default function HomePage() {
       <Section className="py-12 sm:py-14">
         <div className="grid gap-8 lg:grid-cols-2 lg:items-stretch">
           <div className="relative overflow-hidden rounded-3xl border border-black/10 shadow-sm min-h-[320px] sm:min-h-[380px] lg:min-h-[420px]">
-            <Image
-              src={ASSETS.techWorking}
+            <ResponsiveImage
+              srcBase={ASSETS.techWorking.replace(".webp", "")}
               alt="Technician working on HVAC system"
               fill
+              widths={[420, 640, 768, 960]}
               sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover object-center"
             />

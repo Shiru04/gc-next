@@ -1,9 +1,9 @@
-import Image from "next/image";
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 
 export const metadata = buildMetadata({
   title: "Contact | GC Heating & Cooling",
@@ -25,15 +25,7 @@ export default function ContactPage() {
       <Section className="relative overflow-hidden pt-10 sm:pt-14">
         {/* Background image */}
         <div className="pointer-events-none absolute inset-0">
-          <Image
-            src="/brand/red-gradient.webp"
-            alt=""
-            fill
-            priority={false}
-            sizes="100vw"
-            className="object-cover"
-          />
-          {/* subtle overlay for readability */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#b31217] via-[#e52d27] to-[#ff6a00]" />
           <div className="absolute inset-0 bg-black/10" />
           <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-b from-transparent to-white" />
         </div>
@@ -120,12 +112,13 @@ export default function ContactPage() {
             <div className="relative h-full">
               {/* vertical hero photo (9:16) */}
               <div className="relative hidden h-full min-h-[520px] overflow-hidden rounded-3xl lg:block">
-                <Image
-                  src="/hero/contact-hero.webp"
+                <ResponsiveImage
+                  srcBase="/hero/contact-hero.webp"
                   alt="GC Heating & Cooling technician"
                   fill
                   priority={false}
-                  sizes="(min-width: 1024px) 40vw, 0px"
+                  widths={[640, 960, 1200, 1600]}
+                  sizes="100vw"
                   className="object-cover object-center"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
@@ -171,11 +164,12 @@ export default function ContactPage() {
           <div className="lg:col-span-7">
             <Card className="overflow-hidden p-0">
               <div className="relative aspect-[16/10] w-full">
-                <Image
-                  src="/hero/service-areas-map.webp"
+                <ResponsiveImage
+                  srcBase="/hero/service-areas-map.webp"
                   alt="Service area map for Los Angeles and Orange County"
                   fill
-                  sizes="(min-width: 1024px) 60vw, 100vw"
+                  widths={[640, 960, 1200, 1600]}
+                  sizes="100vw"
                   className="object-cover"
                 />
               </div>
