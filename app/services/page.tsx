@@ -3,6 +3,14 @@ import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { SERVICES } from "@/lib/services";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "HVAC Services | GC Heating & Cooling",
+  description:
+    "Explore our HVAC services: installation, repair, and maintenance across Los Angeles & Orange County. Fast scheduling and friendly techs.",
+  path: "/services",
+});
 
 function Icon({
   name,

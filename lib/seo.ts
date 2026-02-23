@@ -1,31 +1,90 @@
 import type { Metadata } from "next";
 import { BUSINESS } from "@/lib/constants";
 
-export function buildMetadata(opts: {
+function getSiteUrl(): string | undefined {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return undefined;
+
+  // normalize: remove trailing slash
+  return raw.replace(/\/+$/, "");
+}
+
+function withTrailingSlash(path: string): string {
+  if (!path.startsWith("/")) path = `/${path}`;
+  return path.endsWith("/") ? path : `${path}/`;
+}
+
+function absoluteUrl(path: string): URL | undefined {
+  const base = getSiteUrl();
+  if (!base) return undefined;
+  return new URL(withTrailingSlash(path), `${base}/`);
+}
+
+type BuildMetadataArgs = {
   title: string;
   description: string;
   path?: string;
-}): Metadata {
-  const siteName = BUSINESS.name;
-  const fullTitle = opts.title.includes(siteName)
-    ? opts.title
-    : `${opts.title} | ${siteName}`;
+  image?: string;
+};
 
-  // In static export you may not know final domain; keep canonical optional for now.
-  // We’ll set canonical once you confirm final domain (Phase 3).
+export function buildMetadata(args: BuildMetadataArgs): Metadata {
+  const { title, description } = args;
+
+  const siteUrl = getSiteUrl();
+  const canonical = args.path ? absoluteUrl(args.path)?.toString() : undefined;
+
+  const ogImage = args.image ?? "/og.jpg";
+  const ogImageAbs = siteUrl
+    ? new URL(ogImage, `${siteUrl}/`).toString()
+    : undefined;
+
   return {
-    title: fullTitle,
-    description: opts.description,
-    metadataBase: undefined,
-    openGraph: {
-      title: fullTitle,
-      description: opts.description,
-      type: "website",
+    title,
+    description,
+
+    metadataBase: siteUrl ? new URL(`${siteUrl}/`) : undefined,
+
+    alternates: canonical
+      ? {
+          canonical,
+        }
+      : undefined,
+
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+        "max-video-preview": -1,
+      },
     },
+
+    openGraph: {
+      type: "website",
+      title,
+      description,
+      url: canonical,
+      siteName: BUSINESS.name,
+      images: ogImageAbs
+        ? [
+            {
+              url: ogImageAbs,
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ]
+        : undefined,
+    },
+
     twitter: {
       card: "summary_large_image",
-      title: fullTitle,
-      description: opts.description,
+      title,
+      description,
+      images: ogImageAbs ? [ogImageAbs] : undefined,
     },
   };
 }

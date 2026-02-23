@@ -6,9 +6,10 @@ import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Contact GC Heating & Cooling",
+  title: "Contact | GC Heating & Cooling",
   description:
-    "Call or book online for HVAC service in Los Angeles & Orange County. Get fast scheduling and reliable service.",
+    "Contact GC Heating & Cooling for HVAC installation, repair, and maintenance across Los Angeles & Orange County. Free estimates available.",
+  path: "/contact",
 });
 
 export default function ContactPage() {
@@ -132,8 +133,8 @@ export default function ContactPage() {
 
               {/* floating contact options card */}
               <Card className="relative mt-6 bg-white/98 p-6 shadow-soft lg:absolute lg:bottom-6 lg:left-6 lg:right-6 lg:mt-0">
-                  <div className="font-extrabold text-black">Office Hours</div>
-                  <div className="mt-1">{BUSINESS.hoursShort}</div>
+                <div className="font-extrabold text-black">Office Hours</div>
+                <div className="mt-1">{BUSINESS.hoursShort}</div>
               </Card>
             </div>
           </div>

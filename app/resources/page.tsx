@@ -5,9 +5,10 @@ import { POSTS } from "@/lib/posts";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "HVAC Resources",
+  title: "Resources | GC Heating & Cooling",
   description:
-    "Helpful HVAC tips and guides for Los Angeles & Orange County homeowners and businesses.",
+    "HVAC tips, guides, and helpful resources for homeowners in Los Angeles & Orange County.",
+  path: "/resources",
 });
 
 export default function ResourcesPage() {

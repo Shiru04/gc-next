@@ -2,12 +2,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { PROMOTIONS } from "@/lib/promotions";
+import { buildMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Promotions | GC Heating & Cooling",
   description:
-    "Choose the right option: new installation rebates or repair free estimates. Serving Los Angeles & Orange County.",
-};
+    "Current HVAC promotions for installation and repairs across Los Angeles & Orange County. Limited-time offers and rebates may apply.",
+  path: "/promotions",
+});
 
 export default function PromotionsHubPage() {
   return (

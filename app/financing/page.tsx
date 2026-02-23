@@ -5,9 +5,10 @@ import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "HVAC Financing in Los Angeles & Orange County",
+  title: "Financing | GC Heating & Cooling",
   description:
-    "Financing options available for HVAC installation and upgrades. Book an onsite consultation with GC Heating & Cooling.",
+    "Explore flexible financing options for HVAC installation and upgrades in Los Angeles & Orange County.",
+  path: "/financing",
 });
 
 export default function FinancingPage() {

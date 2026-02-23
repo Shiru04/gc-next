@@ -6,9 +6,10 @@ import { buildMetadata } from "@/lib/seo";
 import Image from "next/image";
 
 export const metadata = buildMetadata({
-  title: "About GC Heating & Cooling",
+  title: "About | GC Heating & Cooling",
   description:
-    "Family-operated HVAC company serving Los Angeles & Orange County. Licensed, bonded, and insured. Installations, repairs, and maintenance since 1999.",
+    "Family-owned HVAC company serving Los Angeles & Orange County with friendly, reliable installation, repair, and maintenance.",
+  path: "/about",
 });
 
 function CheckIcon() {

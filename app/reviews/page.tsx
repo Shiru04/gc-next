@@ -4,8 +4,10 @@ import { REVIEW_BADGES, REVIEWS } from "@/lib/reviews";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
-  title: "Customer Reviews | GC Heating & Cooling",
-  description: "Customer reviews and local reputation across Los Angeles & Orange County."
+  title: "Reviews | GC Heating & Cooling",
+  description:
+    "Read verified customer reviews for GC Heating & Cooling across Los Angeles & Orange County.",
+  path: "/reviews",
 });
 
 function Stars({ rating }: { rating: number }) {
@@ -13,7 +15,9 @@ function Stars({ rating }: { rating: number }) {
   return (
     <div className="flex gap-1" aria-label={`${rating} out of 5`}>
       {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className="text-brand-red">{i < full ? "★" : "☆"}</span>
+        <span key={i} className="text-brand-red">
+          {i < full ? "★" : "☆"}
+        </span>
       ))}
     </div>
   );
@@ -24,8 +28,12 @@ export default function ReviewsPage() {
     <>
       <Section className="pt-10 sm:pt-14">
         <div className="max-w-3xl">
-          <div className="text-sm font-extrabold tracking-wide text-black/60">REVIEWS</div>
-          <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">What customers say</h1>
+          <div className="text-sm font-extrabold tracking-wide text-black/60">
+            REVIEWS
+          </div>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
+            What customers say
+          </h1>
           <p className="mt-4 text-lg text-black/70">
             We’re proud to be trusted across Los Angeles and Orange County.
           </p>
@@ -37,8 +45,12 @@ export default function ReviewsPage() {
           {REVIEW_BADGES.map((b) => (
             <Card key={b.label} className="p-4 text-center">
               <div className="text-sm font-extrabold">{b.label}</div>
-              <div className="mt-2 text-3xl font-extrabold">{b.rating.toFixed(1)}</div>
-              <div className="mt-1 text-xs text-black/60">{b.count} reviews</div>
+              <div className="mt-2 text-3xl font-extrabold">
+                {b.rating.toFixed(1)}
+              </div>
+              <div className="mt-1 text-xs text-black/60">
+                {b.count} reviews
+              </div>
             </Card>
           ))}
         </div>
