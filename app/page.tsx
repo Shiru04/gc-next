@@ -150,7 +150,7 @@ export default function HomePage() {
                     widths={[64, 96, 128, 192, 256]}
                     sizes="(min-width: 640px) 180px, 45vw"
                     className="object-contain p-2"
-                    formats={["webp"]}
+                    disableSrcSet
                   />
                 </div>
               ))}

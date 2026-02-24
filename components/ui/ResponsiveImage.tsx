@@ -14,6 +14,7 @@ type Props = {
 
   // ✅ nuevo: control de formatos
   formats?: Array<"avif" | "webp">;
+  disableSrcSet?: boolean; // ✅ nuevo
 };
 
 function buildSrcSet(srcBase: string, widths: number[], ext: "webp" | "avif") {
@@ -31,8 +32,27 @@ export function ResponsiveImage({
   decoding = "async",
   originalExt = "webp",
   formats = ["avif", "webp"], // ✅ default
+  disableSrcSet,
 }: Props) {
   const fallbackSrc = `${srcBase}.${originalExt}`;
+
+  if (disableSrcSet) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={fallbackSrc}
+        alt={alt}
+        decoding={decoding}
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "low"}
+        className={cn(
+          fill ? "absolute inset-0 h-full w-full" : "",
+          "object-cover",
+          className,
+        )}
+      />
+    );
+  }
 
   const avifSrcSet = React.useMemo(
     () => buildSrcSet(srcBase, widths, "avif"),
