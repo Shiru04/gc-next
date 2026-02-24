@@ -30,8 +30,8 @@ const ASSETS = {
       src: "/trust/american-standard.webp",
       alt: "American Standard Customer Care Dealer",
     },
-    { src: "/trust/angieslist", alt: "Angi's List" },
-    { src: "/trust/homeadvisor", alt: "HomeAdvisor" },
+    { src: "/trust/angieslist.webp", alt: "Angi's List" },
+    { src: "/trust/homeadvisor.webp", alt: "HomeAdvisor" },
   ],
 };
 
@@ -150,6 +150,7 @@ export default function HomePage() {
                     widths={[64, 96, 128, 192, 256]}
                     sizes="(min-width: 640px) 180px, 45vw"
                     className="object-contain p-2"
+                    formats={["webp"]}
                   />
                 </div>
               ))}
