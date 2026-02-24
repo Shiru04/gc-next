@@ -141,7 +141,13 @@ export default function HomePage() {
               {ASSETS.trust.map((x) => (
                 <div
                   key={x.src}
-                  className="flex h-14 items-center justify-center overflow-hidden rounded-xl bg-white ring-1 ring-black/10"
+                  className="
+          flex items-center justify-center
+          rounded-2xl bg-white
+          ring-1 ring-black/10 shadow-soft
+          px-4 py-3
+          h-16 sm:h-20
+        "
                 >
                   {/* logos: chiquitos + srcset real */}
                   <ResponsiveImage
