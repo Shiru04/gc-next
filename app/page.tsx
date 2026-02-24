@@ -361,7 +361,7 @@ export default function HomePage() {
         <div className="absolute inset-0">
           <Image
             src={ASSETS.reviewsBg}
-            alt=""
+            alt="GC Branding Reviews"
             fill
             sizes="100vw"
             className="object-cover object-center"
@@ -413,7 +413,7 @@ export default function HomePage() {
         <div className="absolute inset-0">
           <Image
             src={ASSETS.redGradient}
-            alt=""
+            alt="'GC Red branding"
             fill
             sizes="100vw"
             className="object-cover"
