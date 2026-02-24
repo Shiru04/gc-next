@@ -136,32 +136,57 @@ export default function HomePage() {
               <span>{BUSINESS.cityStateZip}</span>
             </div>
 
-            {/* TRUST LOGOS (como Wix) */}
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3">
-              {ASSETS.trust.map((x) => (
-                <div
-                  key={x.src}
-                  className="
-          flex items-center justify-center
+            {/* TRUST LOGOS (premium) */}
+            <div className="mt-8">
+              <div className="grid gap-3 sm:grid-cols-3">
+                {ASSETS.trust.map((x) => (
+                  <div
+                    key={x.src}
+                    className="
+          group relative overflow-hidden
           rounded-2xl bg-white
           ring-1 ring-black/10 shadow-soft
-          px-4 py-3
-          h-16 sm:h-20
+          px-5 py-4
+          h-[88px] sm:h-[96px]
+          flex items-center justify-center
         "
-                >
-                  {/* logos: chiquitos + srcset real */}
-                  <ResponsiveImage
-                    srcBase={x.src.replace(".webp", "")}
-                    alt={x.alt}
-                    widths={[64, 96, 128, 192, 256]}
-                    sizes="(min-width: 640px) 180px, 45vw"
-                    className="object-contain p-2"
-                    disableSrcSet
-                  />
-                </div>
-              ))}
-            </div>
+                  >
+                    {/* premium subtle sheen */}
+                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-black/[0.03] via-transparent to-black/[0.02]" />
+                    <div className="pointer-events-none absolute -inset-10 opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100 bg-black/5" />
 
+                    {/* logo container: forces no crop + consistent sizing */}
+                    <div className="relative h-full w-full">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="h-full w-full">
+                          <ResponsiveImage
+                            srcBase={x.src.replace(".webp", "")}
+                            alt={x.alt}
+                            disableSrcSet
+                            className="
+                  h-full w-full
+                  object-contain
+                  px-2
+                "
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* optional microcopy */}
+              <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-black/55">
+                <span className="font-semibold text-black/60">Trusted</span>
+                <span>•</span>
+                <span>Licensed &amp; Insured</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="hidden sm:inline">
+                  Rated by homeowners across LA &amp; OC
+                </span>
+              </div>
+            </div>
             {/* Proof row (tu layout original) */}
             <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
               <Card className="p-4">
