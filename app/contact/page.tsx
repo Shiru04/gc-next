@@ -113,7 +113,7 @@ export default function ContactPage() {
               {/* vertical hero photo (9:16) */}
               <div className="relative hidden h-full min-h-[520px] overflow-hidden rounded-3xl lg:block">
                 <ResponsiveImage
-                  srcBase="/hero/contact-hero.webp"
+                  srcBase="/hero/contact-hero"
                   alt="GC Heating & Cooling technician"
                   fill
                   priority={false}

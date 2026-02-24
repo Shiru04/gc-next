@@ -30,8 +30,8 @@ const ASSETS = {
       src: "/trust/american-standard.webp",
       alt: "American Standard Customer Care Dealer",
     },
-    { src: "/trust/angieslist.webp", alt: "Angi's List" },
-    { src: "/trust/homeadvisor.webp", alt: "HomeAdvisor" },
+    { src: "/trust/angieslist", alt: "Angi's List" },
+    { src: "/trust/homeadvisor", alt: "HomeAdvisor" },
   ],
 };
 
