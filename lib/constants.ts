@@ -2,9 +2,9 @@ import { SocketAddress } from "net";
 
 export const BUSINESS = {
   name: "GC Heating & Cooling",
-  phoneDisplay: "(800) 706-4822",
-  phone: "+18007064822",
-  phoneE164: "+18007064822",
+  phoneDisplay: "(562) 867-4123",
+  phone: "+15628674123",
+  phoneE164: "+15628674123",
   bookingUrl:
     "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
 
