@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 type Props = {
   srcBase: string; // sin extensión
   alt: string;
-  widths: number[];
-  sizes: string;
+  widths?: number[];
+  sizes?: string;
   fill?: boolean;
   priority?: boolean;
   className?: string;
