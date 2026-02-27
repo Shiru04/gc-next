@@ -55,11 +55,11 @@ export function ResponsiveImage({
   }
 
   const avifSrcSet = React.useMemo(
-    () => buildSrcSet(srcBase, widths, "avif"),
+    () => buildSrcSet(srcBase, widths ?? [], "avif"),
     [srcBase, widths],
   );
   const webpSrcSet = React.useMemo(
-    () => buildSrcSet(srcBase, widths, "webp"),
+    () => buildSrcSet(srcBase, widths ?? [], "webp"),
     [srcBase, widths],
   );
 
