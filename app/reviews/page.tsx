@@ -1,6 +1,8 @@
 import { Section } from "@/components/ui/Section";
-import { Card } from "@/components/ui/Card";
-import { REVIEW_BADGES, REVIEWS } from "@/lib/reviews";
+import { Button } from "@/components/ui/Button";
+import { ReviewsSection } from "@/components/sections/ReviewsSection";
+import { fetchGoogleReviews } from "@/lib/google-reviews";
+import { aggregateRatingSchema, reviewSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -10,22 +12,39 @@ export const metadata = buildMetadata({
   path: "/reviews",
 });
 
-function Stars({ rating }: { rating: number }) {
-  const full = Math.round(rating);
-  return (
-    <div className="flex gap-1" aria-label={`${rating} out of 5`}>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <span key={i} className="text-brand-red">
-          {i < full ? "★" : "☆"}
-        </span>
-      ))}
-    </div>
-  );
-}
+export default async function ReviewsPage() {
+  const googleData = await fetchGoogleReviews();
 
-export default function ReviewsPage() {
   return (
     <>
+      {/* JSON-LD: aggregate rating + individual reviews */}
+      {googleData ? (
+        <>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(
+                aggregateRatingSchema(
+                  googleData.rating,
+                  googleData.totalReviews,
+                ),
+              ),
+            }}
+          />
+          {googleData.reviews.map((r) => (
+            <script
+              key={r.author_name}
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify(
+                  reviewSchema(r.author_name, r.text, r.rating),
+                ),
+              }}
+            />
+          ))}
+        </>
+      ) : null}
+
       <Section className="pt-10 sm:pt-14">
         <div className="max-w-3xl">
           <div className="text-sm font-extrabold tracking-wide text-black/60">
@@ -34,42 +53,40 @@ export default function ReviewsPage() {
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
             What customers say
           </h1>
-          <p className="mt-4 text-lg text-black/70">
-            We’re proud to be trusted across Los Angeles and Orange County.
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/70">
+            We&apos;re proud to be trusted across Los Angeles and Orange County.
           </p>
         </div>
       </Section>
 
       <Section className="bg-brand-gray">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-          {REVIEW_BADGES.map((b) => (
-            <Card key={b.label} className="p-4 text-center">
-              <div className="text-sm font-extrabold">{b.label}</div>
-              <div className="mt-2 text-3xl font-extrabold">
-                {b.rating.toFixed(1)}
-              </div>
-              <div className="mt-1 text-xs text-black/60">
-                {b.count} reviews
-              </div>
-            </Card>
-          ))}
-        </div>
+        <ReviewsSection
+          googleData={googleData}
+          showViewAll={false}
+          showBadges
+          heading="Trusted by homeowners across LA & OC"
+        />
+      </Section>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2">
-          {REVIEWS.map((r) => (
-            <Card key={`${r.name}-${r.date}`} className="p-6">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <div className="font-extrabold">{r.name}</div>
-                  <div className="text-sm text-black/60">
-                    {r.source} • {r.date}
-                  </div>
-                </div>
-                <Stars rating={r.rating} />
-              </div>
-              <p className="mt-4 text-black/70">{r.text}</p>
-            </Card>
-          ))}
+      {/* Google Review CTA */}
+      <Section>
+        <div className="text-center">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">
+            Share your experience
+          </h2>
+          <p className="mt-3 max-w-xl mx-auto text-black/70">
+            Happy with our service? It takes 30 seconds and helps other
+            homeowners find us.
+          </p>
+          <div className="mt-6">
+            <Button
+              href="https://search.google.com/local/writereview?placeid=PLACEHOLDER"
+              variant="primary"
+              size="lg"
+            >
+              Leave us a Google Review
+            </Button>
+          </div>
         </div>
       </Section>
     </>

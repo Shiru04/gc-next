@@ -45,7 +45,9 @@ export default async function ServiceDetailPage({
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
             {service.h1}
           </h1>
-          <p className="mt-4 text-lg text-black/70">{service.intro}</p>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/70">
+            {service.intro}
+          </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
             <Button
@@ -65,20 +67,20 @@ export default async function ServiceDetailPage({
       <Section className="bg-brand-gray">
         <div className="grid gap-6 lg:grid-cols-3">
           <Card className="p-6 lg:col-span-2">
-            <div className="text-xl font-extrabold">What’s included</div>
-            <ul className="mt-4 space-y-2 text-black/80">
+            <h2 className="text-xl font-extrabold">What&apos;s included</h2>
+            <ul className="mt-4 space-y-3 text-black/80">
               {service.bullets.map((b) => (
-                <li key={b} className="flex gap-2">
-                  <span className="mt-1 text-brand-red">✓</span>
-                  <span>{b}</span>
+                <li key={b} className="flex gap-3">
+                  <span className="mt-0.5 shrink-0 text-brand-red">✓</span>
+                  <span className="leading-relaxed">{b}</span>
                 </li>
               ))}
             </ul>
           </Card>
 
           <Card className="p-6">
-            <div className="text-xl font-extrabold">Service area</div>
-            <p className="mt-2 text-black/70">
+            <h2 className="text-xl font-extrabold">Service area</h2>
+            <p className="mt-2 leading-relaxed text-black/70">
               Serving Los Angeles and Orange County. If you’re unsure whether
               you’re in range, call us — we’ll confirm.
             </p>
@@ -92,20 +94,20 @@ export default async function ServiceDetailPage({
 
         <div className="mt-6 grid gap-6 lg:grid-cols-2">
           <Card className="p-6">
-            <div className="text-xl font-extrabold">FAQ</div>
-            <div className="mt-4 space-y-4">
+            <h2 className="text-xl font-extrabold">FAQ</h2>
+            <div className="mt-4 space-y-5">
               {service.faqs.map((f) => (
                 <div key={f.q}>
-                  <div className="font-bold">{f.q}</div>
-                  <div className="mt-1 text-black/70">{f.a}</div>
+                  <h3 className="font-bold">{f.q}</h3>
+                  <p className="mt-1 leading-relaxed text-black/70">{f.a}</p>
                 </div>
               ))}
             </div>
           </Card>
 
           <Card className="p-6">
-            <div className="text-xl font-extrabold">Next steps</div>
-            <p className="mt-2 text-black/70">
+            <h2 className="text-xl font-extrabold">Next steps</h2>
+            <p className="mt-2 leading-relaxed text-black/70">
               Book an onsite consultation for an accurate diagnosis, options,
               and clear recommendations.
             </p>

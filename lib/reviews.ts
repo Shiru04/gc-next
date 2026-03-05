@@ -21,6 +21,34 @@ export const REVIEWS: Review[] = [
     date: "8/20/22",
     text: "Truly appreciate the friendliness, professionalism, kindness, and honesty throughout the entire process. Great communication each step of the way.",
   },
+  {
+    name: "Maria Lopez",
+    source: "Angi",
+    rating: 5,
+    date: "11/15/23",
+    text: "Called on a Friday afternoon for an emergency AC repair. They scheduled us for Saturday morning and the technician arrived right on time. Fair pricing and honest assessment.",
+  },
+  {
+    name: "David Kim",
+    source: "Google",
+    rating: 5,
+    date: "3/10/24",
+    text: "Had our entire HVAC system replaced. The team was respectful of our home, cleaned up after themselves, and walked us through the new thermostat setup. Very happy with the results.",
+  },
+  {
+    name: "Jennifer R.",
+    source: "Porch",
+    rating: 5,
+    date: "6/02/24",
+    text: "Great experience from start to finish. They explained the issue clearly and didn't try to upsell us on things we didn't need. Will definitely use them again.",
+  },
+  {
+    name: "Robert Chen",
+    source: "Yelp",
+    rating: 4,
+    date: "9/18/24",
+    text: "Reliable and professional. They showed up when they said they would and fixed the problem quickly. The only reason for 4 stars is I wish they had a wider range of appointment slots.",
+  },
 ];
 
 export const REVIEW_BADGES = [

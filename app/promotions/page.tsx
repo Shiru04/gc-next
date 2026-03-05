@@ -1,7 +1,8 @@
-// app/promotions/page.tsx
-import { Metadata } from "next";
-import Link from "next/link";
+import { Section } from "@/components/ui/Section";
+import { Button } from "@/components/ui/Button";
+import { BUSINESS } from "@/lib/constants";
 import { PROMOTIONS } from "@/lib/promotions";
+import { PromoCard } from "@/components/sections/PromoCard";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -12,53 +13,73 @@ export const metadata = buildMetadata({
 });
 
 export default function PromotionsHubPage() {
+  const promoNewInstall = PROMOTIONS["new-installation"];
+  const promoRepairs = PROMOTIONS.repairs;
+
   return (
-    <main className="mx-auto max-w-6xl px-6 py-14">
-      <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 md:text-4xl">
-        Choose your service
-      </h1>
-      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-neutral-700">
-        Select the option that matches what you need right now. Fast scheduling
-        for Los Angeles & Orange County.
-      </p>
+    <>
+      {/* Header */}
+      <Section className="pt-10 sm:pt-14">
+        <div className="max-w-3xl">
+          <div className="text-sm font-extrabold tracking-wide text-brand-red">
+            LIMITED-TIME OFFERS
+          </div>
+          <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
+            Current promotions
+          </h1>
+          <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/70">
+            Select the option that matches what you need. Fast scheduling for
+            Los Angeles &amp; Orange County.
+          </p>
+        </div>
+      </Section>
 
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
-        <Link
-          href={PROMOTIONS["new-installation"].slug}
-          className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
-        >
-          <p className="text-xs font-bold uppercase tracking-wide text-red-600">
-            New Installation
-          </p>
-          <p className="mt-2 text-2xl font-extrabold text-neutral-900">
-            Up to $2,000 Rebates
-          </p>
-          <p className="mt-3 text-sm text-neutral-700">
-            Replace or install a new HVAC system with a trusted team.
-          </p>
-          <p className="mt-6 inline-flex text-sm font-bold text-neutral-900">
-            View details →
-          </p>
-        </Link>
+      {/* Promo cards */}
+      <Section className="bg-brand-gray">
+        <div className="grid gap-6 md:grid-cols-2">
+          <PromoCard
+            kicker="New Installation"
+            title={promoNewInstall.primaryOfferValue}
+            description="Replace or install a new HVAC system with a trusted, licensed team. Energy-efficient equipment options available."
+            ctaLabel="View details"
+            ctaHref={promoNewInstall.slug}
+            highlight="Popular"
+          />
+          <PromoCard
+            kicker="Repairs"
+            title={promoRepairs.primaryOfferValue}
+            description="Quick diagnosis, straightforward recommendations, and urgent scheduling available. Residential & light commercial."
+            ctaLabel="View details"
+            ctaHref={promoRepairs.slug}
+            highlight="Fast Service"
+          />
+        </div>
+      </Section>
 
-        <Link
-          href={PROMOTIONS.repairs.slug}
-          className="rounded-2xl bg-white p-7 shadow-sm ring-1 ring-black/5 transition hover:shadow-md"
-        >
-          <p className="text-xs font-bold uppercase tracking-wide text-red-600">
-            Repairs
+      {/* CTA */}
+      <Section>
+        <div className="text-center">
+          <h2 className="text-2xl font-extrabold sm:text-3xl">
+            Not sure which service you need?
+          </h2>
+          <p className="mt-3 max-w-xl mx-auto text-black/70">
+            Call us or book an on-site consultation. We&apos;ll evaluate your
+            system and recommend the best option.
           </p>
-          <p className="mt-2 text-2xl font-extrabold text-neutral-900">
-            Free Estimates
-          </p>
-          <p className="mt-3 text-sm text-neutral-700">
-            Quick diagnosis, straightforward recommendations, urgent scheduling.
-          </p>
-          <p className="mt-6 inline-flex text-sm font-bold text-neutral-900">
-            View details →
-          </p>
-        </Link>
-      </div>
-    </main>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            <Button
+              href={`tel:${BUSINESS.phoneE164}`}
+              variant="secondary"
+              size="lg"
+            >
+              Call {BUSINESS.phoneDisplay}
+            </Button>
+            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
+              Book Consultation
+            </Button>
+          </div>
+        </div>
+      </Section>
+    </>
   );
 }

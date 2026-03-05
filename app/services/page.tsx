@@ -229,7 +229,7 @@ export default function ServicesPage() {
               Our Services
             </h1>
 
-            <p className="mt-4 text-lg text-black/70">
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-black/70">
               We provide a wide variety of residential and commercial HVAC
               services across Los Angeles and Orange County. Choose a service
               below to learn more.
