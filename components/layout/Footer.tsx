@@ -57,7 +57,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 text-xs text-black/50">
+        <div className="mt-10 text-xs text-black/65">
           © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
         </div>
       </Container>

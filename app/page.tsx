@@ -204,7 +204,7 @@ export default async function HomePage() {
 
             <div className="absolute inset-x-0 bottom-10 flex justify-center px-8 sm:px-10">
               <div className="w-full max-w-md rounded-2xl bg-white/85 p-6 shadow-xl border border-white/40 md:backdrop-blur-md md:bg-white/75">
-                <div className="text-xs font-bold uppercase tracking-wide text-black/50">
+                <div className="text-xs font-bold uppercase tracking-wide text-black/65">
                   Serving
                 </div>
                 <div className="mt-1 text-lg font-extrabold">

@@ -37,7 +37,7 @@ export default function ResourcesPage() {
               {/* Placeholder for future article images */}
               <div className="h-2 bg-gradient-to-r from-brand-red to-brand-red/60" />
               <div className="flex flex-1 flex-col p-6">
-                <div className="text-xs font-bold text-black/50">{p.date}</div>
+                <div className="text-xs font-bold text-black/65">{p.date}</div>
                 <h2 className="mt-2 text-xl font-extrabold leading-tight">
                   {p.title}
                 </h2>

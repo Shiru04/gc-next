@@ -39,7 +39,7 @@ export default async function PostPage({
     <>
       <Section className="pt-10 sm:pt-14">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold text-black/50">{post.date}</div>
+          <div className="text-xs font-bold text-black/65">{post.date}</div>
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
             {post.title}
           </h1>

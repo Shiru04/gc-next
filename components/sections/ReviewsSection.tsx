@@ -7,7 +7,7 @@ import type { GoogleReview, GooglePlaceData } from "@/lib/google-reviews";
 function Stars({ rating }: { rating: number }) {
   const full = Math.round(rating);
   return (
-    <div className="flex gap-0.5" aria-label={`${rating} out of 5`}>
+    <div className="flex gap-0.5" role="img" aria-label={`${rating} out of 5`}>
       {Array.from({ length: 5 }).map((_, i) => (
         <svg
           key={i}
@@ -158,7 +158,7 @@ export function ReviewsSection({
                   <div className="font-extrabold">{r.name}</div>
                   <div className="mt-1 flex items-center gap-2">
                     <SourceBadge source={r.source} />
-                    <span className="text-xs text-black/50">{r.date}</span>
+                    <span className="text-xs text-black/65">{r.date}</span>
                   </div>
                 </div>
               </div>
