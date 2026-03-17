@@ -310,6 +310,7 @@ export default async function HomePage() {
                         href={`/services/${s.slug}`}
                         variant="primary"
                         size="md"
+                        ariaLabel={`Read more about ${s.name}`}
                       >
                         Read more
                       </Button>
