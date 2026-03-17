@@ -258,7 +258,7 @@ export default async function HomePage() {
         <div className="absolute inset-0">
           <Image
             src={ASSETS.redGradient}
-            alt=""
+            alt="Red gradient background"
             fill
             sizes="100vw"
             className="object-cover"
@@ -339,7 +339,7 @@ export default async function HomePage() {
         <div className="absolute inset-0">
           <Image
             src={ASSETS.redGradient}
-            alt=""
+            alt="Red gradient background"
             fill
             sizes="100vw"
             className="object-cover"
