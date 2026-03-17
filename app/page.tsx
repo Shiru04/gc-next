@@ -310,9 +310,8 @@ export default async function HomePage() {
                         href={`/services/${s.slug}`}
                         variant="primary"
                         size="md"
-                        ariaLabel={`Read more about ${s.name}`}
                       >
-                        Read more
+                        Read more<span className="sr-only"> about {s.name}</span>
                       </Button>
                     </div>
                   </div>
