@@ -8,7 +8,6 @@ import { SectionBlock } from "@/components/sections/SectionBlock";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 import { fetchGoogleReviews } from "@/lib/google-reviews";
 import { aggregateRatingSchema, reviewSchema } from "@/lib/schema";
-import Image from "next/image";
 
 /**
  * Solo 3 servicios principales: Installation, Repairs, Maintenance.
@@ -64,9 +63,10 @@ const ASSETS = {
     {
       src: "/trust/american-standard.webp",
       alt: "American Standard Customer Care Dealer",
+      widths: [96, 128, 192, 256],
     },
-    { src: "/trust/angieslist.webp", alt: "Angi's List" },
-    { src: "/trust/homeadvisor.webp", alt: "HomeAdvisor" },
+    { src: "/trust/angieslist.webp", alt: "Angi's List", widths: [64, 96, 128, 192] },
+    { src: "/trust/homeadvisor.webp", alt: "HomeAdvisor", widths: [64, 96, 128, 192] },
   ],
 };
 
@@ -154,7 +154,8 @@ export default async function HomePage() {
                     <ResponsiveImage
                       srcBase={x.src.replace(".webp", "")}
                       alt={x.alt}
-                      disableSrcSet
+                      widths={x.widths}
+                      sizes="128px"
                       className="max-h-full max-w-full object-contain"
                     />
                   </div>
@@ -256,10 +257,11 @@ export default async function HomePage() {
           ═══════════════════════════════════════ */}
       <Section className="relative overflow-hidden text-white">
         <div className="absolute inset-0">
-          <Image
-            src={ASSETS.redGradient}
+          <ResponsiveImage
+            srcBase="/brand/red-gradient"
             alt="Red gradient background"
             fill
+            widths={[640, 960, 1280, 1600]}
             sizes="100vw"
             className="object-cover"
           />
@@ -290,10 +292,11 @@ export default async function HomePage() {
                   className="overflow-hidden bg-white text-brand-black ring-1 ring-black/10 shadow-soft"
                 >
                   <div className="relative h-44">
-                    <Image
-                      src={img}
+                    <ResponsiveImage
+                      srcBase={img.replace(".webp", "")}
                       alt={s.name}
                       fill
+                      widths={[420, 640, 820]}
                       sizes="(min-width: 768px) 33vw, 100vw"
                       className="object-cover object-center"
                     />
@@ -337,10 +340,11 @@ export default async function HomePage() {
           ═══════════════════════════════════════ */}
       <Section className="relative overflow-hidden text-white">
         <div className="absolute inset-0">
-          <Image
-            src={ASSETS.redGradient}
+          <ResponsiveImage
+            srcBase="/brand/red-gradient"
             alt="Red gradient background"
             fill
+            widths={[640, 960, 1280, 1600]}
             sizes="100vw"
             className="object-cover"
           />

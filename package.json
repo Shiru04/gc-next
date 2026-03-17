@@ -25,5 +25,12 @@
     "tsx": "^4.21.0",
     "typescript": "5.5.4",
     "sharp": "^0.34.1"
-  }
+  },
+  "browserslist": [
+    "last 2 Chrome versions",
+    "last 2 Firefox versions",
+    "last 2 Safari versions",
+    "last 2 Edge versions",
+    "not dead"
+  ]
 }

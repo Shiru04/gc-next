@@ -104,6 +104,14 @@ const jobs: Job[] = [
     avifQuality: 48,
   },
 
+  // Red gradient (background decorativo)
+  {
+    inputFromPublic: "brand/red-gradient.webp",
+    widths: [640, 960, 1280, 1600],
+    webpQuality: 55,
+    avifQuality: 35,
+  },
+
   // Trust logos (tu audit muestra que están gigantes vs render)
   {
     inputFromPublic: "trust/american-standard.webp",
