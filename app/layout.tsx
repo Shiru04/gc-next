@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/layout/CookieConsent";
+import { ConversionTracking } from "@/components/layout/ConversionTracking";
 import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
@@ -23,7 +24,6 @@ function localBusinessJsonLd() {
   const siteUrl = getSiteUrl();
   const url = siteUrl ? `${siteUrl}/` : undefined;
 
-  // Keep it conservative + consistent (no undefined fields)
   const jsonLd: Record<string, any> = {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
@@ -53,7 +53,6 @@ function localBusinessJsonLd() {
     sameAs: BUSINESS.socials?.length ? BUSINESS.socials : undefined,
   };
 
-  // Remove undefined keys
   Object.keys(jsonLd).forEach(
     (k) => jsonLd[k] === undefined && delete jsonLd[k],
   );
@@ -81,6 +80,7 @@ export default function RootLayout({
         <main>{children}</main>
         <Footer />
         <CookieConsent />
+        <ConversionTracking />
 
         <script
           type="application/ld+json"

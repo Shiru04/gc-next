@@ -5,6 +5,9 @@ import Script from "next/script";
 
 const CONSENT_KEY = "gc-cookie-consent";
 
+const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID!;
+const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID!;
+
 type Consent = "granted" | "denied" | null;
 
 export function CookieConsent() {
@@ -34,21 +37,24 @@ export function CookieConsent() {
 
   return (
     <>
-      {/* Only load tracking scripts after consent */}
       {consent === "granted" && (
         <>
+          {/* Google tag (GA4 + Google Ads) */}
           <Script
-            src="https://www.googletagmanager.com/gtag/js?id=G-JCKD7F7K9L"
+            src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
             strategy="afterInteractive"
           />
-          <Script id="ga4-init" strategy="afterInteractive">
+          <Script id="gtag-init" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'G-JCKD7F7K9L');
+              gtag('config', '${GA4_ID}');
+              gtag('config', '${GADS_ID}');
             `}
           </Script>
+
+          {/* Hotjar */}
           <Script id="hotjar-init" strategy="afterInteractive">
             {`
               (function(h,o,t,j,a,r){
@@ -64,7 +70,6 @@ export function CookieConsent() {
         </>
       )}
 
-      {/* Banner */}
       {visible && (
         <div
           role="dialog"
