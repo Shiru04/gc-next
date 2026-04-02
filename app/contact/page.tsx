@@ -1,6 +1,7 @@
 import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
+import { ContactForm } from "@/components/ui/ContactForm";
 import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
@@ -13,12 +14,6 @@ export const metadata = buildMetadata({
 });
 
 export default function ContactPage() {
-  const mailto = `mailto:info@gcheatingandcooling.com?subject=${encodeURIComponent(
-    "Service Request",
-  )}&body=${encodeURIComponent(
-    "Hi GC Heating & Cooling,%0D%0A%0D%0AI'm looking for help with:%0D%0A%0D%0AName:%0D%0APhone:%0D%0AAddress/City:%0D%0ADetails:%0D%0A",
-  )}`;
-
   return (
     <>
       {/* HERO (Wix-like) */}
@@ -107,29 +102,19 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Right visual + “Contact card” (no form) */}
+          {/* Right - Contact form */}
           <div className="lg:col-span-5">
-            <div className="relative h-full">
-              {/* vertical hero photo (9:16) */}
-              <div className="relative hidden h-full min-h-[520px] overflow-hidden rounded-3xl lg:block">
-                <ResponsiveImage
-                  srcBase="/hero/contact-hero"
-                  alt="GC Heating & Cooling technician"
-                  fill
-                  priority={false}
-                  widths={[640, 960, 1200, 1600]}
-                  sizes="100vw"
-                  className="object-cover object-center"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-black/10 to-transparent" />
+            <Card className="bg-white p-6 shadow-soft sm:p-8">
+              <div className="mb-5">
+                <div className="text-lg font-extrabold text-black">
+                  Send Us a Message
+                </div>
+                <div className="mt-1 text-sm text-black/60">
+                  We&apos;ll get back to you within 24 hours.
+                </div>
               </div>
-
-              {/* floating contact options card */}
-              <Card className="relative mt-6 bg-white/98 p-6 shadow-soft lg:absolute lg:bottom-6 lg:left-6 lg:right-6 lg:mt-0">
-                <div className="font-extrabold text-black">Office Hours</div>
-                <div className="mt-1">{BUSINESS.hoursShort}</div>
-              </Card>
-            </div>
+              <ContactForm />
+            </Card>
           </div>
         </div>
       </Section>
