@@ -336,6 +336,77 @@ export default async function HomePage() {
       </Section>
 
       {/* ═══════════════════════════════════════
+          FAQ — with FAQPage JSON-LD schema
+          ═══════════════════════════════════════ */}
+      {(() => {
+        const faqs = [
+          {
+            q: "How often should I service my AC?",
+            a: "We recommend AC maintenance once a year, ideally in spring before peak cooling season. Regular service keeps your system efficient, catches small issues early, and extends equipment life.",
+          },
+          {
+            q: "What are signs my furnace needs repair?",
+            a: "Common signs include no heat or weak heat, unusual noises (banging, rattling), a persistent burning smell, short cycling, or a spike in energy bills. If you notice any of these, schedule a diagnostic visit.",
+          },
+          {
+            q: "How much does AC installation cost in Orange County?",
+            a: "AC installation costs vary based on system size, efficiency rating, and your home's existing ductwork. We provide a free onsite estimate so you can compare options and pricing with no obligation.",
+          },
+          {
+            q: "Do you offer emergency HVAC service?",
+            a: "Yes — call us directly and we'll do our best to schedule urgent service as quickly as possible. Our team prioritizes no-cooling and no-heat calls.",
+          },
+          {
+            q: "What areas do you serve?",
+            a: "We serve Los Angeles and Orange County, including Anaheim, Buena Park, Irvine, Long Beach, Torrance, Pasadena, and many more cities. Check our service areas page for the full list.",
+          },
+        ];
+
+        const faqSchema = {
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: faqs.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: f.a,
+            },
+          })),
+        };
+
+        return (
+          <>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+            />
+            <Section>
+              <div className="mx-auto max-w-3xl">
+                <div className="text-sm font-extrabold tracking-wide text-brand-red">
+                  FAQ
+                </div>
+                <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+                  Common HVAC questions
+                </h2>
+                <p className="mt-3 text-black/70">
+                  Quick answers about air conditioning and heating service in Los Angeles &amp; Orange County.
+                </p>
+                <div className="mt-8 space-y-6">
+                  {faqs.map((f) => (
+                    <div key={f.q} className="border-b border-black/10 pb-6 last:border-0 last:pb-0">
+                      <h3 className="text-lg font-bold">{f.q}</h3>
+                      <p className="mt-2 leading-relaxed text-black/70">{f.a}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </Section>
+          </>
+        );
+      })()}
+
+      {/* ═══════════════════════════════════════
           CTA final
           ═══════════════════════════════════════ */}
       <Section className="relative overflow-hidden text-white">

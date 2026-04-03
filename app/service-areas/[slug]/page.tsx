@@ -7,6 +7,10 @@ import { SERVICE_AREAS, getAreaBySlug } from "@/lib/areas";
 import { SERVICES } from "@/lib/services";
 import { buildMetadata } from "@/lib/seo";
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://gc-heatingandcooling.com"
+).replace(/\/+$/, "");
+
 export function generateStaticParams() {
   return SERVICE_AREAS.map((a) => ({ slug: a.slug }));
 }
@@ -36,8 +40,22 @@ export default async function AreaDetailPage({
   const area = getAreaBySlug(slug);
   if (!area) return notFound();
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Service Areas", item: `${SITE_URL}/service-areas/` },
+      { "@type": "ListItem", position: 3, name: area.name },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Section className="pt-10 sm:pt-14">
         <div className="max-w-3xl">
           <div className="text-sm font-extrabold tracking-wide text-black/60">

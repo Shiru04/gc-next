@@ -29,6 +29,7 @@ function localBusinessJsonLd() {
     "@type": "HVACBusiness",
     name: BUSINESS.name,
     telephone: BUSINESS.phone,
+    email: "info@gc-heatingandcooling.com",
     url,
     areaServed: [
       {
@@ -50,6 +51,12 @@ function localBusinessJsonLd() {
           addressCountry: "US",
         }
       : undefined,
+    openingHoursSpecification: {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "08:30",
+      closes: "16:30",
+    },
     sameAs: BUSINESS.socials?.length ? BUSINESS.socials : undefined,
   };
 

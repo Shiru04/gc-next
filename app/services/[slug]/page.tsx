@@ -6,6 +6,10 @@ import { BUSINESS } from "@/lib/constants";
 import { SERVICES, getServiceBySlug } from "@/lib/services";
 import { buildMetadata } from "@/lib/seo";
 
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL || "https://gc-heatingandcooling.com"
+).replace(/\/+$/, "");
+
 export function generateStaticParams() {
   return SERVICES.map((s) => ({ slug: s.slug }));
 }
@@ -35,8 +39,42 @@ export default async function ServiceDetailPage({
   const service = getServiceBySlug(slug);
   if (!service) return notFound();
 
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    description: service.seoDescription,
+    provider: {
+      "@type": "HVACBusiness",
+      name: "GC Heating and Cooling",
+    },
+    areaServed: {
+      "@type": "State",
+      name: "California",
+    },
+    serviceType: "HVAC Service",
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services/` },
+      { "@type": "ListItem", position: 3, name: service.name },
+    ],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Section className="pt-10 sm:pt-14">
         <div className="max-w-3xl">
           <div className="text-sm font-extrabold tracking-wide text-black/60">
