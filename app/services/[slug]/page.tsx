@@ -25,6 +25,8 @@ export async function generateMetadata({
   });
 }
 
+const SITE_URL = "https://gc-heatingandcooling.com";
+
 export default async function ServiceDetailPage({
   params,
 }: {
@@ -34,6 +36,33 @@ export default async function ServiceDetailPage({
 
   const service = getServiceBySlug(slug);
   if (!service) return notFound();
+
+  const serviceJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name,
+    description: service.seoDescription,
+    serviceType: "HVAC",
+    areaServed: [
+      { "@type": "AdministrativeArea", name: "Los Angeles County" },
+      { "@type": "AdministrativeArea", name: "Orange County" },
+    ],
+    provider: {
+      "@type": "HVACBusiness",
+      name: BUSINESS.name,
+      url: SITE_URL,
+    },
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Services", item: `${SITE_URL}/services` },
+      { "@type": "ListItem", position: 3, name: service.name },
+    ],
+  };
 
   return (
     <>
@@ -125,6 +154,17 @@ export default async function ServiceDetailPage({
           </Card>
         </div>
       </Section>
+
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     </>
   );
 }

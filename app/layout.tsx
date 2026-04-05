@@ -29,6 +29,7 @@ function localBusinessJsonLd() {
     "@type": "HVACBusiness",
     name: BUSINESS.name,
     telephone: BUSINESS.phone,
+    email: "info@gc-heatingandcooling.com",
     url,
     areaServed: [
       {
@@ -38,6 +39,20 @@ function localBusinessJsonLd() {
       {
         "@type": "AdministrativeArea",
         name: "Orange County",
+      },
+    ],
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "08:30",
+        closes: "16:30",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Saturday"],
+        opens: "09:00",
+        closes: "14:00",
       },
     ],
     address: BUSINESS.address

@@ -26,6 +26,8 @@ export async function generateMetadata({
   });
 }
 
+const SITE_URL = "https://gc-heatingandcooling.com";
+
 export default async function AreaDetailPage({
   params,
 }: {
@@ -35,6 +37,16 @@ export default async function AreaDetailPage({
 
   const area = getAreaBySlug(slug);
   if (!area) return notFound();
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: "Service Areas", item: `${SITE_URL}/service-areas` },
+      { "@type": "ListItem", position: 3, name: area.name },
+    ],
+  };
 
   return (
     <>
@@ -108,6 +120,12 @@ export default async function AreaDetailPage({
           </Card>
         </div>
       </Section>
+
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     </>
   );
 }

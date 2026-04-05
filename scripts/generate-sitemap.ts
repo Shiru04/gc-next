@@ -3,7 +3,7 @@ import path from "node:path";
 import { pathToFileURL } from "node:url";
 
 const SITE_URL = (
-  process.env.NEXT_PUBLIC_SITE_URL || "https://gc-heatingadcooling.com"
+  process.env.NEXT_PUBLIC_SITE_URL || "https://gc-heatingandcooling.com"
 )
   .trim()
   .replace(/\/+$/, "");
@@ -75,9 +75,11 @@ async function main() {
   );
   RESOURCES.forEach((r) => r?.slug && urls.add(abs(`/resources/${r.slug}`)));
 
+  const today = new Date().toISOString().split("T")[0];
+
   const body = Array.from(urls)
     .sort()
-    .map((u) => `  <url><loc>${xmlEscape(u)}</loc></url>`)
+    .map((u) => `  <url><loc>${xmlEscape(u)}</loc><lastmod>${today}</lastmod></url>`)
     .join("\n");
 
   const xml =
