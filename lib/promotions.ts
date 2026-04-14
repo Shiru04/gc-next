@@ -63,7 +63,7 @@ export const PROMOTIONS: Record<
     ],
     ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },
     ctaSecondary: {
-      label: "Call (800) 706-4822",
+      label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
     },
   },
@@ -108,7 +108,7 @@ export const PROMOTIONS: Record<
     ],
     ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },
     ctaSecondary: {
-      label: "Call (800) 706-4822",
+      label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
     },
   },

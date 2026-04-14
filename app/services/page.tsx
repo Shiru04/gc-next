@@ -239,8 +239,8 @@ export default function ServicesPage() {
               <Button href="/contact" variant="primary" size="md">
                 Book now
               </Button>
-              <Button href="tel:+18007064822" variant="secondary" size="md">
-                Call (800) 706-4822
+              <Button href="tel:+17147159569" variant="secondary" size="md">
+                Call (714) 715-9569
               </Button>
             </div>
 

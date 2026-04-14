@@ -1,8 +1,8 @@
 // lib/site.ts
 export const SITE = {
   name: "GC Heating & Cooling",
-  phoneDisplay: "(800) 706-4822",
-  phoneE164: "+18007064822",
+  phoneDisplay: "(714) 715-9569",
+  phoneE164: "+17147159569",
   bookingUrl:
     "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
   address: {
