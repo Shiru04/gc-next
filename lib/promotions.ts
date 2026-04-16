@@ -37,6 +37,7 @@ export const PROMOTIONS: Record<
     primaryOfferTitle: "Up to",
     primaryOfferValue: "$2,000 Rebates",
     primaryOfferDetails: [
+      "Equipment starting at $6,800 (installation quoted separately).",
       "Rebates vary by equipment and program availability.",
       "Final rebate amount is confirmed during your consultation.",
       "We’ll help you choose the best option for comfort and efficiency.",

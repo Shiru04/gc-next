@@ -81,6 +81,8 @@ export const SERVICES: Service[] = [
     intro:
       "Maintenance helps your system run efficiently, reduces surprise breakdowns, and can extend equipment life. Ideal before peak summer and winter seasons.",
     bullets: [
+      "Tune-ups starting at $99",
+      "Maintenance bundles from $99 — protect your system year-round",
       "Filter and airflow inspection",
       "Electrical & safety checks",
       "Coil and drain line inspection",
@@ -109,6 +111,7 @@ export const SERVICES: Service[] = [
     intro:
       "If your system struggles to keep up or needs frequent repairs, a replacement can improve comfort and efficiency. We’ll help you choose the right fit.",
     bullets: [
+      "Equipment starting at $6,800 (installation quoted separately)",
       "Right-sized system recommendations (comfort + efficiency)",
       "Removal and professional installation",
       "Ductwork and airflow considerations",
