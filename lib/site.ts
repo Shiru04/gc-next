@@ -6,10 +6,10 @@ export const SITE = {
   bookingUrl:
     "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
   address: {
-    street: "6940 Knott Ave. Suite H",
-    city: "Buena Park",
+    street: "10103 Washington St, Suite 600",
+    city: "Bellflower",
     region: "CA",
-    postalCode: "90621",
+    postalCode: "90706",
     country: "US",
   },
   serviceAreaShort: "Serving Los Angeles and Orange County",
