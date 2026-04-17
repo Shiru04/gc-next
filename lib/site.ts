@@ -6,10 +6,10 @@ export const SITE = {
   bookingUrl:
     "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
   address: {
-    street: "10103 Washington St, Suite 600",
-    city: "Bellflower",
+    street: "17777 Center Court Dr, Suite 600",
+    city: "Cerritos",
     region: "CA",
-    postalCode: "90706",
+    postalCode: "90703",
     country: "US",
   },
   serviceAreaShort: "Serving Los Angeles and Orange County",

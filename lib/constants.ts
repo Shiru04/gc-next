@@ -9,19 +9,19 @@ export const BUSINESS = {
     "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
 
   // Keep these (often used in UI)
-  addressLine1: "10103 Washington St, Suite 600",
-  cityStateZip: "Bellflower, CA 90706",
+  addressLine1: "17777 Center Court Dr, Suite 600",
+  cityStateZip: "Cerritos, CA 90703",
 
   // ✅ This is what layout.tsx expects for JSON-LD
   address: {
-    street: "10103 Washington St, Suite 600",
-    city: "Bellflower",
+    street: "17777 Center Court Dr, Suite 600",
+    city: "Cerritos",
     state: "CA",
-    zip: "90706",
+    zip: "90703",
   },
 
   // ✅ Keep a formatted string for any UI spots that want one line
-  addressText: "10103 Washington St, Suite 600, Bellflower, CA 90706",
+  addressText: "17777 Center Court Dr, Suite 600, Cerritos, CA 90703",
 
   licenseLabel: "License # 794228",
   trustLine: "Insured and Bonded",
