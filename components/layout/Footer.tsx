@@ -57,8 +57,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-10 text-xs text-black/65">
-          © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
+        <div className="mt-10 flex flex-col gap-2 text-xs text-black/65 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            © {new Date().getFullYear()} {BUSINESS.name}. All rights reserved.
+          </div>
+          <Link
+            href="/privacy-policy"
+            className="font-semibold text-black/70 hover:text-black"
+          >
+            Privacy Policy
+          </Link>
         </div>
       </Container>
     </footer>
