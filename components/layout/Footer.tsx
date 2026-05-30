@@ -1,12 +1,17 @@
 import Link from "next/link";
-import { BUSINESS, NAV, SERVICE_LINKS } from "@/lib/constants";
+import {
+  BUSINESS,
+  NAV,
+  RESIDENTIAL_SERVICE_LINKS,
+  COMMERCIAL_SERVICE_LINKS,
+} from "@/lib/constants";
 import { Container } from "@/components/ui/Container";
 
 export function Footer() {
   return (
     <footer className="border-t border-black/10 bg-white">
       <Container className="py-12">
-        <div className="grid gap-10 md:grid-cols-3">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="text-lg font-extrabold">{BUSINESS.name}</div>
             <div className="mt-3 text-sm text-black/70">
@@ -40,10 +45,10 @@ export function Footer() {
 
           <div>
             <div className="text-sm font-bold uppercase tracking-wide text-black/60">
-              Services
+              Residential
             </div>
             <ul className="mt-4 space-y-2 text-sm font-semibold">
-              {SERVICE_LINKS.map((s) => (
+              {RESIDENTIAL_SERVICE_LINKS.map((s) => (
                 <li key={s.href}>
                   <Link
                     href={s.href}
@@ -53,6 +58,40 @@ export function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <Link
+                  href="/residential"
+                  className="text-brand-red hover:opacity-80"
+                >
+                  View all residential →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <div className="text-sm font-bold uppercase tracking-wide text-black/60">
+              Commercial
+            </div>
+            <ul className="mt-4 space-y-2 text-sm font-semibold">
+              {COMMERCIAL_SERVICE_LINKS.map((s) => (
+                <li key={s.href}>
+                  <Link
+                    href={s.href}
+                    className="text-black/80 hover:text-black"
+                  >
+                    {s.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link
+                  href="/commercial"
+                  className="text-brand-red hover:opacity-80"
+                >
+                  View all commercial →
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

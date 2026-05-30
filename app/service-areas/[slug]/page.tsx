@@ -89,7 +89,7 @@ export default async function AreaDetailPage({
                   <p className="mt-1 text-sm text-black/70">{s.short}</p>
                   <div className="mt-3">
                     <Button
-                      href={`/services/${s.slug}`}
+                      href={`/${s.audience}/${s.slug}`}
                       variant="secondary"
                       size="sm"
                     >

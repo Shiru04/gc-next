@@ -42,11 +42,16 @@ export const NAV = [
   { href: "/promotions", label: "Promotions" },
 ] as const;
 
-export const SERVICE_LINKS = [
-  { href: "/services/ac-repair", label: "Air Conditioning Repair" },
-  { href: "/services/heating-repair", label: "Heating Repair" },
-  { href: "/services/hvac-maintenance", label: "Maintenance" },
-  { href: "/services/ac-installation", label: "AC Installation" },
-  { href: "/services/commercial-hvac", label: "Commercial HVAC" },
-  { href: "/services/attic-insulation", label: "Attic Insulation" },
+export const RESIDENTIAL_SERVICE_LINKS = [
+  { href: "/residential/residential-ac-repair", label: "AC Repair" },
+  { href: "/residential/residential-heating-repair", label: "Heating Repair" },
+  { href: "/residential/residential-hvac-maintenance", label: "Maintenance" },
+  { href: "/residential/residential-ac-installation", label: "AC Installation" },
+  { href: "/residential/residential-attic-insulation", label: "Attic Insulation" },
+] as const;
+
+export const COMMERCIAL_SERVICE_LINKS = [
+  { href: "/commercial/commercial-repair", label: "Repair" },
+  { href: "/commercial/commercial-maintenance", label: "Maintenance" },
+  { href: "/commercial/commercial-installation", label: "Installation" },
 ] as const;

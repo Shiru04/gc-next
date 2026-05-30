@@ -47,7 +47,10 @@ async function main() {
   const areasMod = await importByPath(areasPath);
   const resourcesMod = await importByPath(resourcesPath);
 
-  const SERVICES = (servicesMod.SERVICES ?? []) as Array<{ slug: string }>;
+  const SERVICES = (servicesMod.SERVICES ?? []) as Array<{
+    slug: string;
+    audience: "residential" | "commercial";
+  }>;
   const SERVICE_AREAS = (areasMod.SERVICE_AREAS ?? []) as Array<{
     slug: string;
   }>;
@@ -57,6 +60,8 @@ async function main() {
     "/",
     "/about",
     "/services",
+    "/residential",
+    "/commercial",
     "/service-areas",
     "/resources",
     "/reviews",
@@ -69,7 +74,9 @@ async function main() {
 
   staticRoutes.forEach((r) => urls.add(abs(r)));
 
-  SERVICES.forEach((s) => s?.slug && urls.add(abs(`/services/${s.slug}`)));
+  SERVICES.forEach(
+    (s) => s?.slug && urls.add(abs(`/${s.audience}/${s.slug}`)),
+  );
   SERVICE_AREAS.forEach(
     (a) => a?.slug && urls.add(abs(`/service-areas/${a.slug}`)),
   );

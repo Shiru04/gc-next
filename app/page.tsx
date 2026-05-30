@@ -307,7 +307,7 @@ export default async function HomePage() {
                     <p className="mt-2 text-black/70">{s.short}</p>
                     <div className="mt-5">
                       <Button
-                        href={`/services/${s.slug}`}
+                        href={`/${s.audience}/${s.slug}`}
                         variant="primary"
                         size="md"
                       >
