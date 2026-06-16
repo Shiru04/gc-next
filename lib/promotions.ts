@@ -1,6 +1,6 @@
 // lib/promotions.ts
 import { SITE } from "./site";
-export type PromotionKey = "new-installation" | "repairs";
+export type PromotionKey = "new-installation" | "repairs" | "tune-ups";
 
 export const PROMOTIONS: Record<
   PromotionKey,
@@ -105,6 +105,52 @@ export const PROMOTIONS: Record<
       {
         q: "Can I book urgent service online?",
         a: "Yes. Book online and include notes about urgency, or call for the fastest routing and availability.",
+      },
+    ],
+    ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },
+    ctaSecondary: {
+      label: "Call (714) 715-9569",
+      href: `tel:${SITE.phoneE164}`,
+    },
+  },
+
+  "tune-ups": {
+    key: "tune-ups",
+    slug: "/promotions/tune-ups",
+    pageTitle: "HVAC Tune-Up",
+    metaTitle: "HVAC Tune-Up in Los Angeles & Orange County | $99 Special",
+    metaDescription:
+      "Keep your HVAC running efficiently with a $99 tune-up from GC Heating & Cooling. Multi-point inspection and seasonal maintenance for Los Angeles & Orange County.",
+    heroKicker: "Seasonal Maintenance",
+    heroHeadline: "HVAC Tune-Up — keep your system running at its best",
+    heroSubheadline:
+      "A seasonal tune-up helps prevent breakdowns, lower energy bills, and extend the life of your system. Serving Los Angeles & Orange County with fast scheduling.",
+    primaryOfferTitle: "Only",
+    primaryOfferValue: "$99 Tune-Up",
+    primaryOfferDetails: [
+      "Multi-point inspection of your heating & cooling system.",
+      "Performance check to catch small issues before they become costly repairs.",
+      "Recommended once or twice a year for best efficiency.",
+      "Price applies to standard residential systems—additional units quoted separately.",
+    ],
+    secondaryPoints: [
+      "Improve efficiency and lower energy bills",
+      "Catch problems early and avoid breakdowns",
+      "Extend the life of your equipment",
+      "Licensed, Bonded & Insured",
+    ],
+    faq: [
+      {
+        q: "What's included in the $99 tune-up?",
+        a: "Our technician performs a multi-point inspection and performance check on your system. If we find anything that needs attention, we'll explain your options clearly before any additional work.",
+      },
+      {
+        q: "How often should I get a tune-up?",
+        a: "We recommend a tune-up once or twice a year—ideally before the cooling season and before the heating season—to keep your system efficient and reliable.",
+      },
+      {
+        q: "Does the $99 cover multiple systems?",
+        a: "The $99 price applies to one standard residential system. If you have additional units, we'll provide a quote for those during scheduling.",
       },
     ],
     ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },

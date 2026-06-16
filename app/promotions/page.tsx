@@ -15,6 +15,7 @@ export const metadata = buildMetadata({
 export default function PromotionsHubPage() {
   const promoNewInstall = PROMOTIONS["new-installation"];
   const promoRepairs = PROMOTIONS.repairs;
+  const promoTuneUps = PROMOTIONS["tune-ups"];
 
   return (
     <>
@@ -52,6 +53,14 @@ export default function PromotionsHubPage() {
             ctaLabel="View details"
             ctaHref={promoRepairs.slug}
             highlight="Fast Service"
+          />
+          <PromoCard
+            kicker="Tune-Ups"
+            title={promoTuneUps.primaryOfferValue}
+            description="Keep your system efficient and reliable with a seasonal multi-point tune-up. Lower energy bills and avoid surprise breakdowns."
+            ctaLabel="View details"
+            ctaHref={promoTuneUps.slug}
+            highlight="Best Value"
           />
         </div>
       </Section>
