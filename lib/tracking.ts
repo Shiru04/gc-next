@@ -39,22 +39,33 @@ const LABELS: Record<ConversionAction, string | undefined> = {
 };
 
 /**
- * Rough lead value per intent, in USD. Used so Maximize Conversion Value and
- * Target ROAS can tell a $99 tune-up apart from a $12k system replacement.
- * These are LEAD values (expected value of one lead), not job values.
+ * Conversion VALUE per lead, in USD — expected REVENUE from one lead, i.e.
+ * average ticket x close rate. This is what Maximize Conversion Value and
+ * Target ROAS bid against, so the ratios between these numbers matter more
+ * than their absolute size.
+ *
+ * Calibrated 2026-08-13 with Silvio:
+ *   - maintenance      $99 ticket x ~85% close (they already booked it)  = $84
+ *   - emergency_repair $99 service call; assumes it converts to a ~$430
+ *                      average repair at ~70% close                      = $300
+ *   - installation     PLACEHOLDER — assumes a $9,000 average system at
+ *                      25% close. REPLACE with GC's real numbers; this is
+ *                      the single most important value in the account
+ *                      because installation is where the margin lives.
+ *   - commercial       PLACEHOLDER — wide spread, needs its own read.
+ *
+ * Note the spread: an installation lead is worth ~27x a tune-up lead. Under
+ * the old flat values (400/250/120/40) the algorithm treated them as roughly
+ * comparable, which is why budget kept flowing to cheap, low-value clicks.
  */
 export const INTENT_VALUE: Record<Intent, number> = {
-  emergency_repair: 120,
-  installation: 400,
-  maintenance: 40,
-  commercial: 250,
-  general: 100,
+  installation: 2250,
+  commercial: 600,
+  emergency_repair: 300,
+  maintenance: 84,
+  general: 150,
 };
 
-/**
- * Derive the intent from the current URL path. Order matters — the most
- * specific patterns are checked first.
- */
 export function intentFromPath(pathname: string): Intent {
   const p = pathname.toLowerCase();
 
