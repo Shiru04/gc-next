@@ -39,31 +39,37 @@ const LABELS: Record<ConversionAction, string | undefined> = {
 };
 
 /**
- * Conversion VALUE per lead, in USD — expected REVENUE from one lead, i.e.
- * average ticket x close rate. This is what Maximize Conversion Value and
- * Target ROAS bid against, so the ratios between these numbers matter more
- * than their absolute size.
+ * Conversion VALUE per lead, in USD — expected revenue from one lead, i.e.
+ * average ticket x close rate on LEADS (not on appointments).
  *
  * Calibrated 2026-08-13 with Silvio:
- *   - maintenance      $99 ticket x ~85% close (they already booked it)  = $84
- *   - emergency_repair $99 service call; assumes it converts to a ~$430
- *                      average repair at ~70% close                      = $300
- *   - installation     PLACEHOLDER — assumes a $9,000 average system at
- *                      25% close. REPLACE with GC's real numbers; this is
- *                      the single most important value in the account
- *                      because installation is where the margin lives.
- *   - commercial       PLACEHOLDER — wide spread, needs its own read.
+ *   maintenance       $99 ticket    x 85% close  =  $84
+ *   emergency_repair  ~$430 ticket  x 70% close  = $300   ($99 service call + work)
+ *   installation      ~$6,000       x 12% close  = $720   <- CONSERVATIVE on purpose
+ *   commercial        placeholder, needs its own read     = $400
  *
- * Note the spread: an installation lead is worth ~27x a tune-up lead. Under
- * the old flat values (400/250/120/40) the algorithm treated them as roughly
- * comparable, which is why budget kept flowing to cheap, low-value clicks.
+ * On the installation number: an earlier pass used $2,250 ($9,000 x 25%) and
+ * that was too aggressive — install leads close nowhere near 25%, most never
+ * get past the estimate. $720 assumes a mid-range condenser/system swap and a
+ * realistic 12%. Better to under-value it and raise it once real close data
+ * exists than to have the algorithm chase leads that don't pay for themselves.
+ *
+ * The ratio is what the bidding actually reads: an installation lead is ~2.4x
+ * a repair lead and ~9x a tune-up. That spread is coherent — installs are
+ * worth far more per JOB but close far less often, and the two effects
+ * partially cancel.
+ *
+ * NOTE: GC-Installations currently runs MAXIMIZE_CLICKS, so these values do
+ * not drive bidding yet. They start mattering when the campaign moves to
+ * value-based bidding, which should only happen after the Form Submit
+ * conversion action exists and has ~15-30 conversions of history.
  */
 export const INTENT_VALUE: Record<Intent, number> = {
-  installation: 2250,
-  commercial: 600,
+  installation: 720,
+  commercial: 400,
   emergency_repair: 300,
   maintenance: 84,
-  general: 150,
+  general: 120,
 };
 
 export function intentFromPath(pathname: string): Intent {
