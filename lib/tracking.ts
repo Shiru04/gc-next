@@ -99,6 +99,84 @@ export function intentFromPath(pathname: string): Intent {
   return "general";
 }
 
+const INTENT_KEY = "gc-intent";
+
+const INTENTS: readonly Intent[] = [
+  "emergency_repair",
+  "installation",
+  "maintenance",
+  "commercial",
+  "general",
+];
+
+function isIntent(v: string): v is Intent {
+  return (INTENTS as readonly string[]).includes(v);
+}
+
+/**
+ * Remember the most specific intent seen this session.
+ *
+ * Call this on every route change. It deliberately never stores "general", so
+ * a later visit to a page with no intent (/contact, /about, the home page)
+ * cannot erase the real intent the visitor arrived with.
+ *
+ * Uses sessionStorage, not a cookie: the value is a non-identifying string, it
+ * dies with the tab, and it falls under functionality_storage — which Consent
+ * Mode grants by default — so it works before the visitor answers the banner.
+ */
+export function rememberIntent(pathname: string): void {
+  if (typeof window === "undefined") return;
+  const intent = intentFromPath(pathname);
+  if (intent === "general") return;
+  try {
+    sessionStorage.setItem(INTENT_KEY, intent);
+  } catch {
+    /* private mode / storage disabled — fall back to referrer or general */
+  }
+}
+
+/**
+ * The intent to attribute a conversion to.
+ *
+ * Resolution order:
+ *   1. The current path, when it says something specific.
+ *   2. The intent remembered earlier in this session.
+ *   3. The referring page, when it is same-origin.
+ *   4. "general".
+ *
+ * Why this exists: the contact page has no intent of its own, so before this
+ * every form sent from /contact was valued at the generic fallback — a $6,000
+ * installation enquiry and a $99 tune-up counted the same. Someone who reads
+ * /residential/residential-ac-installation and then clicks through to Contact
+ * is an installation lead, and the bidding needs to know that.
+ */
+export function resolveIntent(pathname: string): Intent {
+  const direct = intentFromPath(pathname);
+  if (direct !== "general") return direct;
+  if (typeof window === "undefined") return direct;
+
+  try {
+    const stored = sessionStorage.getItem(INTENT_KEY);
+    if (stored && isIntent(stored)) return stored;
+  } catch {
+    /* ignore */
+  }
+
+  try {
+    if (document.referrer) {
+      const ref = new URL(document.referrer);
+      if (ref.origin === window.location.origin) {
+        const fromRef = intentFromPath(ref.pathname);
+        if (fromRef !== "general") return fromRef;
+      }
+    }
+  } catch {
+    /* ignore */
+  }
+
+  return "general";
+}
+
 type Gtag = (...args: unknown[]) => void;
 
 declare global {
