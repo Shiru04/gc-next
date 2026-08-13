@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { intentFromPath, trackConversion } from "@/lib/tracking";
+import { rememberIntent, resolveIntent, trackConversion } from "@/lib/tracking";
 
 /**
  * Global click listener for phone and booking CTAs.
@@ -23,13 +23,19 @@ import { intentFromPath, trackConversion } from "@/lib/tracking";
 export function ConversionTracking() {
   const pathname = usePathname();
 
+  // Record the intent of every page visited, so a later conversion from a
+  // page with no intent of its own (/contact) still attributes correctly.
+  useEffect(() => {
+    rememberIntent(pathname || "/");
+  }, [pathname]);
+
   useEffect(() => {
     function handleClick(e: MouseEvent) {
       const target = (e.target as HTMLElement | null)?.closest("a");
       if (!target) return;
 
       const href = target.getAttribute("href") || "";
-      const intent = intentFromPath(pathname || "/");
+      const intent = resolveIntent(pathname || "/");
 
       if (href.startsWith("tel:")) {
         trackConversion("phone_click", intent);

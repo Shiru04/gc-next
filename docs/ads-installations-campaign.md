@@ -106,8 +106,8 @@ Los CPC de instalación en el sur de California van de $15 a $30.
 ```
 $80/día ÷ ~$20 CPC       ≈ 4 clics/día
 4 clics × ~8% conversión ≈ 0.3 leads/día  ≈ 9-10 leads/mes
-10 leads × 25% cierre    ≈ 2-3 instalaciones/mes
-2.5 × $9,000             ≈ $22,500/mes de ingreso
+10 leads × 12% cierre    ≈ 1-2 instalaciones/mes
+1.5 × $6,000             ≈ $9,000/mes de ingreso
 ```
 
 Con $2,400/mes de inversión. **La economía es buena — pero no es volumen diario.**
@@ -119,19 +119,24 @@ reparación, no de instalación.
 
 ## Medición
 
-`installation` vale **$2,250** por lead en `lib/tracking.ts` — placeholder de $9,000 de
-ticket a 25% de cierre. **Ese número hay que reemplazarlo con los datos reales de GC.**
-Es el valor más importante de la cuenta: es literalmente lo que el algoritmo persigue.
+`installation` vale **$720** por lead en `lib/tracking.ts` — ~$6,000 de ticket a 12% de
+cierre sobre leads. Es deliberadamente conservador: los leads de instalación cierran muy
+por debajo del 25%, la mayoría no pasa del estimado. Mejor subirlo cuando haya datos
+reales de cierre que arrancar inflado.
 
-La campaña no debe encenderse hasta que exista la acción de conversión `Form Submit`.
+**Hecho 2026-08-13:** la acción de conversión ya existe — `Form Submit - Website (2026)`,
+`AW-800582055/83NFCMfQ9OAcEKfT3_0C`, primaria, conteo One, valor por evento.
+
+Pero la campaña todavía no debe encenderse:
 Sin ella, Maximizar valor optimizaría hacia clics de teléfono otra vez — el error que
 esta auditoría vino a corregir.
 
 ## Orden de ejecución
 
-1. Habilitar write access en Supermetrics
-2. Crear la acción de conversión `Form Submit` y pegar la etiqueta en `NEXT_PUBLIC_GADS_LABEL_FORM`
-3. Marcar `Phone Click` y `Booking Click` como secundarias
+1. ~~Habilitar write access en Supermetrics~~ ✅
+2. ~~Crear la acción de conversión `Form Submit`~~ ✅ `83NFCMfQ9OAcEKfT3_0C`
+3. **Resolver "No tag found for this account"** — poner `NEXT_PUBLIC_GA4_ID` en producción y desplegar
+4. Marcar `Phone Click`, `Booking Click` y `Clicks to call` como secundarias
 4. Crear `GC-Installations` **en pausa**, revisar, y encender
 5. Pausar `General Campaign` (lleva 4 meses sin gastar) y bajar `GC-mantenimiento-RP` a $0
    para liberar los $65/día

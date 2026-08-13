@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { usePathname } from "next/navigation";
-import { intentFromPath, trackConversion } from "@/lib/tracking";
+import { resolveIntent, trackConversion } from "@/lib/tracking";
 
 const FORM_ENDPOINT =
   process.env.NEXT_PUBLIC_FORMS_ENDPOINT ||
@@ -45,7 +45,7 @@ export function ContactForm() {
       if (!res.ok) throw new Error("Submit failed");
 
       // PRIMARY conversion — a submitted form is a real lead.
-      trackConversion("form_submit", intentFromPath(pathname || "/"));
+      trackConversion("form_submit", resolveIntent(pathname || "/"));
 
       setStatus("sent");
       setForm({ name: "", email: "", phone: "", message: "", website: "" });
