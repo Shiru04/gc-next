@@ -4,7 +4,9 @@ import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CookieConsent } from "@/components/layout/CookieConsent";
+import { ConsentMode } from "@/components/layout/ConsentMode";
 import { ConversionTracking } from "@/components/layout/ConversionTracking";
+import { FloatingCta } from "@/components/layout/FloatingCta";
 import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
 
@@ -94,9 +96,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        {/* Consent Mode v2 defaults must run before any Google tag. */}
+        <ConsentMode />
+
         <Header />
         <main>{children}</main>
         <Footer />
+        <FloatingCta />
         <CookieConsent />
         <ConversionTracking />
 
@@ -111,6 +117,11 @@ export default function RootLayout({
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window,document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
+            try {
+              if (localStorage.getItem('gc-cookie-consent') !== 'granted') {
+                fbq('consent', 'revoke');
+              }
+            } catch (e) { fbq('consent', 'revoke'); }
             fbq('init', '${META_PIXEL_ID}');
             fbq('track', 'PageView');
           `}
