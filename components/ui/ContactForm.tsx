@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { usePathname } from "next/navigation";
+import { intentFromPath, trackConversion } from "@/lib/tracking";
 
 const FORM_ENDPOINT =
   process.env.NEXT_PUBLIC_FORMS_ENDPOINT ||
@@ -9,6 +11,7 @@ const FORM_ENDPOINT =
 const FORM_ID = process.env.NEXT_PUBLIC_CONTACT_FORM_ID || "";
 
 export function ContactForm() {
+  const pathname = usePathname();
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -40,6 +43,10 @@ export function ContactForm() {
       });
 
       if (!res.ok) throw new Error("Submit failed");
+
+      // PRIMARY conversion — a submitted form is a real lead.
+      trackConversion("form_submit", intentFromPath(pathname || "/"));
+
       setStatus("sent");
       setForm({ name: "", email: "", phone: "", message: "", website: "" });
     } catch {

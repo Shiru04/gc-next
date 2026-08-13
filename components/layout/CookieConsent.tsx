@@ -4,12 +4,18 @@ import { useState, useEffect } from "react";
 import Script from "next/script";
 
 const CONSENT_KEY = "gc-cookie-consent";
-
-const GA4_ID = process.env.NEXT_PUBLIC_GA4_ID!;
-const GADS_ID = process.env.NEXT_PUBLIC_GADS_ID!;
+const HOTJAR_ID = 6415624;
 
 type Consent = "granted" | "denied" | null;
 
+/**
+ * Consent banner.
+ *
+ * This component no longer loads the Google tags — `ConsentMode` does that,
+ * with Consent Mode v2 defaults set to denied. All this does is flip consent
+ * to granted/denied and gate the tools that have no consent-mode equivalent
+ * (Hotjar), which must stay fully blocked until the visitor opts in.
+ */
 export function CookieConsent() {
   const [consent, setConsent] = useState<Consent>(null);
   const [visible, setVisible] = useState(false);
@@ -23,51 +29,52 @@ export function CookieConsent() {
     }
   }, []);
 
+  function updateGoogleConsent(state: "granted" | "denied") {
+    if (typeof window === "undefined") return;
+
+    if (window.gtag) {
+      window.gtag("consent", "update", {
+        ad_storage: state,
+        ad_user_data: state,
+        ad_personalization: state,
+        analytics_storage: state,
+      });
+    }
+
+    if (window.fbq) {
+      window.fbq("consent", state === "granted" ? "grant" : "revoke");
+    }
+  }
+
   function accept() {
     localStorage.setItem(CONSENT_KEY, "granted");
     setConsent("granted");
     setVisible(false);
+    updateGoogleConsent("granted");
   }
 
   function decline() {
     localStorage.setItem(CONSENT_KEY, "denied");
     setConsent("denied");
     setVisible(false);
+    updateGoogleConsent("denied");
   }
 
   return (
     <>
       {consent === "granted" && (
-        <>
-          {/* Google tag (GA4 + Google Ads) */}
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${GA4_ID}`}
-            strategy="afterInteractive"
-          />
-          <Script id="gtag-init" strategy="afterInteractive">
-            {`
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA4_ID}');
-              gtag('config', '${GADS_ID}');
-            `}
-          </Script>
-
-          {/* Hotjar */}
-          <Script id="hotjar-init" strategy="afterInteractive">
-            {`
-              (function(h,o,t,j,a,r){
-                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-                h._hjSettings={hjid:6415624,hjsv:6};
-                a=o.getElementsByTagName('head')[0];
-                r=o.createElement('script');r.async=1;
-                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-                a.appendChild(r);
-              })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-            `}
-          </Script>
-        </>
+        <Script id="hotjar-init" strategy="afterInteractive">
+          {`
+            (function(h,o,t,j,a,r){
+              h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+              h._hjSettings={hjid:${HOTJAR_ID},hjsv:6};
+              a=o.getElementsByTagName('head')[0];
+              r=o.createElement('script');r.async=1;
+              r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+              a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+          `}
+        </Script>
       )}
 
       {visible && (
