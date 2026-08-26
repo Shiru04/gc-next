@@ -72,7 +72,7 @@ export default function PromotionsHubPage() {
             Not sure which service you need?
           </h2>
           <p className="mt-3 max-w-xl mx-auto text-black/70">
-            Call us or book an on-site consultation. We&apos;ll evaluate your
+            Call us or choose the service that best matches your needs. We&apos;ll evaluate your
             system and recommend the best option.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
@@ -83,8 +83,8 @@ export default function PromotionsHubPage() {
             >
               Call {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Book Consultation
+            <Button href="/schedule-service/" variant="primary" size="lg">
+              Choose a Service
             </Button>
           </div>
         </div>

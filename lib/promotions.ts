@@ -1,5 +1,6 @@
 // lib/promotions.ts
 import { SITE } from "./site";
+import { scheduleServiceHref } from "./scheduling";
 export type PromotionKey = "new-installation" | "repairs" | "tune-ups";
 
 export const PROMOTIONS: Record<
@@ -54,7 +55,7 @@ export const PROMOTIONS: Record<
         a: "Rebate eligibility depends on the equipment selected and the active rebate programs at the time of purchase. We’ll confirm the exact amount during your consultation.",
       },
       {
-        q: "Do you offer free estimates?",
+        q: "How does pricing work?",
         a: "We provide a clear consultation and scope review to recommend the right system. If you want a price range before the visit, call and we’ll guide you with common scenarios.",
       },
       {
@@ -62,7 +63,7 @@ export const PROMOTIONS: Record<
         a: "Scheduling depends on demand and equipment availability. Our goal is to get you on the calendar as soon as possible—especially during peak heat.",
       },
     ],
-    ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },
+    ctaPrimary: { label: "Request a Free Installation Estimate", href: scheduleServiceHref("installation") },
     ctaSecondary: {
       label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
@@ -73,17 +74,17 @@ export const PROMOTIONS: Record<
     key: "repairs",
     slug: "/promotions/repairs",
     pageTitle: "HVAC Repairs",
-    metaTitle: "HVAC Repair in Los Angeles & Orange County | Free Estimates",
+    metaTitle: "HVAC Repair in Los Angeles & Orange County | Fast Diagnostics",
     metaDescription:
-      "Need HVAC repair fast? GC Heating & Cooling offers free estimates for repairs and quick scheduling in Los Angeles & Orange County. Call or book online.",
+      "Need HVAC repair fast? GC Heating & Cooling offers expert diagnostics and quick scheduling in Los Angeles & Orange County. Call or book online.",
     heroKicker: "Fast Help, Real Diagnostics",
     heroHeadline: "HVAC Repairs — get your system running again, fast",
     heroSubheadline:
       "When your AC or heater stops working, you need an experienced team that shows up and fixes it. Serving Los Angeles & Orange County.",
     primaryOfferTitle: "",
-    primaryOfferValue: "Free Estimates",
+    primaryOfferValue: "Fast Diagnostics",
     primaryOfferDetails: [
-      "Free estimate applies to repair evaluation/quote.",
+      "We diagnose the issue and provide a clear repair quote upfront.",
       "If parts are required, we’ll explain options clearly before work begins.",
       "Urgent scheduling available based on demand.",
     ],
@@ -95,8 +96,8 @@ export const PROMOTIONS: Record<
     ],
     faq: [
       {
-        q: "What does free estimate mean for repairs?",
-        a: "We evaluate the issue and provide an estimate for the repair. If additional diagnostics are required, we’ll explain it before proceeding.",
+        q: "How does repair pricing work?",
+        a: "We evaluate the issue and provide a quote for the repair. If additional diagnostics are required, we’ll explain it before proceeding.",
       },
       {
         q: "Do you repair all brands?",
@@ -107,7 +108,7 @@ export const PROMOTIONS: Record<
         a: "Yes. Book online and include notes about urgency, or call for the fastest routing and availability.",
       },
     ],
-    ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },
+    ctaPrimary: { label: "Schedule HVAC Repair", href: scheduleServiceHref("ac_repair") },
     ctaSecondary: {
       label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
@@ -153,7 +154,7 @@ export const PROMOTIONS: Record<
         a: "The $99 price applies to one standard residential system. If you have additional units, we'll provide a quote for those during scheduling.",
       },
     ],
-    ctaPrimary: { label: "Book Now", href: SITE.bookingUrl },
+    ctaPrimary: { label: "Schedule Your $99 Tune-Up", href: scheduleServiceHref("maintenance") },
     ctaSecondary: {
       label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,

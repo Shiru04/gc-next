@@ -122,13 +122,27 @@ export default async function HomePage() {
 
             {/* CTAs */}
             <div className="mt-7 flex flex-wrap gap-3">
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-                Book Onsite Consultation
+              <Button
+                href="/schedule-service/"
+                variant="primary"
+                size="lg"
+                cta={{
+                  id: "home-hero-book",
+                  location: "home-hero",
+                  type: "booking",
+                }}
+              >
+                Schedule Service
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
                 variant="secondary"
                 size="lg"
+                cta={{
+                  id: "home-hero-call",
+                  location: "home-hero",
+                  type: "phone",
+                }}
               >
                 Call {BUSINESS.phoneDisplay}
               </Button>
@@ -367,11 +381,25 @@ export default async function HomePage() {
               href={`tel:${BUSINESS.phoneE164}`}
               variant="secondary"
               size="lg"
+              cta={{
+                id: "home-footer-cta-call",
+                location: "home-final-cta",
+                type: "phone",
+              }}
             >
               Call {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Book Onsite Consultation
+            <Button
+              href="/schedule-service/"
+              variant="primary"
+              size="lg"
+              cta={{
+                id: "home-footer-cta-book",
+                location: "home-final-cta",
+                type: "booking",
+              }}
+            >
+              Schedule Service
             </Button>
           </div>
         </div>

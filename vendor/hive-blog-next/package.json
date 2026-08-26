@@ -1,0 +1,16 @@
+{
+  "name": "@hive/blog-next",
+  "version": "0.1.2",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./styles.css": "./src/styles.css"
+  },
+  "sideEffects": ["**/*.css"],
+  "peerDependencies": {
+    "next": ">=14",
+    "react": ">=18",
+    "react-dom": ">=18"
+  }
+}

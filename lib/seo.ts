@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { BUSINESS } from "@/lib/constants";
+import { alternateLocalePath } from "@/lib/routes";
 
 function getSiteUrl(): string | undefined {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
@@ -32,6 +33,7 @@ export function buildMetadata(args: BuildMetadataArgs): Metadata {
 
   const siteUrl = getSiteUrl();
   const canonical = args.path ? absoluteUrl(args.path)?.toString() : undefined;
+  const alternates = args.path ? alternateLocalePath(args.path) : undefined;
 
   const ogImage = args.image ?? "/og.png";
   const ogImageAbs = siteUrl
@@ -47,6 +49,7 @@ export function buildMetadata(args: BuildMetadataArgs): Metadata {
     alternates: canonical
       ? {
           canonical,
+          languages: alternates ? { en: withTrailingSlash(alternates.en), es: withTrailingSlash(alternates.es), "x-default": withTrailingSlash(alternates.en) } : undefined,
         }
       : undefined,
 

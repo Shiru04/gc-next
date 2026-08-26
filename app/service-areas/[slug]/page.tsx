@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
 import { SERVICE_AREAS, getAreaBySlug } from "@/lib/areas";
+import { getAreaContent } from "@/lib/area-content";
 import { SERVICES } from "@/lib/services";
 import { buildMetadata } from "@/lib/seo";
 
@@ -38,6 +39,12 @@ export default async function AreaDetailPage({
   const area = getAreaBySlug(slug);
   if (!area) return notFound();
 
+  const content = getAreaContent(slug);
+  const nearbyAreas =
+    content?.nearby
+      .map((n) => getAreaBySlug(n))
+      .filter((a): a is NonNullable<typeof a> => Boolean(a)) ?? [];
+
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -47,6 +54,18 @@ export default async function AreaDetailPage({
       { "@type": "ListItem", position: 3, name: area.name },
     ],
   };
+
+  const faqJsonLd = content
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: content.faqs.map((f) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      }
+    : null;
 
   return (
     <>
@@ -68,19 +87,39 @@ export default async function AreaDetailPage({
             >
               Call {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Book Now
+            <Button href="/schedule-service/" variant="primary" size="lg">
+              Schedule Service
             </Button>
           </div>
         </div>
       </Section>
 
+      {content ? (
+        <Section>
+          <div className="max-w-3xl">
+            <h2 className="text-2xl font-extrabold tracking-tight">
+              Heating & cooling in {area.name}
+            </h2>
+            <div className="mt-4 space-y-4">
+              {content.about.map((p) => (
+                <p
+                  key={p.slice(0, 40)}
+                  className="leading-relaxed text-black/75"
+                >
+                  {p}
+                </p>
+              ))}
+            </div>
+          </div>
+        </Section>
+      ) : null}
+
       <Section className="bg-brand-gray">
         <div className="grid gap-6 lg:grid-cols-3">
           <Card className="p-6 lg:col-span-2">
-            <div className="text-xl font-extrabold">
+            <h2 className="text-xl font-extrabold">
               Popular services in {area.name}
-            </div>
+            </h2>
 
             <div className="mt-4 grid gap-4 sm:grid-cols-2">
               {SERVICES.slice(0, 6).map((s) => (
@@ -102,11 +141,31 @@ export default async function AreaDetailPage({
           </Card>
 
           <Card className="p-6">
-            <div className="text-xl font-extrabold">About this location</div>
+            <h2 className="text-xl font-extrabold">About this location</h2>
             <p className="mt-2 text-black/70">
               We serve {area.county}. If you’re nearby and not listed, call us —
               we may still be able to schedule service.
             </p>
+
+            {nearbyAreas.length > 0 ? (
+              <div className="mt-5">
+                <div className="text-sm font-extrabold">
+                  Nearby areas we serve
+                </div>
+                <ul className="mt-2 space-y-1">
+                  {nearbyAreas.map((n) => (
+                    <li key={n.slug}>
+                      <a
+                        href={`/service-areas/${n.slug}`}
+                        className="text-sm font-bold text-brand-red hover:underline"
+                      >
+                        HVAC in {n.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
 
             <div className="mt-5 text-sm text-black/60">
               {BUSINESS.trustLine} • {BUSINESS.licenseLabel}
@@ -119,6 +178,22 @@ export default async function AreaDetailPage({
             </div>
           </Card>
         </div>
+
+        {content ? (
+          <Card className="mt-6 p-6">
+            <h2 className="text-xl font-extrabold">
+              Frequently asked questions
+            </h2>
+            <div className="mt-4 grid gap-6 lg:grid-cols-3">
+              {content.faqs.map((f) => (
+                <div key={f.q}>
+                  <h3 className="font-bold">{f.q}</h3>
+                  <p className="mt-1 leading-relaxed text-black/70">{f.a}</p>
+                </div>
+              ))}
+            </div>
+          </Card>
+        ) : null}
       </Section>
 
       <script
@@ -126,6 +201,13 @@ export default async function AreaDetailPage({
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd ? (
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      ) : null}
     </>
   );
 }

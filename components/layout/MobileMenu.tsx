@@ -3,6 +3,7 @@
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BUSINESS, NAV } from "@/lib/constants";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -11,6 +12,8 @@ export function MobileMenu({ variant }: { variant: "default" | "landing" }) {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const panelId = useId();
+  const es = usePathname().startsWith("/es");
+  const menuItems = es ? [{ href: "/es/", label: "Inicio" }, { href: "/es/acerca/", label: "Nosotros" }, { href: "/es/servicios/", label: "Servicios" }, { href: "/es/recursos/", label: "Recursos" }, { href: "/es/contacto/", label: "Contacto" }] : NAV.slice(0, 5);
 
   useEffect(() => setMounted(true), []);
 
@@ -111,7 +114,7 @@ export function MobileMenu({ variant }: { variant: "default" | "landing" }) {
               <div className="flex flex-col gap-1 text-base font-semibold">
                 {variant === "default" ? (
                   <>
-                    {NAV.slice(0, 5).map((item) => (
+                    {menuItems.map((item) => (
                       <Link
                         key={item.href}
                         href={item.href}
@@ -122,11 +125,11 @@ export function MobileMenu({ variant }: { variant: "default" | "landing" }) {
                       </Link>
                     ))}
                     <Link
-                      href="/promotions"
+                      href={es ? "/es/promociones/" : "/promotions"}
                       onClick={() => setOpen(false)}
                       className="rounded-xl px-3 py-3 text-brand-red hover:bg-black/5"
                     >
-                      Promotions
+                      {es ? "Promociones" : "Promotions"}
                     </Link>
                   </>
                 ) : (
@@ -142,16 +145,26 @@ export function MobileMenu({ variant }: { variant: "default" | "landing" }) {
                   variant="secondary"
                   size="md"
                   ariaLabel={`Call ${BUSINESS.phoneDisplay}`}
+                  cta={{
+                    id: "mobile-menu-call",
+                    location: "mobile-menu",
+                    type: "phone",
+                  }}
                 >
                   Call {BUSINESS.phoneDisplay}
                 </Button>
                 <Button
-                  href={BUSINESS.bookingUrl}
+                  href={es ? "/es/programar-servicio/" : "/schedule-service/"}
                   variant="primary"
                   size="md"
-                  ariaLabel="Book now"
+                  ariaLabel={es ? "Programar servicio" : "Schedule service"}
+                  cta={{
+                    id: "mobile-menu-schedule",
+                    location: "mobile-menu",
+                    type: "booking",
+                  }}
                 >
-                  Book Now
+                  {es ? "Programar servicio" : "Schedule Service"}
                 </Button>
               </div>
             </nav>

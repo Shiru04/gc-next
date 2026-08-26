@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { ctaAttrs, type CtaMeta } from "@/lib/cta";
 
 type Variant = "primary" | "secondary" | "ghost";
 type Size = "sm" | "md" | "lg";
@@ -32,6 +33,11 @@ export function Button(props: {
   target?: "_blank";
   rel?: string;
   ariaLabel?: string;
+  /**
+   * Instrumentación explícita del CTA. Si se omite, el listener delegado de
+   * ConversionTracking igual infiere tipo y ubicación desde el href y el DOM.
+   */
+  cta?: CtaMeta;
 }) {
   const className = cn(
     base,
@@ -39,6 +45,8 @@ export function Button(props: {
     sizes[props.size ?? "md"],
     props.className,
   );
+
+  const tracking = props.cta ? ctaAttrs(props.cta) : undefined;
 
   if (props.href) {
     const isExternal =
@@ -52,6 +60,7 @@ export function Button(props: {
         target={props.target ?? (isExternal ? "_blank" : undefined)}
         rel={props.rel ?? (isExternal ? "noreferrer" : undefined)}
         aria-label={props.ariaLabel}
+        {...tracking}
       >
         {props.children}
       </Link>
@@ -64,6 +73,7 @@ export function Button(props: {
       onClick={props.onClick}
       className={className}
       aria-label={props.ariaLabel}
+      {...tracking}
     >
       {props.children}
     </button>

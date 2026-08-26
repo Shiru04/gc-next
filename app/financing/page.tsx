@@ -7,7 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Financing | GC Heating & Cooling",
   description:
-    "Explore flexible financing options for HVAC installation and upgrades in Los Angeles & Orange County.",
+    "Contact GC Heating & Cooling to learn about financing requirements, documentation, and next steps.",
   path: "/financing",
 });
 
@@ -20,17 +20,17 @@ export default function FinancingPage() {
             FINANCING
           </div>
           <h1 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
-            Financing Available
+            Ask Us About Financing
           </h1>
           <p className="mt-4 text-lg text-black/70">
-            We offer short and long term financing options for qualified
-            customers. If you’re planning an upgrade or a new system, we’ll help
-            you find a comfortable path forward.
+            Financing may be available depending on the project. Contact our
+            team and we’ll explain the requirements, documentation, and next
+            steps that apply to your installation or replacement.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Book Onsite Consultation
+            <Button href="/schedule-service/?service=installation" variant="primary" size="lg">
+              Request a Free Installation Estimate
             </Button>
             <Button
               href={`tel:${BUSINESS.phoneE164}`}
@@ -47,16 +47,16 @@ export default function FinancingPage() {
         <div className="grid gap-5 lg:grid-cols-3">
           {[
             {
-              title: "Clear options",
-              desc: "We explain equipment choices and what matters for comfort and efficiency.",
+              title: "Start with a conversation",
+              desc: "Tell us about your project and we’ll explain the financing process that may apply.",
             },
             {
-              title: "Budget-friendly upgrades",
-              desc: "Financing can make upgrades more accessible when timing matters.",
+              title: "Know what you need",
+              desc: "Our team will walk you through the required information and documentation.",
             },
             {
-              title: "Fast scheduling",
-              desc: "Book online and we’ll confirm your appointment quickly.",
+              title: "Clear next steps",
+              desc: "We’ll review the available path with you before you make a decision.",
             },
           ].map((x) => (
             <Card key={x.title} className="p-6">

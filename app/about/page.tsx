@@ -136,8 +136,8 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-                Book Now
+              <Button href="/schedule-service/" variant="primary" size="lg">
+                Schedule Service
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
@@ -295,7 +295,7 @@ export default function AboutPage() {
                   Call {BUSINESS.phoneDisplay}
                 </Button>
                 <Button
-                  href={BUSINESS.bookingUrl}
+                  href="/schedule-service/"
                   variant="secondary"
                   size="lg"
                 >
@@ -339,8 +339,8 @@ export default function AboutPage() {
               from a contractor working in your home.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="sm">
-                Book Now
+              <Button href="/schedule-service/" variant="primary" size="sm">
+                Schedule Service
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
@@ -404,8 +404,8 @@ export default function AboutPage() {
             >
               Call {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Book Now
+            <Button href="/schedule-service/" variant="primary" size="lg">
+              Schedule Service
             </Button>
           </div>
         </div>

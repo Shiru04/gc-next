@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
 import type { Service } from "@/lib/services";
+import { scheduleServiceHref, serviceCtaLabel, serviceIntentFromSlug } from "@/lib/scheduling";
 
 const SITE_URL = "https://gc-heatingandcooling.com";
 
@@ -14,6 +15,9 @@ export function ServiceDetail({
   basePath: "residential" | "commercial";
 }) {
   const hubLabel = basePath === "residential" ? "Residential" : "Commercial";
+  const serviceIntent = serviceIntentFromSlug(service.slug);
+  const schedulingHref = scheduleServiceHref(serviceIntent);
+  const schedulingLabel = serviceCtaLabel(serviceIntent);
 
   const serviceJsonLd = {
     "@context": "https://schema.org",
@@ -34,6 +38,16 @@ export function ServiceDetail({
       name: BUSINESS.name,
       url: SITE_URL,
     },
+  };
+
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: service.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
   };
 
   const breadcrumbJsonLd = {
@@ -73,9 +87,43 @@ export function ServiceDetail({
             >
               Call {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Book Now
+            <Button href={schedulingHref} variant="primary" size="lg">
+              {schedulingLabel}
             </Button>
+          </div>
+        </div>
+      </Section>
+
+      <Section>
+        <div className="max-w-3xl">
+          <h2 className="text-2xl font-extrabold tracking-tight">
+            About this service
+          </h2>
+          <div className="mt-4 space-y-4">
+            {service.overview.map((p) => (
+              <p key={p.slice(0, 40)} className="leading-relaxed text-black/75">
+                {p}
+              </p>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-10">
+          <h2 className="text-2xl font-extrabold tracking-tight">
+            What to expect
+          </h2>
+          <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {service.process.map((p, i) => (
+              <Card key={p.step} className="p-5">
+                <div className="text-sm font-extrabold text-brand-red">
+                  Step {i + 1}
+                </div>
+                <div className="mt-1 font-extrabold">{p.step}</div>
+                <p className="mt-2 text-sm leading-relaxed text-black/70">
+                  {p.desc}
+                </p>
+              </Card>
+            ))}
           </div>
         </div>
       </Section>
@@ -127,12 +175,11 @@ export function ServiceDetail({
           <Card className="p-6">
             <h2 className="text-xl font-extrabold">Next steps</h2>
             <p className="mt-2 leading-relaxed text-black/70">
-              Book an onsite consultation for an accurate diagnosis, options,
-              and clear recommendations.
+              Choose the service you need so we can route your request accurately.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="md">
-                Book Onsite Consultation
+              <Button href={schedulingHref} variant="primary" size="md">
+                {schedulingLabel}
               </Button>
               <Button href="/promotions" variant="secondary" size="md">
                 View promotions
@@ -154,6 +201,11 @@ export function ServiceDetail({
         type="application/ld+json"
         // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
     </>
   );

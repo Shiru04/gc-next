@@ -1,0 +1,26 @@
+import assert from "node:assert/strict";
+import { pendingProductionFields } from "../lib/commercial-config";
+import { validateContact } from "../lib/contact-schema";
+import { isServiceType } from "../lib/service-types";
+import { LOCALIZED_ROUTES, alternateLocalePath } from "../lib/routes";
+import { dispatchServiceHref, scheduleServiceHref } from "../lib/scheduling";
+import { PROMOTIONS } from "../lib/promotions";
+assert.equal(isServiceType("installation"), true);
+assert.equal(isServiceType("free_quote"), false);
+assert.equal(scheduleServiceHref("ac_repair"), "/schedule-service/?service=ac_repair");
+assert.equal(scheduleServiceHref("installation", "es"), "/es/programar-servicio/?service=installation");
+assert.notEqual(dispatchServiceHref("ac_repair"), dispatchServiceHref("maintenance"));
+assert.match(PROMOTIONS.repairs.ctaPrimary.href, /service=ac_repair/);
+assert.match(PROMOTIONS["new-installation"].ctaPrimary.href, /service=installation/);
+assert.match(PROMOTIONS["tune-ups"].ctaPrimary.href, /service=maintenance/);
+assert.deepEqual(pendingProductionFields(), []);
+assert.equal(new Set(Object.values(LOCALIZED_ROUTES).flatMap((route) => [route.en, route.es])).size, Object.keys(LOCALIZED_ROUTES).length * 2);
+assert.deepEqual(alternateLocalePath("/"), { en: "/", es: "/es/" });
+assert.deepEqual(alternateLocalePath("/es"), { en: "/", es: "/es/" });
+assert.deepEqual(alternateLocalePath("/es/"), { en: "/", es: "/es/" });
+const valid = validateContact({ name: "Test User", email: "test@example.com", phone: "714 555 1212", service: "ac_repair", zip: "90703", message: "Air conditioner is not cooling.", consent: true, turnstileToken: "test" });
+assert.equal(valid.success, true);
+const invalid = validateContact({ name: "", email: "not-email", service: "unknown", zip: "1", message: "short", consent: false });
+assert.equal(invalid.success, false);
+if (!invalid.success) { assert.ok(invalid.errors.email); assert.ok(invalid.errors.zip); assert.ok(invalid.errors.consent); }
+console.log("Core validation tests passed.");

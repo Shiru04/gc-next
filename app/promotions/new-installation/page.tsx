@@ -76,10 +76,10 @@ export default function NewInstallationPromoPage() {
               </p>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href={SITE.bookingUrl}
+                  href={promo.ctaPrimary.href}
                   className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-extrabold text-black transition hover:opacity-90"
                 >
-                  Book Now
+                  {promo.ctaPrimary.label}
                 </a>
                 <a
                   href={`tel:${SITE.phoneE164}`}
@@ -114,10 +114,10 @@ export default function NewInstallationPromoPage() {
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
-              href={SITE.bookingUrl}
+              href={promo.ctaPrimary.href}
               className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-extrabold text-black transition hover:opacity-90"
             >
-              Book Now
+              {promo.ctaPrimary.label}
             </a>
             <a
               href={`tel:${SITE.phoneE164}`}

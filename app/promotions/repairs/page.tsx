@@ -74,10 +74,10 @@ export default function RepairsPromoPage() {
               </p>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <a
-                  href={SITE.bookingUrl}
+                  href={promo.ctaPrimary.href}
                   className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-extrabold text-black transition hover:opacity-90"
                 >
-                  Book Now
+                  {promo.ctaPrimary.label}
                 </a>
                 <a
                   href={`tel:${SITE.phoneE164}`}
@@ -104,18 +104,18 @@ export default function RepairsPromoPage() {
 
         <section className="mt-14 rounded-3xl bg-red-600 px-7 py-10 text-white">
           <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">
-            Free estimates for repairs — schedule now
+            HVAC repairs done right — schedule now
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-white/90">
-            We’ll evaluate the issue and provide a clear estimate before repair
-            work begins.
+            We’ll diagnose the issue and give you a clear repair plan before work
+            begins.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
-              href={SITE.bookingUrl}
+              href={promo.ctaPrimary.href}
               className="inline-flex items-center justify-center rounded-xl bg-white px-6 py-3 text-sm font-extrabold text-black transition hover:opacity-90"
             >
-              Book Now
+              {promo.ctaPrimary.label}
             </a>
             <a
               href={`tel:${SITE.phoneE164}`}

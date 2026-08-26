@@ -1,13 +1,22 @@
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { BUSINESS, NAV } from "@/lib/constants";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { MobileMenu } from "./MobileMenu";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 
 export function Header(props: { variant?: "default" | "landing" }) {
   const variant = props.variant ?? "default";
+  const isSpanish = usePathname().startsWith("/es");
+  const nav = isSpanish ? [
+    { href: "/es/", label: "Inicio" }, { href: "/es/acerca/", label: "Nosotros" },
+    { href: "/es/servicios/", label: "Servicios" }, { href: "/es/recursos/", label: "Recursos" },
+    { href: "/es/contacto/", label: "Contacto" },
+  ] : NAV.slice(0, 5);
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white/80 backdrop-blur">
@@ -33,7 +42,7 @@ export function Header(props: { variant?: "default" | "landing" }) {
         {/* Desktop nav */}
         {variant === "default" ? (
           <nav className="hidden lg:flex items-center gap-6 text-sm font-semibold">
-            {NAV.slice(0, 5).map((item) => (
+            {nav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
@@ -43,10 +52,10 @@ export function Header(props: { variant?: "default" | "landing" }) {
               </Link>
             ))}
             <Link
-              href="/promotions"
+              href={isSpanish ? "/es/promociones/" : "/promotions"}
               className="text-brand-red hover:opacity-80"
             >
-              Promotions
+              {isSpanish ? "Promociones" : "Promotions"}
             </Link>
           </nav>
         ) : (
@@ -62,21 +71,24 @@ export function Header(props: { variant?: "default" | "landing" }) {
             variant === "default" ? "" : "",
           )}
         >
+          <LanguageSwitcher />
           <Button
             href={`tel:${BUSINESS.phoneE164}`}
             variant="secondary"
             size="sm"
             ariaLabel={`Call ${BUSINESS.phoneDisplay}`}
+            cta={{ id: "header-call", location: "header", type: "phone" }}
           >
             {BUSINESS.phoneDisplay}
           </Button>
           <Button
-            href={BUSINESS.bookingUrl}
+            href={isSpanish ? "/es/programar-servicio/" : "/schedule-service/"}
             variant="primary"
             size="sm"
-            ariaLabel="Book now"
+            ariaLabel={isSpanish ? "Programar servicio" : "Schedule service"}
+            cta={{ id: "header-schedule", location: "header", type: "booking" }}
           >
-            Book Now
+            {isSpanish ? "Programar servicio" : "Schedule Service"}
           </Button>
 
           {/* Mobile menu trigger + drawer */}

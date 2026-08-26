@@ -35,7 +35,7 @@ export default function ServiceAreasClient() {
 
           <div className="flex flex-col sm:flex-row gap-3">
             <Button href="/contact" variant="primary" size="lg">
-              Get a Free Estimate
+              Schedule Service
             </Button>
             <Button
               href={`tel:${BUSINESS.phone}`}

@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { POSTS } from "@/lib/posts";
 import { buildMetadata } from "@/lib/seo";
+import { formatBlogDate, getBlogPosts } from "@/lib/hive-blog";
 
 export const metadata = buildMetadata({
   title: "Resources | GC Heating & Cooling",
@@ -11,7 +12,13 @@ export const metadata = buildMetadata({
   path: "/resources",
 });
 
-export default function ResourcesPage() {
+export default async function ResourcesPage() {
+  const { items: hivePosts } = await getBlogPosts({ limit: 100, lang: "en" });
+  const hiveSlugs = new Set(hivePosts.map((post) => post.slug));
+  const articles = [
+    ...hivePosts.map((post) => ({ slug: post.slug, title: post.title, description: post.excerpt, date: formatBlogDate(post.publishedAt), coverImage: post.coverImage })),
+    ...POSTS.filter((post) => !hiveSlugs.has(post.slug)).map((post) => ({ ...post, coverImage: "" })),
+  ];
   return (
     <>
       <Section className="pt-10 sm:pt-14">
@@ -32,10 +39,9 @@ export default function ResourcesPage() {
       {/* Articles grid */}
       <Section className="bg-brand-gray">
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {POSTS.map((p) => (
+          {articles.map((p) => (
             <Card key={p.slug} className="flex flex-col overflow-hidden">
-              {/* Placeholder for future article images */}
-              <div className="h-2 bg-gradient-to-r from-brand-red to-brand-red/60" />
+              {p.coverImage ? <div className="aspect-[16/9] overflow-hidden bg-black/5">{/* eslint-disable-next-line @next/next/no-img-element */}<img src={p.coverImage} alt="" className="h-full w-full object-cover" loading="lazy" /></div> : <div className="h-2 bg-gradient-to-r from-brand-red to-brand-red/60" />}
               <div className="flex flex-1 flex-col p-6">
                 <div className="text-xs font-bold text-black/65">{p.date}</div>
                 <h2 className="mt-2 text-xl font-extrabold leading-tight">

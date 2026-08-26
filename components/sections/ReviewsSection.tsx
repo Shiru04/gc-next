@@ -87,6 +87,8 @@ export function ReviewsSection({
 
   const reviews = limit ? allReviews.slice(0, limit) : allReviews;
 
+  if (!googleData || reviews.length === 0) return null;
+
   // If Google data is available, show a prominent Google rating summary
   const hasGoogleData = googleData && googleData.totalReviews > 0;
 

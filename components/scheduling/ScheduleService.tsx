@@ -1,0 +1,11 @@
+"use client";
+import { useState } from "react";
+import { pushConversionEvent } from "@/lib/conversions";
+import { PUBLIC_SCHEDULE_SERVICES, SERVICE_LABELS, isServiceType, type ServiceType } from "@/lib/service-types";
+import { dispatchServiceHref } from "@/lib/scheduling";
+export function ScheduleService({ locale, initialService }: { locale: "en" | "es"; initialService?: string }) {
+  const [selected, setSelected] = useState<ServiceType>(isServiceType(initialService) ? initialService : "other");
+  const copy = locale === "es" ? { title: "¿Qué servicio necesita?", intro: "Seleccione una opción para continuar al portal seguro de programación de Dispatch.", button: "Continuar a programar", note: "La disponibilidad y la cita se confirman en Dispatch." } : { title: "What service do you need?", intro: "Choose one option to continue to the secure Dispatch scheduling portal.", button: "Continue to scheduling", note: "Availability and appointments are confirmed in Dispatch." };
+  function continueToDispatch() { const destination = dispatchServiceHref(selected); pushConversionEvent("dispatch_booking_start", { serviceType: selected, ctaLocation: "service-selector", linkUrl: destination }); window.location.assign(destination); }
+  return <section className="mx-auto max-w-3xl px-5 py-16 sm:py-24"><h1 className="text-4xl font-black tracking-tight">{copy.title}</h1><p className="mt-4 text-lg text-black/70">{copy.intro}</p><fieldset className="mt-8 grid gap-3 sm:grid-cols-2"><legend className="sr-only">{copy.title}</legend>{PUBLIC_SCHEDULE_SERVICES.map((service) => <label key={service} className={`cursor-pointer rounded-2xl border-2 p-4 font-semibold transition ${selected === service ? "border-brand-red bg-red-50" : "border-black/10 hover:border-black/30"}`}><input className="mr-3" type="radio" name="service" value={service} checked={selected === service} onChange={() => setSelected(service)} />{SERVICE_LABELS[locale][service]}</label>)}</fieldset><button type="button" onClick={continueToDispatch} className="mt-8 w-full rounded-xl bg-brand-red px-6 py-4 font-bold text-white">{copy.button}</button><p className="mt-3 text-sm text-black/60">{copy.note}</p></section>;
+}

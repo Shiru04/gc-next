@@ -1,5 +1,3 @@
-import { SocketAddress } from "net";
-
 export const BUSINESS = {
   name: "GC Heating & Cooling",
   phoneDisplay: "(714) 715-9569",
@@ -26,10 +24,10 @@ export const BUSINESS = {
   licenseLabel: "License # 794228",
   trustLine: "Insured and Bonded",
   serviceRegionShort: "Serving Los Angeles & Orange County",
-  hoursShort: "Mon - Fri | 8:30am - 4:30pm",
+  hoursShort: "Customer service 24/7 | Online booking 7am - 7pm",
 
   // ✅ Optional, but layout.tsx references it, so define it to avoid undefined noise
-  socials: [] as string[],
+  socials: ["https://www.facebook.com/GCHeatingandCooling", "https://www.instagram.com/gchcooling/"],
 };
 
 export const NAV = [
