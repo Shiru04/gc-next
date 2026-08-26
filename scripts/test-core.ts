@@ -13,6 +13,13 @@ assert.notEqual(dispatchServiceHref("ac_repair"), dispatchServiceHref("maintenan
 assert.match(PROMOTIONS.repairs.ctaPrimary.href, /service=ac_repair/);
 assert.match(PROMOTIONS["new-installation"].ctaPrimary.href, /service=installation/);
 assert.match(PROMOTIONS["tune-ups"].ctaPrimary.href, /service=maintenance/);
+assert.match(PROMOTIONS["tune-ups"].ctaPrimary.href, /coupon=GC149/);
+assert.match(PROMOTIONS["tune-ups"].metaTitle, /Regularly \$174.*Save \$25.*Now \$149/);
+const obsoletePrices = ["$" + "99", "$" + "199", "Save $" + "50"];
+for (const obsolete of obsoletePrices) assert.equal(JSON.stringify(PROMOTIONS["tune-ups"]).includes(obsolete), false);
+const tuneUpDispatch = new URL(dispatchServiceHref("maintenance", "GC149"));
+assert.equal(tuneUpDispatch.searchParams.get("coupon"), "GC149");
+assert.match(tuneUpDispatch.searchParams.get("service_label") ?? "", /Regularly \$174.*Save \$25.*Now \$149/);
 assert.deepEqual(pendingProductionFields(), []);
 assert.equal(new Set(Object.values(LOCALIZED_ROUTES).flatMap((route) => [route.en, route.es])).size, Object.keys(LOCALIZED_ROUTES).length * 2);
 assert.deepEqual(alternateLocalePath("/"), { en: "/", es: "/es/" });

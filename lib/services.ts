@@ -150,7 +150,7 @@ export const SERVICES: Service[] = [
       "Maintenance helps your home system run efficiently, reduces surprise breakdowns, and can extend equipment life. Ideal before peak summer and winter seasons.",
     overview: [
       "Most of the emergency repair calls we get in July and August trace back to problems that a spring tune-up would have caught: weak capacitors, dirty condenser coils, clogged drain lines, low refrigerant. A maintenance visit is a systematic inspection — we test electrical components under load, clean what’s restricting performance, and measure how the system is actually running versus how it should run.",
-      "For Southern California homes, the ideal rhythm is a cooling tune-up in spring and a heating check in fall. A standard residential tune-up is currently $149 with coupon code GC149 (regularly $199). After every visit you get plain-language findings and recommendations — what’s fine, what’s wearing, and what’s worth addressing before it becomes a breakdown.",
+      "For Southern California homes, the ideal rhythm is a cooling tune-up in spring and a heating check in fall. For one standard residential system: regularly $174 — save $25 — now $149 with coupon code GC149. After every visit you get plain-language findings and recommendations — what’s fine, what’s wearing, and what’s worth addressing before it becomes a breakdown.",
     ],
     process: [
       {
@@ -171,7 +171,7 @@ export const SERVICES: Service[] = [
       },
     ],
     bullets: [
-      "$149 standard residential tune-up with coupon GC149 (regularly $199)",
+      "Regularly $174 — save $25 — now $149 with coupon GC149",
       "Multi-point seasonal maintenance to protect your system year-round",
       "Filter and airflow inspection",
       "Electrical & safety checks",

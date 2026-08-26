@@ -6,11 +6,13 @@ export function PromoJsonLd({
   pageName,
   pageDescription,
   faq,
+  offer,
 }: {
   pageUrl: string;
   pageName: string;
   pageDescription: string;
   faq: { q: string; a: string }[];
+  offer?: { name: string; price: number; currency: string; couponCode: string };
 }) {
   const hvac = {
     "@context": "https://schema.org",
@@ -53,6 +55,22 @@ export function PromoJsonLd({
     url: pageUrl,
   };
 
+  const offerLd = offer ? {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: offer.name,
+    serviceType: "HVAC tune-up",
+    provider: { "@type": "HVACBusiness", name: SITE.name, telephone: SITE.phoneDisplay },
+    areaServed: SITE.primaryCounties,
+    offers: {
+      "@type": "Offer",
+      price: offer.price.toFixed(2),
+      priceCurrency: offer.currency,
+      description: `${offer.name}. Coupon code ${offer.couponCode}.`,
+      url: pageUrl,
+    },
+  } : null;
+
   return (
     <>
       <script
@@ -67,6 +85,7 @@ export function PromoJsonLd({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
       />
+      {offerLd ? <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(offerLd) }} /> : null}
     </>
   );
 }

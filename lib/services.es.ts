@@ -150,7 +150,7 @@ export const SERVICES: Service[] = [
       "El mantenimiento ayuda a que el sistema de su hogar funcione de manera eficiente, reduce las averías inesperadas y puede prolongar la vida útil del equipo. Ideal antes de las temporadas altas de verano e invierno.",
     overview: [
       "La mayoría de las llamadas de reparación de emergencia que recibimos en julio y agosto se remontan a problemas que se habrían detectado con una puesta a punto de primavera: condensadores débiles, bobinas del condensador sucias, líneas de drenaje obstruidas, nivel bajo de refrigerante. Una visita de mantenimiento es una inspección sistemática: probamos los componentes eléctricos bajo carga, limpiamos lo que restringe el rendimiento y medimos cómo está funcionando realmente el sistema en comparación con cómo debería funcionar.",
-      "Para los hogares del sur de California, el ritmo ideal es una puesta a punto del enfriamiento en primavera y una revisión de la calefacción en otoño. Una puesta a punto residencial estándar cuesta actualmente $149 con el cupón GC149 (precio regular $199). Después de cada visita, obtiene conclusiones y recomendaciones en lenguaje sencillo.",
+      "Para los hogares del sur de California, el ritmo ideal es una puesta a punto del enfriamiento en primavera y una revisión de la calefacción en otoño. Para un sistema residencial estándar: precio regular $174 — ahorre $25 — ahora $149 con el cupón GC149. Después de cada visita, obtiene conclusiones y recomendaciones en lenguaje sencillo.",
     ],
     process: [
       {
@@ -171,7 +171,7 @@ export const SERVICES: Service[] = [
       },
     ],
     bullets: [
-      "Afinación residencial estándar por $149 con el cupón GC149 (precio regular $199)",
+      "Precio regular $174 — ahorre $25 — ahora $149 con el cupón GC149",
       "Mantenimiento estacional multipunto para proteger su sistema durante todo el año",
       "Inspección de filtros y flujo de aire.",
       "Comprobaciones eléctricas y de seguridad.",

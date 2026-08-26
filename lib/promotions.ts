@@ -119,15 +119,15 @@ export const PROMOTIONS: Record<
     key: "tune-ups",
     slug: "/promotions/tune-ups",
     pageTitle: "HVAC Tune-Up",
-    metaTitle: "HVAC Tune-Up in Los Angeles & Orange County | $149 Coupon Special",
+    metaTitle: "HVAC Tune-Up | Regularly $174 — Save $25 — Now $149",
     metaDescription:
-      "Get a standard residential HVAC tune-up for $149 with coupon code GC149 from GC Heating & Cooling. Regular price $199. Serving Los Angeles & Orange County.",
+      "Regularly $174 — save $25 — now $149 for a standard residential HVAC tune-up with coupon code GC149. Serving Los Angeles & Orange County.",
     heroKicker: "Seasonal Maintenance",
     heroHeadline: "HVAC Tune-Up — keep your system running at its best",
     heroSubheadline:
-      "Regularly $199. Use coupon code GC149 to get a standard residential tune-up for $149. Enter the code automatically when you schedule or mention it when you call.",
-    primaryOfferTitle: "$199 regular price · Save $50 with code GC149",
-    primaryOfferValue: "$149 Tune-Up",
+      "Regularly $174 — save $25 — now $149. Use coupon code GC149 when you schedule or mention it when you call.",
+    primaryOfferTitle: "Regularly $174 · Save $25 with code GC149",
+    primaryOfferValue: "Now $149 Tune-Up",
     primaryOfferDetails: [
       "Multi-point inspection of your heating & cooling system.",
       "Performance check to catch small issues before they become costly repairs.",
@@ -152,10 +152,10 @@ export const PROMOTIONS: Record<
       },
       {
         q: "How do I get the $149 promotional price?",
-        a: "Mention coupon code GC149 when you call or include it in your online booking notes. The regular price is $199; the coupon saves $50 and applies to one standard residential system. Additional units are quoted separately and the offer cannot be combined with other discounts.",
+        a: "Mention coupon code GC149 when you call or include it in your online booking notes. Regularly $174 — save $25 — now $149 for one standard residential system. Additional units are quoted separately and the offer cannot be combined with other discounts.",
       },
     ],
-    ctaPrimary: { label: "Schedule with code GC149", href: scheduleServiceHref("maintenance", "en", "GC149") },
+    ctaPrimary: { label: "Schedule Now $149 — Code GC149", href: scheduleServiceHref("maintenance", "en", "GC149") },
     ctaSecondary: {
       label: "Call & mention GC149",
       href: `tel:${SITE.phoneE164}`,

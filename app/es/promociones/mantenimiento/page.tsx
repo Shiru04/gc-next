@@ -33,6 +33,7 @@ export default function TuneUpsPromoPage() {
         pageName={`${SITE.name} — ${promo.pageTitle}`}
         pageDescription={promo.metaDescription}
         faq={promo.faq}
+        offer={{ name: "Afinación HVAC — Precio regular $174 — Ahorre $25 — Ahora $149", price: 149, currency: "USD", couponCode: "GC149" }}
       />
 
       <PromoHero
@@ -109,7 +110,7 @@ export default function TuneUpsPromoPage() {
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-white/90">
             Mantenga su sistema funcionando de manera eficiente durante toda la temporada. Agenda tu
-            puesta a punto en línea o llámenos. Precio regular $199; ahorre $50 con el cupón.
+            puesta a punto en línea o llámenos. Precio regular $174 — ahorre $25 — ahora $149.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a

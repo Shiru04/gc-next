@@ -137,7 +137,7 @@ export const POSTS: Post[] = [
       {
         heading: "What maintenance actually saves",
         paragraphs: [
-          "The math favors prevention. A standard residential tune-up is currently $149 with coupon code GC149 (regularly $199). The repairs it most often prevents — compressor damage from a failed capacitor, water damage from a clogged drain, coil replacement after years of running dirty — run into the hundreds or thousands. Add the efficiency loss of a neglected system quietly inflating every monthly bill, and skipping maintenance is usually the more expensive choice, it just spreads the cost out where it’s harder to see.",
+          "The math favors prevention. For one standard residential system, the current offer is: regularly $174 — save $25 — now $149 with coupon code GC149. The repairs it most often prevents — compressor damage from a failed capacitor, water damage from a clogged drain, coil replacement after years of running dirty — run into the hundreds or thousands. Add the efficiency loss of a neglected system quietly inflating every monthly bill, and skipping maintenance is usually the more expensive choice, it just spreads the cost out where it’s harder to see.",
           "Maintenance also protects the lifespan question. Well-maintained systems commonly deliver years of extra service compared to neglected ones, and when the time for replacement does come, a documented service history helps you make that call deliberately instead of during an outage.",
           "If you’d rather not track any of this yourself, that’s what maintenance bundles are for: we schedule the spring and fall visits, and you get a report after each one. Your system stays ready for the seasons — and you stay off the emergency-call list in August.",
         ],
@@ -148,7 +148,7 @@ export const POSTS: Post[] = [
         href: "/residential/residential-hvac-maintenance",
         label: "HVAC Maintenance",
       },
-      { href: "/promotions/tune-ups", label: "$149 Tune-Up Coupon" },
+      { href: "/promotions/tune-ups", label: "Save $25 — Now $149 Tune-Up" },
       { href: "/residential/residential-ac-repair", label: "AC Repair" },
       {
         href: "/residential/residential-attic-insulation",

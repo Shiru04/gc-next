@@ -119,15 +119,15 @@ export const PROMOTIONS: Record<
     key: "tune-ups",
     slug: "/promociones/puestas a punto",
     pageTitle: "Puesta a punto de HVAC",
-    metaTitle: "Puesta a punto de HVAC en Los Ángeles y Orange County | Cupón de $149",
+    metaTitle: "Afinación HVAC | Precio regular $174 — Ahorre $25 — Ahora $149",
     metaDescription:
-      "Obtenga una puesta a punto residencial estándar por $149 con el cupón GC149 de GC Heating & Cooling. Precio regular de $199.",
+      "Precio regular $174 — ahorre $25 — ahora $149 por una puesta a punto residencial estándar con el cupón GC149.",
     heroKicker: "Mantenimiento estacional",
     heroHeadline: "Puesta a punto de HVAC: mantenga su sistema funcionando al máximo",
     heroSubheadline:
-      "Precio regular $199. Use el cupón GC149 para obtener una puesta a punto residencial estándar por $149. El código pasa automáticamente al reservar o puede mencionarlo al llamar.",
-    primaryOfferTitle: "Precio regular $199 · Ahorre $50 con GC149",
-    primaryOfferValue: "Afinación por $149",
+      "Precio regular $174 — ahorre $25 — ahora $149. Use el cupón GC149 al reservar o menciónelo al llamar.",
+    primaryOfferTitle: "Precio regular $174 · Ahorre $25 con GC149",
+    primaryOfferValue: "Ahora $149",
     primaryOfferDetails: [
       "Inspección multipunto de su sistema de calefacción y refrigeración.",
       "Verificación de rendimiento para detectar pequeños problemas antes de que se conviertan en reparaciones costosas.",
@@ -152,10 +152,10 @@ export const PROMOTIONS: Record<
       },
       {
         q: "¿Cómo obtengo el precio promocional de $149?",
-        a: "Mencione el cupón GC149 al llamar o inclúyalo en las notas de su reservación en línea. El precio regular es $199; el cupón ahorra $50 y aplica a un sistema residencial estándar. Las unidades adicionales se cotizan por separado y la oferta no se combina con otros descuentos.",
+        a: "Mencione el cupón GC149 al llamar o inclúyalo en las notas de su reservación en línea. Precio regular $174 — ahorre $25 — ahora $149 para un sistema residencial estándar. Las unidades adicionales se cotizan por separado y la oferta no se combina con otros descuentos.",
       },
     ],
-    ctaPrimary: { label: "Reservar con el código GC149", href: scheduleServiceHref("maintenance", "es", "GC149") },
+    ctaPrimary: { label: "Reservar ahora por $149 — Código GC149", href: scheduleServiceHref("maintenance", "es", "GC149") },
     ctaSecondary: {
       label: "Llame y mencione GC149",
       href: `tel:${SITE.phoneE164}`,

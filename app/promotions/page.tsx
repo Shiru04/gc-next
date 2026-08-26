@@ -57,7 +57,7 @@ export default function PromotionsHubPage() {
           <PromoCard
             kicker="Tune-Ups"
             title={promoTuneUps.primaryOfferValue}
-            description="Keep your system efficient and reliable with a seasonal multi-point tune-up. Lower energy bills and avoid surprise breakdowns."
+            description="Regularly $174 — Save $25 — Now $149 with code GC149. Seasonal multi-point tune-up for one standard residential system."
             ctaLabel="View details"
             ctaHref={promoTuneUps.slug}
             highlight="Best Value"

@@ -35,7 +35,7 @@ export const COMMERCIAL = {
   serviceAreas: verified(["Orange County", "Los Angeles County"], "confirmed by client on 2026-08-20"),
   diagnosticFee: verified("$89 and up for repair diagnostics", "confirmed by client on 2026-08-20"),
   afterHoursFee: verified<string | null>(null, "no after-hours fee; 24/7 call center confirmed by client on 2026-08-20"),
-  tuneUpOffer: verified("$149 with coupon GC149; regular price $199", "updated by client on 2026-08-26"),
+  tuneUpOffer: verified("Regularly $174 — Save $25 — Now $149 with coupon GC149", "updated by client on 2026-08-26"),
   freeEstimate: verified("Free estimates for replacements and installations", "confirmed by client on 2026-08-20"),
   financing: verified("Contact GC Heating & Cooling for requirements, documentation, and next steps", "confirmed by client on 2026-08-20"),
   brands: verified(["American Standard", "Mitsubishi"], "confirmed by client on 2026-08-20"),

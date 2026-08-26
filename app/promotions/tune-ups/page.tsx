@@ -33,6 +33,7 @@ export default function TuneUpsPromoPage() {
         pageName={`${SITE.name} — ${promo.pageTitle}`}
         pageDescription={promo.metaDescription}
         faq={promo.faq}
+        offer={{ name: "HVAC Tune-Up — Regularly $174 — Save $25 — Now $149", price: 149, currency: "USD", couponCode: "GC149" }}
       />
 
       <PromoHero
@@ -109,7 +110,7 @@ export default function TuneUpsPromoPage() {
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-white/90">
             Keep your system running efficiently all season long. Schedule your
-            tune-up online or give us a call. Regular price $199; coupon saves $50.
+            tune-up online or give us a call. Regularly $174 — save $25 — now $149.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a

@@ -137,7 +137,7 @@ export const POSTS: Post[] = [
       {
         heading: "¿Qué mantenimiento realmente ahorra?",
         paragraphs: [
-          "Las matemáticas favorecen la prevención. Una puesta a punto residencial estándar cuesta actualmente $149 con el cupón GC149 (precio regular $199). Las reparaciones que previene con mayor frecuencia pueden ascender a cientos o miles. Si a eso le sumamos la pérdida de eficiencia de un sistema descuidado, saltarnos el mantenimiento suele ser la opción más costosa.",
+          "Las matemáticas favorecen la prevención. Para un sistema residencial estándar, la oferta actual es: precio regular $174 — ahorre $25 — ahora $149 con el cupón GC149. Las reparaciones que previene con mayor frecuencia pueden ascender a cientos o miles. Si a eso le sumamos la pérdida de eficiencia de un sistema descuidado, saltarnos el mantenimiento suele ser la opción más costosa.",
           "El mantenimiento también protege la cuestión de la vida útil. Los sistemas bien mantenidos comúnmente brindan años de servicio adicional en comparación con los descuidados, y cuando llega el momento de reemplazarlos, un historial de servicio documentado lo ayuda a realizar esa llamada deliberadamente en lugar de hacerlo durante una interrupción.",
           "Si prefiere no realizar un seguimiento de nada de esto usted mismo, para eso están los paquetes de mantenimiento: programamos las visitas de primavera y otoño, y usted recibe un informe después de cada una. Su sistema permanece listo para las estaciones y usted permanece fuera de la lista de llamadas de emergencia en agosto.",
         ],
@@ -148,7 +148,7 @@ export const POSTS: Post[] = [
         href: "/residencial/mantenimiento-climatizacion-residencial",
         label: "Mantenimiento de climatización",
       },
-      { href: "/es/promociones/mantenimiento", label: "Cupón de afinación por $149" },
+      { href: "/es/promociones/mantenimiento", label: "Ahorre $25 — Afinación ahora $149" },
       { href: "/residencial/reparacion-de-aire-acondicionado-residencial", label: "Reparación de aire acondicionado" },
       {
         href: "/residencial/aislamiento-ático-residencial",

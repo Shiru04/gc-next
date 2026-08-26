@@ -18,6 +18,8 @@ export function dispatchServiceHref(service: ServiceType, coupon?: string) {
   if (coupon) {
     url.searchParams.set("coupon", coupon);
     url.searchParams.set("utm_content", coupon);
+    url.searchParams.set("promotion", "HVAC Tune-Up — Regularly $174 — Save $25 — Now $149");
+    url.searchParams.set("service_label", "HVAC Tune-Up — Regularly $174 — Save $25 — Now $149");
   }
   return url.toString();
 }

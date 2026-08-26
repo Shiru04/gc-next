@@ -57,7 +57,7 @@ export default function PromotionsHubPage() {
           <PromoCard
             kicker="Tune-Ups"
             title={promoTuneUps.primaryOfferValue}
-            description="Mantenga su sistema eficiente y confiable con una puesta a punto multipunto estacional. Reduzca las facturas de energía y evite averías sorpresa."
+            description="Precio regular $174 — Ahorre $25 — Ahora $149 con el código GC149. Afinación multipunto para un sistema residencial estándar."
             ctaLabel="Ver detalles"
             ctaHref={promoTuneUps.slug}
             highlight="Best Value"
