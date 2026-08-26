@@ -119,19 +119,20 @@ export const PROMOTIONS: Record<
     key: "tune-ups",
     slug: "/promociones/puestas a punto",
     pageTitle: "Puesta a punto de HVAC",
-    metaTitle: "Puesta a punto de HVAC en Los Ángeles y el condado de Orange | Especial $99",
+    metaTitle: "Puesta a punto de HVAC en Los Ángeles y Orange County | Cupón de $149",
     metaDescription:
-      "Mantenga su HVAC funcionando de manera eficiente con una puesta a punto de $99 de GC Heating & Cooling. Inspección multipunto y mantenimiento estacional para Los Ángeles y el condado de Orange.",
+      "Obtenga una puesta a punto residencial estándar por $149 con el cupón GC149 de GC Heating & Cooling. Precio regular de $199.",
     heroKicker: "Mantenimiento estacional",
     heroHeadline: "Puesta a punto de HVAC: mantenga su sistema funcionando al máximo",
     heroSubheadline:
       "Una puesta a punto estacional ayuda a prevenir averías, reducir las facturas de energía y prolongar la vida útil de su sistema. Sirviendo a Los Ángeles y el Condado de Orange con programación rápida.",
-    primaryOfferTitle: "Solo",
-    primaryOfferValue: "Afinación de $99",
+    primaryOfferTitle: "Precio regular $199 · Ahorre $50 con GC149",
+    primaryOfferValue: "Afinación por $149",
     primaryOfferDetails: [
       "Inspección multipunto de su sistema de calefacción y refrigeración.",
       "Verificación de rendimiento para detectar pequeños problemas antes de que se conviertan en reparaciones costosas.",
       "Recomendado una o dos veces al año para una mejor eficiencia.",
+      "Mencione el cupón GC149 al llamar o agréguelo a las notas de su reservación.",
       "El precio se aplica a los sistemas residenciales estándar; las unidades adicionales se cotizan por separado.",
     ],
     secondaryPoints: [
@@ -142,7 +143,7 @@ export const PROMOTIONS: Record<
     ],
     faq: [
       {
-        q: "¿Qué incluye la puesta a punto de $99?",
+        q: "¿Qué incluye la puesta a punto de $149?",
         a: "Nuestro técnico realiza una inspección multipunto y una verificación de rendimiento de su sistema. Si encontramos algo que necesite atención, le explicaremos claramente sus opciones antes de realizar cualquier trabajo adicional.",
       },
       {
@@ -150,11 +151,11 @@ export const PROMOTIONS: Record<
         a: "Recomendamos realizar una puesta a punto una o dos veces al año (idealmente antes de la temporada de refrigeración y antes de la temporada de calefacción) para mantener su sistema eficiente y confiable.",
       },
       {
-        q: "¿Los $99 cubren múltiples sistemas?",
-        a: "El precio de $99 se aplica a un sistema residencial estándar. Si tiene unidades adicionales, le proporcionaremos una cotización durante la programación.",
+        q: "¿Cómo obtengo el precio promocional de $149?",
+        a: "Mencione el cupón GC149 al llamar o inclúyalo en las notas de su reservación en línea. El precio regular es $199; el cupón ahorra $50 y aplica a un sistema residencial estándar. Las unidades adicionales se cotizan por separado y la oferta no se combina con otros descuentos.",
       },
     ],
-    ctaPrimary: { label: "Programar mantenimiento de $99", href: scheduleServiceHref("maintenance", "es") },
+    ctaPrimary: { label: "Obtenga la afinación por $149", href: scheduleServiceHref("maintenance", "es") },
     ctaSecondary: {
       label: "Llama al (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,

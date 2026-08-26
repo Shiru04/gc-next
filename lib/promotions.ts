@@ -119,19 +119,20 @@ export const PROMOTIONS: Record<
     key: "tune-ups",
     slug: "/promotions/tune-ups",
     pageTitle: "HVAC Tune-Up",
-    metaTitle: "HVAC Tune-Up in Los Angeles & Orange County | $99 Special",
+    metaTitle: "HVAC Tune-Up in Los Angeles & Orange County | $149 Coupon Special",
     metaDescription:
-      "Keep your HVAC running efficiently with a $99 tune-up from GC Heating & Cooling. Multi-point inspection and seasonal maintenance for Los Angeles & Orange County.",
+      "Get a standard residential HVAC tune-up for $149 with coupon code GC149 from GC Heating & Cooling. Regular price $199. Serving Los Angeles & Orange County.",
     heroKicker: "Seasonal Maintenance",
     heroHeadline: "HVAC Tune-Up — keep your system running at its best",
     heroSubheadline:
       "A seasonal tune-up helps prevent breakdowns, lower energy bills, and extend the life of your system. Serving Los Angeles & Orange County with fast scheduling.",
-    primaryOfferTitle: "Only",
-    primaryOfferValue: "$99 Tune-Up",
+    primaryOfferTitle: "$199 regular price · Save $50 with code GC149",
+    primaryOfferValue: "$149 Tune-Up",
     primaryOfferDetails: [
       "Multi-point inspection of your heating & cooling system.",
       "Performance check to catch small issues before they become costly repairs.",
       "Recommended once or twice a year for best efficiency.",
+      "Mention coupon code GC149 when calling or add it to your booking notes.",
       "Price applies to standard residential systems—additional units quoted separately.",
     ],
     secondaryPoints: [
@@ -142,7 +143,7 @@ export const PROMOTIONS: Record<
     ],
     faq: [
       {
-        q: "What's included in the $99 tune-up?",
+        q: "What's included in the $149 tune-up?",
         a: "Our technician performs a multi-point inspection and performance check on your system. If we find anything that needs attention, we'll explain your options clearly before any additional work.",
       },
       {
@@ -150,11 +151,11 @@ export const PROMOTIONS: Record<
         a: "We recommend a tune-up once or twice a year—ideally before the cooling season and before the heating season—to keep your system efficient and reliable.",
       },
       {
-        q: "Does the $99 cover multiple systems?",
-        a: "The $99 price applies to one standard residential system. If you have additional units, we'll provide a quote for those during scheduling.",
+        q: "How do I get the $149 promotional price?",
+        a: "Mention coupon code GC149 when you call or include it in your online booking notes. The regular price is $199; the coupon saves $50 and applies to one standard residential system. Additional units are quoted separately and the offer cannot be combined with other discounts.",
       },
     ],
-    ctaPrimary: { label: "Schedule Your $99 Tune-Up", href: scheduleServiceHref("maintenance") },
+    ctaPrimary: { label: "Claim the $149 Tune-Up", href: scheduleServiceHref("maintenance") },
     ctaSecondary: {
       label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,

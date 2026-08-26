@@ -71,7 +71,7 @@ export default function TuneUpsPromoPage() {
             <div className="rounded-2xl bg-neutral-950 p-6 text-white">
               <p className="text-sm font-bold">¿Listo para programar su puesta a punto?</p>
               <p className="mt-2 text-sm text-white/85">
-                Reserve en línea ahora o llámenos y encontraremos un horario que funcione.
+                Reserve en línea o llame y mencione el cupón <strong>GC149</strong>.
               </p>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -105,11 +105,11 @@ export default function TuneUpsPromoPage() {
 
         <section className="mt-14 rounded-3xl bg-red-600 px-7 py-10 text-white">
           <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">
-            Afinación de $99: reserve su cita
+            Afinación por $149: use el cupón GC149
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-white/90">
             Mantenga su sistema funcionando de manera eficiente durante toda la temporada. Agenda tu
-            puesta a punto en línea o llámenos.
+            puesta a punto en línea o llámenos. Precio regular $199; ahorre $50 con el cupón.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a
