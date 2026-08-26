@@ -1,6 +1,6 @@
 // lib/promotions.ts
 import { SITE } from "./site";
-import { scheduleServiceHref } from "./scheduling";
+import { customerFlowHref } from "./scheduling";
 export type PromotionKey = "new-installation" | "repairs" | "tune-ups";
 
 export const PROMOTIONS: Record<
@@ -63,7 +63,7 @@ export const PROMOTIONS: Record<
         a: "La programación depende de la demanda y la disponibilidad del equipo. Nuestro objetivo es incluirlo en el calendario lo antes posible, especialmente durante las horas pico de calor.",
       },
     ],
-    ctaPrimary: { label: "Solicitar presupuesto gratuito", href: scheduleServiceHref("installation", "es") },
+    ctaPrimary: { label: "Iniciar mi cotización HVAC gratuita", href: customerFlowHref("installation", "es") },
     ctaSecondary: {
       label: "Llama al (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
@@ -108,7 +108,7 @@ export const PROMOTIONS: Record<
         a: "Sí. Reserve en línea e incluya notas sobre urgencia o llame para obtener la ruta y la disponibilidad más rápidas.",
       },
     ],
-    ctaPrimary: { label: "Programar reparación HVAC", href: scheduleServiceHref("ac_repair", "es") },
+    ctaPrimary: { label: "Programar reparación HVAC", href: customerFlowHref("ac_repair", "es") },
     ctaSecondary: {
       label: "Llama al (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
@@ -155,7 +155,7 @@ export const PROMOTIONS: Record<
         a: "Mencione el cupón GC149 al llamar o inclúyalo en las notas de su reservación en línea. Precio regular $174 — ahorre $25 — ahora $149 para un sistema residencial estándar. Las unidades adicionales se cotizan por separado y la oferta no se combina con otros descuentos.",
       },
     ],
-    ctaPrimary: { label: "Reservar ahora por $149 — Código GC149", href: scheduleServiceHref("maintenance", "es", "GC149") },
+    ctaPrimary: { label: "Reservar ahora por $149 — Código GC149", href: customerFlowHref("maintenance", "es", "GC149") },
     ctaSecondary: {
       label: "Llame y mencione GC149",
       href: `tel:${SITE.phoneE164}`,

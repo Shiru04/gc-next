@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
 import type { Service } from "@/lib/services";
-import { scheduleServiceHref, serviceCtaLabel, serviceIntentFromSlug } from "@/lib/scheduling";
+import { customerFlowHref, serviceCtaLabel, serviceIntentFromSlug } from "@/lib/scheduling";
 
 const SITE_URL = "https://gc-heatingandcooling.com";
 
@@ -16,7 +16,7 @@ export function ServiceDetail({
 }) {
   const hubLabel = basePath === "residential" ? "Residential" : "Commercial";
   const serviceIntent = serviceIntentFromSlug(service.slug);
-  const schedulingHref = scheduleServiceHref(serviceIntent);
+  const schedulingHref = customerFlowHref(serviceIntent);
   const schedulingLabel = serviceCtaLabel(serviceIntent);
 
   const serviceJsonLd = {

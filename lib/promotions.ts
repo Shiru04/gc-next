@@ -1,6 +1,6 @@
 // lib/promotions.ts
 import { SITE } from "./site";
-import { scheduleServiceHref } from "./scheduling";
+import { customerFlowHref } from "./scheduling";
 export type PromotionKey = "new-installation" | "repairs" | "tune-ups";
 
 export const PROMOTIONS: Record<
@@ -63,7 +63,7 @@ export const PROMOTIONS: Record<
         a: "Scheduling depends on demand and equipment availability. Our goal is to get you on the calendar as soon as possible—especially during peak heat.",
       },
     ],
-    ctaPrimary: { label: "Request a Free Installation Estimate", href: scheduleServiceHref("installation") },
+    ctaPrimary: { label: "Start My Free HVAC Quote", href: customerFlowHref("installation") },
     ctaSecondary: {
       label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
@@ -108,7 +108,7 @@ export const PROMOTIONS: Record<
         a: "Yes. Book online and include notes about urgency, or call for the fastest routing and availability.",
       },
     ],
-    ctaPrimary: { label: "Schedule HVAC Repair", href: scheduleServiceHref("ac_repair") },
+    ctaPrimary: { label: "Schedule HVAC Repair", href: customerFlowHref("ac_repair") },
     ctaSecondary: {
       label: "Call (714) 715-9569",
       href: `tel:${SITE.phoneE164}`,
@@ -155,7 +155,7 @@ export const PROMOTIONS: Record<
         a: "Mention coupon code GC149 when you call or include it in your online booking notes. Regularly $174 — save $25 — now $149 for one standard residential system. Additional units are quoted separately and the offer cannot be combined with other discounts.",
       },
     ],
-    ctaPrimary: { label: "Schedule Now $149 — Code GC149", href: scheduleServiceHref("maintenance", "en", "GC149") },
+    ctaPrimary: { label: "Schedule Now $149 — Code GC149", href: customerFlowHref("maintenance", "en", "GC149") },
     ctaSecondary: {
       label: "Call & mention GC149",
       href: `tel:${SITE.phoneE164}`,

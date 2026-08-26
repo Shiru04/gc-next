@@ -1,6 +1,6 @@
-﻿import { randomUUID } from "crypto";
+import { randomUUID } from "crypto";
 import { NextResponse } from "next/server";
-import { validateInstallation } from "@/lib/installation-schema";
+import { validateInstallation, type InstallationInput } from "@/lib/installation-schema";
 export const runtime = "nodejs";
 
 async function verifyTurnstile(token: string) {
@@ -9,39 +9,63 @@ async function verifyTurnstile(token: string) {
   const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: new URLSearchParams({ secret, response: token }), cache: "no-store" });
   return response.ok && Boolean((await response.json() as { success?: boolean }).success);
 }
-async function deliver(url: string | undefined, payload: unknown, authorization?: string) {
+async function deliver(url: string | undefined, payload: unknown, authorization?: string, extraHeaders: Record<string, string> = {}) {
   if (!url) return { skipped: true };
-  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...(authorization ? { Authorization: authorization } : {}) }, body: JSON.stringify(payload), cache: "no-store" });
+  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...(authorization ? { Authorization: authorization } : {}), ...extraHeaders }, body: JSON.stringify(payload), cache: "no-store" });
+  const body = await response.json().catch(() => ({})) as Record<string, unknown>;
   if (!response.ok) throw new Error(`delivery_${response.status}`);
-  return { delivered: true };
+  return { delivered: true, body };
 }
+function value(source: Record<string, unknown>, key: string) {
+  const direct = source[key]; if (typeof direct === "string") return direct;
+  const clickIds = source.clickIds; if (clickIds && typeof clickIds === "object" && typeof (clickIds as Record<string, unknown>)[key] === "string") return (clickIds as Record<string, string>)[key];
+  return undefined;
+}
+function serviceDetails(lead: InstallationInput, leadId: string) {
+  const a = lead.attribution;
+  return [
+    `GC website lead: ${leadId}`, `Project: ${lead.projectType}`, `Comfort needs: ${lead.comfortNeeds.join(", ")}`,
+    `Preferred system: ${lead.systemType}`, `Timeline: ${lead.timeline}`, `Financing: ${lead.financingInterest}`,
+    `Property relationship: ${lead.homeownerStatus}`, `ZIP: ${lead.zipCode}`, `CTA source: ${lead.ctaSource}`,
+    `GCLID: ${value(a, "gclid") || ""}`, `GBRAID: ${value(a, "gbraid") || ""}`, `WBRAID: ${value(a, "wbraid") || ""}`,
+    `UTM source: ${value(a, "utm_source") || value(a, "trafficSource") || "direct"}`, `UTM medium: ${value(a, "utm_medium") || ""}`,
+    `UTM campaign: ${value(a, "utm_campaign") || value(a, "campaign") || ""}`, `UTM content: ${value(a, "utm_content") || ""}`, `UTM term: ${value(a, "utm_term") || ""}`,
+    `Landing page: ${value(a, "landingPage") || value(a, "landingUrl") || ""}`, lead.comments ? `Comments: ${lead.comments}` : "",
+  ].filter(Boolean).join("\n");
+}
+async function createHousecallProLead(lead: InstallationInput, leadId: string, idempotencyKey: string) {
+  if (process.env.HOUSECALL_PRO_MODE !== "api") throw new Error("housecall_pro_api_not_enabled");
+  const apiKey = process.env.HOUSECALL_PRO_API_KEY; const base = process.env.HOUSECALL_PRO_API_BASE_URL || "https://api.housecallpro.com";
+  if (!apiKey) throw new Error("housecall_pro_credentials_missing");
+  const authorization = `Token ${apiKey}`; const headers = { "Idempotency-Key": idempotencyKey };
+  const customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: lead.phone, notifications_enabled: true, addresses: [{ zip: lead.zipCode, type: "service" }] }, authorization, headers);
+  const customerBody = customer.body ?? {}; const customerId = String(customerBody.id || (customerBody.customer as Record<string, unknown> | undefined)?.id || "");
+  if (!customerId) throw new Error("housecall_pro_customer_unconfirmed");
+  const created = await deliver(`${base.replace(/\/$/, "")}/leads`, { customer_id: customerId, source: "GC Website — Free HVAC Quote", message: serviceDetails(lead, leadId), external_id: leadId }, authorization, headers);
+  const createdBody = created.body ?? {}; const providerLeadId = String(createdBody.id || (createdBody.lead as Record<string, unknown> | undefined)?.id || "");
+  if (!providerLeadId) throw new Error("housecall_pro_lead_unconfirmed");
+  return providerLeadId;
+}
+
 export async function POST(request: Request) {
-  let body: unknown;
-  try { body = await request.json(); } catch { return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 }); }
-  const parsed = validateInstallation(body);
-  if (!parsed.success) return NextResponse.json({ ok: false, errors: parsed.errors }, { status: 422 });
-  if (parsed.data.website) return NextResponse.json({ ok: true, leadId: randomUUID() });
+  let body: unknown; try { body = await request.json(); } catch { return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 }); }
+  const parsed = validateInstallation(body); if (!parsed.success) return NextResponse.json({ ok: false, errors: parsed.errors }, { status: 422 });
+  if (parsed.data.website) return NextResponse.json({ ok: true, leadId: randomUUID(), provider: "spam_trap" });
   if (!(await verifyTurnstile(parsed.data.turnstileToken))) return NextResponse.json({ ok: false, error: "verification_failed" }, { status: 403 });
 
-  const leadId = randomUUID();
-  const receivedAt = new Date().toISOString();
-  const lead = { leadId, leadType: "installation", label: "GC â€” Installation Lead", status: "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
-  const endpoint = process.env.OPERATIONS_HUB_FORM_ENDPOINT;
-  const formId = process.env.OPERATIONS_HUB_INSTALLATION_FORM_ID;
+  const leadId = randomUUID(); const receivedAt = new Date().toISOString(); const idempotencyKey = request.headers.get("Idempotency-Key") || leadId;
+  const lead = { leadId, leadType: "installation", label: "GC — Free HVAC Quote Lead", status: "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
+  const endpoint = process.env.OPERATIONS_HUB_FORM_ENDPOINT; const formId = process.env.OPERATIONS_HUB_INSTALLATION_FORM_ID;
   if (!endpoint || !formId) return NextResponse.json({ ok: false, error: "primary_storage_unavailable" }, { status: 503 });
+  try { await deliver(`${endpoint.replace(/\/$/, "")}/${encodeURIComponent(formId)}/submit`, { data: lead }, process.env.OPERATIONS_HUB_API_KEY ? `Bearer ${process.env.OPERATIONS_HUB_API_KEY}` : undefined, { "Idempotency-Key": idempotencyKey }); }
+  catch { return NextResponse.json({ ok: false, error: "primary_storage_failed" }, { status: 502 }); }
 
-  // Durable primary write must succeed before the browser receives a conversion.
-  try {
-    await deliver(`${endpoint.replace(/\/$/, "")}/${encodeURIComponent(formId)}/submit`, { data: lead }, process.env.OPERATIONS_HUB_API_KEY ? `Bearer ${process.env.OPERATIONS_HUB_API_KEY}` : undefined);
-  } catch { return NextResponse.json({ ok: false, error: "primary_storage_failed" }, { status: 502 }); }
-
-  // Downstream failures never erase or reject the primary record.
-  const downstream = await Promise.allSettled([
-    deliver(process.env.INSTALLATION_EMAIL_WEBHOOK_URL, { to: process.env.INSTALLATION_NOTIFICATION_EMAIL, subject: "GC — Installation Lead", lead }, process.env.INSTALLATION_NOTIFICATION_TOKEN ? `Bearer ${process.env.INSTALLATION_NOTIFICATION_TOKEN}` : undefined),
-    deliver(process.env.INSTALLATION_SLACK_WEBHOOK_URL, { text: `GC — Installation Lead\n${lead.firstName} ${lead.lastName}\n${lead.phone} · ${lead.email}\nSystem: ${lead.systemType} · ZIP: ${lead.zipCode} · Timeline: ${lead.timeline}\nSource: ${String(lead.attribution.utm_campaign || lead.attribution.utm_source || lead.attribution.gclid || "direct")}` }),
+  const notification = Promise.allSettled([
+    deliver(process.env.INSTALLATION_EMAIL_WEBHOOK_URL, { to: process.env.INSTALLATION_NOTIFICATION_EMAIL, subject: "GC — Free HVAC Quote Lead", lead }, process.env.INSTALLATION_NOTIFICATION_TOKEN ? `Bearer ${process.env.INSTALLATION_NOTIFICATION_TOKEN}` : undefined),
+    deliver(process.env.INSTALLATION_SLACK_WEBHOOK_URL, { text: `GC — Free HVAC Quote Lead\n${lead.firstName} ${lead.lastName}\n${lead.phone} · ${lead.email}\nProject: ${lead.projectType} · System: ${lead.systemType}\nZIP: ${lead.zipCode} · Timeline: ${lead.timeline}\nSource: ${String(value(lead.attribution, "utm_campaign") || value(lead.attribution, "gclid") || "direct")}` }),
   ]);
-  const deliveryWarnings = downstream.flatMap((result, index) => result.status === "rejected" ? [["email", "slack"][index]] : []);
-  return NextResponse.json({ ok: true, leadId, deliveryWarnings });
+  try {
+    const providerLeadId = await createHousecallProLead(parsed.data, leadId, idempotencyKey); await notification;
+    return NextResponse.json({ ok: true, leadId, provider: "housecall_pro", providerLeadId });
+  } catch { await notification; return NextResponse.json({ ok: false, error: "housecall_pro_unconfirmed", leadId, backupSaved: true }, { status: 502 }); }
 }
-
-
