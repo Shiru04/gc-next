@@ -125,7 +125,7 @@ export const PROMOTIONS: Record<
     heroKicker: "Seasonal Maintenance",
     heroHeadline: "HVAC Tune-Up — keep your system running at its best",
     heroSubheadline:
-      "A seasonal tune-up helps prevent breakdowns, lower energy bills, and extend the life of your system. Serving Los Angeles & Orange County with fast scheduling.",
+      "Regularly $199. Use coupon code GC149 to get a standard residential tune-up for $149. Enter the code automatically when you schedule or mention it when you call.",
     primaryOfferTitle: "$199 regular price · Save $50 with code GC149",
     primaryOfferValue: "$149 Tune-Up",
     primaryOfferDetails: [
@@ -155,9 +155,9 @@ export const PROMOTIONS: Record<
         a: "Mention coupon code GC149 when you call or include it in your online booking notes. The regular price is $199; the coupon saves $50 and applies to one standard residential system. Additional units are quoted separately and the offer cannot be combined with other discounts.",
       },
     ],
-    ctaPrimary: { label: "Claim the $149 Tune-Up", href: scheduleServiceHref("maintenance") },
+    ctaPrimary: { label: "Schedule with code GC149", href: scheduleServiceHref("maintenance", "en", "GC149") },
     ctaSecondary: {
-      label: "Call (714) 715-9569",
+      label: "Call & mention GC149",
       href: `tel:${SITE.phoneE164}`,
     },
   },

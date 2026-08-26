@@ -125,7 +125,7 @@ export const PROMOTIONS: Record<
     heroKicker: "Mantenimiento estacional",
     heroHeadline: "Puesta a punto de HVAC: mantenga su sistema funcionando al máximo",
     heroSubheadline:
-      "Una puesta a punto estacional ayuda a prevenir averías, reducir las facturas de energía y prolongar la vida útil de su sistema. Sirviendo a Los Ángeles y el Condado de Orange con programación rápida.",
+      "Precio regular $199. Use el cupón GC149 para obtener una puesta a punto residencial estándar por $149. El código pasa automáticamente al reservar o puede mencionarlo al llamar.",
     primaryOfferTitle: "Precio regular $199 · Ahorre $50 con GC149",
     primaryOfferValue: "Afinación por $149",
     primaryOfferDetails: [
@@ -155,9 +155,9 @@ export const PROMOTIONS: Record<
         a: "Mencione el cupón GC149 al llamar o inclúyalo en las notas de su reservación en línea. El precio regular es $199; el cupón ahorra $50 y aplica a un sistema residencial estándar. Las unidades adicionales se cotizan por separado y la oferta no se combina con otros descuentos.",
       },
     ],
-    ctaPrimary: { label: "Obtenga la afinación por $149", href: scheduleServiceHref("maintenance", "es") },
+    ctaPrimary: { label: "Reservar con el código GC149", href: scheduleServiceHref("maintenance", "es", "GC149") },
     ctaSecondary: {
-      label: "Llama al (714) 715-9569",
+      label: "Llame y mencione GC149",
       href: `tel:${SITE.phoneE164}`,
     },
   },
