@@ -40,10 +40,13 @@ async function createHousecallProLead(lead: InstallationInput, leadId: string, i
   const apiKey = process.env.HOUSECALL_PRO_API_KEY; const base = process.env.HOUSECALL_PRO_API_BASE_URL || "https://api.housecallpro.com";
   if (!apiKey) throw new Error("housecall_pro_credentials_missing");
   const authorization = `Token ${apiKey}`; const headers = { "Idempotency-Key": idempotencyKey };
-  const customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: lead.phone, notifications_enabled: true, addresses: [{ zip: lead.zipCode, type: "service" }] }, authorization, headers);
+  // HCP requires a complete address object when `addresses` is supplied. The
+  // quote guide only collects ZIP, so omit the partial address and retain ZIP
+  // in the lead note instead of causing a provider-side 400.
+  const customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: lead.phone, notifications_enabled: true, lead_source: "GC Website — Free HVAC Quote" }, authorization, headers);
   const customerBody = customer.body ?? {}; const customerId = String(customerBody.id || (customerBody.customer as Record<string, unknown> | undefined)?.id || "");
   if (!customerId) throw new Error("housecall_pro_customer_unconfirmed");
-  const created = await deliver(`${base.replace(/\/$/, "")}/leads`, { customer_id: customerId, source: "GC Website — Free HVAC Quote", message: serviceDetails(lead, leadId), external_id: leadId }, authorization, headers);
+  const created = await deliver(`${base.replace(/\/$/, "")}/leads`, { customer_id: customerId, lead_source: "GC Website — Free HVAC Quote", note: serviceDetails(lead, leadId) }, authorization, headers);
   const createdBody = created.body ?? {}; const providerLeadId = String(createdBody.id || (createdBody.lead as Record<string, unknown> | undefined)?.id || "");
   if (!providerLeadId) throw new Error("housecall_pro_lead_unconfirmed");
   return providerLeadId;
