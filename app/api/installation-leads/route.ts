@@ -80,7 +80,8 @@ async function createHousecallProLead(lead: InstallationInput, leadId: string, i
   if (!customerId) throw new Error("housecall_pro_customer_unconfirmed");
   let created;
   try {
-    created = await deliver(`${base.replace(/\/$/, "")}/leads`, { customer_id: customerId, lead_source: "GC Website — Free HVAC Quote", note: serviceDetails(lead, leadId) }, authorization, headers);
+    const leadSource = process.env.HOUSECALL_PRO_LEAD_SOURCE?.trim() || "GC Website";
+    created = await deliver(`${base.replace(/\/$/, "")}/leads`, { customer_id: customerId, lead_source: leadSource, note: serviceDetails(lead, leadId) }, authorization, headers);
   } catch (error) {
     throw new Error(`housecall_pro_lead_${error instanceof Error ? error.message : "failed"}`);
   }
