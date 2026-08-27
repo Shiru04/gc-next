@@ -14,7 +14,7 @@ export type InstallationInput = {
 };
 export type InstallationErrors = Partial<Record<keyof InstallationInput, string>>;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const PHONE = /^[+()\d\s.-]{10,24}$/;
+const PHONE = /^\d{10}$/;
 const ZIP = /^\d{5}$/;
 const text = (v: unknown, max: number) => typeof v === "string" ? v.trim().replace(/[\u0000-\u001f\u007f]/g, " ").slice(0, max) : "";
 const oneOf = <T extends readonly string[]>(value: unknown, values: T, fallback: T[number]) => values.includes(value as T[number]) ? value as T[number] : fallback;
@@ -41,7 +41,7 @@ export function validateInstallation(value: unknown): { success: true; data: Ins
   const errors: InstallationErrors = {};
   if (data.firstName.length < 2) errors.firstName = "Enter your first name.";
   if (data.lastName.length < 2) errors.lastName = "Enter your last name.";
-  if (!PHONE.test(data.phone)) errors.phone = "Enter a valid phone number.";
+  if (!PHONE.test(data.phone)) errors.phone = "Enter your 10-digit phone number (digits only).";
   if (!EMAIL.test(data.email)) errors.email = "Enter a valid email address.";
   if (!ZIP.test(data.zipCode)) errors.zipCode = "Enter a five-digit ZIP code.";
   if (!data.comfortNeeds.length) errors.comfortNeeds = "Choose at least one comfort priority.";
