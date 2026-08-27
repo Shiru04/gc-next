@@ -50,8 +50,8 @@ export default function ResidentialPage() {
               <Button href="/es/contacto" variant="primary" size="md">
                 Reserva ahora
               </Button>
-              <Button href="tel:+17147159569" variant="secondary" size="md">
-                Llama al (714) 715-9569
+              <Button href="tel:+15628674123" variant="secondary" size="md">
+                Llama al 562-867-4123
               </Button>
             </div>
 

@@ -65,7 +65,7 @@ export const PROMOTIONS: Record<
     ],
     ctaPrimary: { label: "Iniciar mi cotización HVAC gratuita", href: customerFlowHref("installation", "es") },
     ctaSecondary: {
-      label: "Llama al (714) 715-9569",
+      label: "Llama al 562-867-4123",
       href: `tel:${SITE.phoneE164}`,
     },
   },
@@ -110,7 +110,7 @@ export const PROMOTIONS: Record<
     ],
     ctaPrimary: { label: "Programar reparación HVAC", href: customerFlowHref("ac_repair", "es") },
     ctaSecondary: {
-      label: "Llama al (714) 715-9569",
+      label: "Llama al 562-867-4123",
       href: `tel:${SITE.phoneE164}`,
     },
   },

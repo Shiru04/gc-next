@@ -1,8 +1,8 @@
 // lib/site.ts
 export const SITE = {
   name: "GC Heating & Cooling",
-  phoneDisplay: "(714) 715-9569",
-  phoneE164: "+17147159569",
+  phoneDisplay: "562-867-4123",
+  phoneE164: "+15628674123",
   bookingUrl: "/request-service/",
   address: {
     street: "17777 Center Court Dr, Suite 600",

@@ -1,9 +1,9 @@
 export const BUSINESS = {
   name: "GC Heating & Cooling",
-  phoneDisplay: "(714) 715-9569",
-  phone: "+17147159569",
-  phoneE164: "+17147159569",
-  officePhoneDisplay: "(562) 867-4123",
+  phoneDisplay: "562-867-4123",
+  phone: "+15628674123",
+  phoneE164: "+15628674123",
+  officePhoneDisplay: "562-867-4123",
   officePhoneE164: "+15628674123",
   bookingUrl: "/request-service/",
 

@@ -65,7 +65,7 @@ export const PROMOTIONS: Record<
     ],
     ctaPrimary: { label: "Start My Free HVAC Quote", href: customerFlowHref("installation") },
     ctaSecondary: {
-      label: "Call (714) 715-9569",
+      label: "Call 562-867-4123",
       href: `tel:${SITE.phoneE164}`,
     },
   },
@@ -110,7 +110,7 @@ export const PROMOTIONS: Record<
     ],
     ctaPrimary: { label: "Schedule HVAC Repair", href: customerFlowHref("ac_repair") },
     ctaSecondary: {
-      label: "Call (714) 715-9569",
+      label: "Call 562-867-4123",
       href: `tel:${SITE.phoneE164}`,
     },
   },
