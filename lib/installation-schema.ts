@@ -4,7 +4,7 @@ export const COMFORT_NEEDS = ["uneven_temperatures", "high_energy_bills", "frequ
 export const SYSTEM_TYPES = ["central_ac", "heat_pump", "mini_split", "not_sure"] as const;
 export const TIMELINES = ["asap", "within_30_days", "within_3_months", "researching"] as const;
 export const FINANCING_INTERESTS = ["yes", "no", "maybe"] as const;
-export const SERVICE_REQUEST_TYPES = ["ac_repair", "maintenance"] as const;
+export const SERVICE_REQUEST_TYPES = ["ac_repair", "maintenance", "commercial_repair", "commercial_maintenance", "other"] as const;
 
 export type InstallationInput = {
   firstName: string; lastName: string; phone: string; email: string; zipCode: string;
