@@ -17,7 +17,7 @@ const OPTIONS = {
 function analytics(event: string, values: Record<string, unknown> = {}) { window.dataLayer = window.dataLayer ?? []; window.dataLayer.push({ event, lead_type: "installation", ...values }); }
 
 export function InstallationForm() {
-  const router = useRouter(); const [form, setForm] = useState(EMPTY); const [step, setStep] = useState(0); const [errors, setErrors] = useState<InstallationErrors>({}); const [status, setStatus] = useState<"idle"|"sending"|"error">("idle"); const started = useRef(false); const submitting = useRef(false);
+  const router = useRouter(); const [form, setForm] = useState(EMPTY); const [step, setStep] = useState(0); const [errors, setErrors] = useState<InstallationErrors>({}); const [status, setStatus] = useState<"idle"|"sending"|"error">("idle"); const [errorCode, setErrorCode] = useState<string>(); const started = useRef(false); const submitting = useRef(false);
   useEffect(() => {
     analytics("installation_page_view");
     const source = sessionStorage.getItem("gc_quote_cta_source") || new URLSearchParams(location.search).get("cta_source") || "installation_page";
@@ -38,10 +38,10 @@ export function InstallationForm() {
     try {
       const response = await fetch("/api/installation-leads/", { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": crypto.randomUUID() }, body: JSON.stringify(parsed.data) });
       const result = await response.json() as { ok?: boolean; leadId?: string; provider?: string; providerLeadId?: string; errors?: InstallationErrors };
-      if (!response.ok || !result.ok || !result.leadId || result.provider !== "housecall_pro") { if (result.errors) setErrors(result.errors); throw new Error(); }
+      if (!response.ok || !result.ok || !result.leadId || result.provider !== "housecall_pro") { if (result.errors) setErrors(result.errors); setErrorCode((result as { error?: string }).error || (!response.ok ? `http_${response.status}` : "housecall_pro_unconfirmed")); throw new Error(); }
       sessionStorage.setItem("gc_installation_conversion", JSON.stringify({ leadId: result.leadId, providerLeadId: result.providerLeadId, systemType: form.systemType, projectType: form.projectType, timeline: form.timeline, financingInterest: form.financingInterest, zipCode: form.zipCode, ctaSource: form.ctaSource }));
       router.push(`/thank-you/installation-estimate/?lead=${encodeURIComponent(result.leadId)}`);
-    } catch { submitting.current = false; setStatus("error"); analytics("installation_form_error", { error_type: "housecall_pro_submission", backup_preserved: true }); }
+    } catch { submitting.current = false; setStatus("error"); analytics("installation_form_error", { error_type: errorCode === "primary_storage_unavailable" ? "backup_unavailable" : "housecall_pro_submission", backup_preserved: errorCode !== "primary_storage_unavailable" }); }
   }
   const choice = "flex min-h-14 cursor-pointer items-center gap-3 rounded-xl border-2 border-black/10 p-4 font-semibold transition has-[:checked]:border-brand-red has-[:checked]:bg-red-50";
   const input = "mt-1 min-h-12 w-full rounded-xl border border-black/25 bg-white px-3 py-3 text-base focus:border-brand-red focus:ring-2 focus:ring-brand-red/20";
