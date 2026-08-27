@@ -15,7 +15,14 @@ async function deliver(url: string | undefined, payload: unknown, authorization?
   if (!url) return { skipped: true };
   const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...(authorization ? { Authorization: authorization } : {}), ...extraHeaders }, body: JSON.stringify(payload), cache: "no-store" });
   const body = await response.json().catch(() => ({})) as Record<string, unknown>;
-  if (!response.ok) throw new Error(`delivery_${response.status}`);
+  if (!response.ok) {
+    const providerMessage = typeof body.message === "string"
+      ? body.message
+      : typeof body.error === "string"
+        ? body.error
+        : typeof body.detail === "string" ? body.detail : "";
+    throw new Error(`delivery_${response.status}${providerMessage ? `_${providerMessage.slice(0, 160)}` : ""}`);
+  }
   return { delivered: true, body };
 }
 function value(source: Record<string, unknown>, key: string) {
