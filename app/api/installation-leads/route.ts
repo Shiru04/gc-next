@@ -27,11 +27,16 @@ async function deliver(url: string | undefined, payload: unknown, authorization?
         return [field, message].filter(Boolean).join(": ");
       }).filter(Boolean).join("; ")
       : "";
+    const nestedError = body.error && typeof body.error === "object" ? body.error as Record<string, unknown> : null;
     const providerMessage = providerErrors || (typeof body.message === "string"
       ? body.message
       : typeof body.error === "string"
         ? body.error
-        : typeof body.detail === "string" ? body.detail : "");
+        : typeof nestedError?.message === "string"
+          ? nestedError.message
+          : typeof nestedError?.code === "string"
+            ? nestedError.code
+            : typeof body.detail === "string" ? body.detail : "");
     const shape = Object.keys(body).sort().join(",") || "empty_body";
     throw new Error(`delivery_${response.status}${providerMessage ? `_${providerMessage.slice(0, 160)}` : ""}_body_${shape}`);
   }
