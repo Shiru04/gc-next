@@ -16,11 +16,20 @@ async function deliver(url: string | undefined, payload: unknown, authorization?
   const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...(authorization ? { Authorization: authorization } : {}), ...extraHeaders }, body: JSON.stringify(payload), cache: "no-store" });
   const body = await response.json().catch(() => ({})) as Record<string, unknown>;
   if (!response.ok) {
-    const providerMessage = typeof body.message === "string"
+    const providerErrors = Array.isArray(body.errors)
+      ? body.errors.map((item) => {
+        if (!item || typeof item !== "object") return "";
+        const candidate = item as Record<string, unknown>;
+        const field = typeof candidate.field === "string" ? candidate.field : typeof candidate.path === "string" ? candidate.path : "";
+        const message = typeof candidate.message === "string" ? candidate.message : typeof candidate.detail === "string" ? candidate.detail : "";
+        return [field, message].filter(Boolean).join(": ");
+      }).filter(Boolean).join("; ")
+      : "";
+    const providerMessage = providerErrors || (typeof body.message === "string"
       ? body.message
       : typeof body.error === "string"
         ? body.error
-        : typeof body.detail === "string" ? body.detail : "";
+        : typeof body.detail === "string" ? body.detail : "");
     throw new Error(`delivery_${response.status}${providerMessage ? `_${providerMessage.slice(0, 160)}` : ""}`);
   }
   return { delivered: true, body };
