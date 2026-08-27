@@ -16,7 +16,9 @@ async function deliver(url: string | undefined, payload: unknown, authorization?
   const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...(authorization ? { Authorization: authorization } : {}), ...extraHeaders }, body: JSON.stringify(payload), cache: "no-store" });
   const body = await response.json().catch(() => ({})) as Record<string, unknown>;
   if (!response.ok) {
-    const providerErrors = Array.isArray(body.errors)
+    const providerErrors = Array.isArray(body)
+      ? body.map((item) => typeof item === "string" ? item : item && typeof item === "object" && typeof (item as Record<string, unknown>).message === "string" ? (item as Record<string, string>).message : "").filter(Boolean).join("; ")
+      : Array.isArray(body.errors)
       ? body.errors.map((item) => {
         if (!item || typeof item !== "object") return "";
         const candidate = item as Record<string, unknown>;
@@ -30,7 +32,8 @@ async function deliver(url: string | undefined, payload: unknown, authorization?
       : typeof body.error === "string"
         ? body.error
         : typeof body.detail === "string" ? body.detail : "");
-    throw new Error(`delivery_${response.status}${providerMessage ? `_${providerMessage.slice(0, 160)}` : ""}`);
+    const shape = Object.keys(body).sort().join(",") || "empty_body";
+    throw new Error(`delivery_${response.status}${providerMessage ? `_${providerMessage.slice(0, 160)}` : ""}_body_${shape}`);
   }
   return { delivered: true, body };
 }
