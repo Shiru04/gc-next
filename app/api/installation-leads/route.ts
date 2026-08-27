@@ -5,7 +5,9 @@ export const runtime = "nodejs";
 
 async function verifyTurnstile(token: string) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return process.env.NODE_ENV !== "production";
+  // Preview deployments can be exercised without production CAPTCHA secrets;
+  // Production still requires server-side Turnstile verification.
+  if (!secret) return process.env.VERCEL_ENV !== "production";
   const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: new URLSearchParams({ secret, response: token }), cache: "no-store" });
   return response.ok && Boolean((await response.json() as { success?: boolean }).success);
 }
