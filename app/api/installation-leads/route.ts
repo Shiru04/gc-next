@@ -69,5 +69,16 @@ export async function POST(request: Request) {
   try {
     const providerLeadId = await createHousecallProLead(parsed.data, leadId, idempotencyKey); await notification;
     return NextResponse.json({ ok: true, leadId, provider: "housecall_pro", providerLeadId });
-  } catch { await notification; return NextResponse.json({ ok: false, error: "housecall_pro_unconfirmed", leadId, backupSaved: true }, { status: 502 }); }
+  } catch (error) {
+    // Keep the customer-facing response generic, but retain the provider
+    // failure reason in Vercel logs for integration diagnostics. Never log
+    // credentials or the submitted contact payload.
+    console.error("[installation-leads] Housecall Pro delivery failed", {
+      reason: error instanceof Error ? error.message : "unknown_error",
+      leadId,
+      backupSaved: true,
+    });
+    await notification;
+    return NextResponse.json({ ok: false, error: "housecall_pro_unconfirmed", leadId, backupSaved: true }, { status: 502 });
+  }
 }
