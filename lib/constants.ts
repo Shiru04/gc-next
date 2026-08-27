@@ -5,8 +5,7 @@ export const BUSINESS = {
   phoneE164: "+17147159569",
   officePhoneDisplay: "(562) 867-4123",
   officePhoneE164: "+15628674123",
-  bookingUrl:
-    "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
+  bookingUrl: "/request-service/",
 
   // Keep these (often used in UI)
   addressLine1: "17777 Center Court Dr, Suite 600",
