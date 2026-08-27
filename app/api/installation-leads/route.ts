@@ -50,7 +50,7 @@ function value(source: Record<string, unknown>, key: string) {
 function serviceDetails(lead: InstallationInput, leadId: string) {
   const a = lead.attribution;
   return [
-    `GC website lead: ${leadId}`, `Project: ${lead.projectType}`, `Comfort needs: ${lead.comfortNeeds.join(", ")}`,
+    `GC website lead: ${leadId}`, `Requested service: ${lead.serviceRequestType || "installation quote"}`, `Project: ${lead.projectType}`, `Comfort needs: ${lead.comfortNeeds.join(", ")}`,
     `Preferred system: ${lead.systemType}`, `Timeline: ${lead.timeline}`, `Financing: ${lead.financingInterest}`,
     `Property relationship: ${lead.homeownerStatus}`, `ZIP: ${lead.zipCode}`, `CTA source: ${lead.ctaSource}`,
     `GCLID: ${value(a, "gclid") || ""}`, `GBRAID: ${value(a, "gbraid") || ""}`, `WBRAID: ${value(a, "wbraid") || ""}`,
@@ -101,7 +101,8 @@ export async function POST(request: Request) {
   if (!(await verifyTurnstile(parsed.data.turnstileToken))) return NextResponse.json({ ok: false, error: "verification_failed" }, { status: 403 });
 
   const leadId = randomUUID(); const receivedAt = new Date().toISOString(); const idempotencyKey = request.headers.get("Idempotency-Key") || leadId;
-  const lead = { leadId, leadType: "installation", label: "GC — Free HVAC Quote Lead", status: "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
+  const isServiceRequest = Boolean(parsed.data.serviceRequestType);
+  const lead = { leadId, leadType: isServiceRequest ? "service_request" : "installation", label: isServiceRequest ? "GC — Request Service Lead" : "GC — Free HVAC Quote Lead", status: isServiceRequest ? "new_service_request" : "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
   const endpoint = process.env.OPERATIONS_HUB_FORM_ENDPOINT; const formId = process.env.OPERATIONS_HUB_INSTALLATION_FORM_ID;
   if (!endpoint || !formId) return NextResponse.json({ ok: false, error: "primary_storage_unavailable" }, { status: 503 });
   try { await deliver(`${endpoint.replace(/\/$/, "")}/${encodeURIComponent(formId)}/submit`, { data: lead }, process.env.OPERATIONS_HUB_API_KEY ? `Bearer ${process.env.OPERATIONS_HUB_API_KEY}` : undefined, { "Idempotency-Key": idempotencyKey }); }

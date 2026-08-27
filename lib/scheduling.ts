@@ -19,7 +19,7 @@ export function customerFlowHref(service: ServiceType, locale: "en" | "es" = "en
     const path = locale === "es" ? "/es/residencial/residential-ac-installation/" : "/residential/residential-ac-installation/";
     return `${path}#free-hvac-quote`;
   }
-  if (["ac_repair", "heating_repair", "maintenance"].includes(service)) return housecallProBookingHref(service, coupon);
+  if (["ac_repair", "heating_repair", "maintenance"].includes(service)) return `/request-service/?service=${encodeURIComponent(service === "heating_repair" ? "ac_repair" : service)}`;
   return scheduleServiceHref(service, locale, coupon);
 }
 
