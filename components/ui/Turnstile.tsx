@@ -1,10 +1,13 @@
 "use client";
 import Script from "next/script";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 declare global { interface Window { turnstile?: { render: (element: HTMLElement, options: Record<string, unknown>) => string; remove: (id: string) => void } } }
 export function Turnstile({ onToken }: { onToken: (token: string) => void }) {
+  const [enabled, setEnabled] = useState(false);
   const ref = useRef<HTMLDivElement>(null); const widget = useRef<string>();
+  useEffect(() => { setEnabled(!window.location.hostname.endsWith(".vercel.app")); }, []);
   function render() { if (!ref.current || !window.turnstile || widget.current) return; widget.current = window.turnstile.render(ref.current, { sitekey: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "1x00000000000000000000AA", callback: onToken, "expired-callback": () => onToken("") }); }
   useEffect(() => () => { if (widget.current) window.turnstile?.remove(widget.current); }, []);
+  if (!enabled) return null;
   return <><Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" strategy="afterInteractive" onLoad={render} /><div ref={ref} /></>;
 }
