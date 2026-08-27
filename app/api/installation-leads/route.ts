@@ -72,7 +72,11 @@ async function createHousecallProLead(lead: InstallationInput, leadId: string, i
     // Housecall Pro validates lead_source against the account's configured source
     // list even on customer creation. Keep attribution in the note and avoid
     // failing the customer creation when that account-specific source is absent.
-    customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: lead.phone, notifications_enabled: true }, authorization, headers);
+    const normalizedPhoneDigits = lead.phone.replace(/\D/g, "");
+    const mobileNumber = normalizedPhoneDigits.length === 11 && normalizedPhoneDigits.startsWith("1")
+      ? normalizedPhoneDigits.slice(1)
+      : normalizedPhoneDigits;
+    customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: mobileNumber, notifications_enabled: true }, authorization, headers);
   } catch (error) {
     throw new Error(`housecall_pro_customer_${error instanceof Error ? error.message : "failed"}`);
   }
