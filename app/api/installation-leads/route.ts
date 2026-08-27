@@ -69,7 +69,10 @@ async function createHousecallProLead(lead: InstallationInput, leadId: string, i
   // in the lead note instead of causing a provider-side 400.
   let customer;
   try {
-    customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: lead.phone, notifications_enabled: true, lead_source: "GC Website — Free HVAC Quote" }, authorization, headers);
+    // Housecall Pro validates lead_source against the account's configured source
+    // list even on customer creation. Keep attribution in the note and avoid
+    // failing the customer creation when that account-specific source is absent.
+    customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: lead.phone, notifications_enabled: true }, authorization, headers);
   } catch (error) {
     throw new Error(`housecall_pro_customer_${error instanceof Error ? error.message : "failed"}`);
   }
