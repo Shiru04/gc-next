@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Turnstile } from "@/components/ui/Turnstile";
+import { readStoredAttribution } from "@/lib/attribution";
 
 type Field = "firstName" | "lastName" | "phone" | "email" | "zipCode" | "consent";
 type Errors = Partial<Record<Field, string>>;
@@ -28,10 +29,10 @@ export function ServiceRequestForm({ initialService = "ac_repair", locale = "en"
     if (Object.keys(next).length) { setErrors(next); setStatus("idle"); return; }
     setStatus("sending");
     try {
-      const response = await fetch("/api/installation-leads/", { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": crypto.randomUUID() }, body: JSON.stringify({ ...form, phone: digits, serviceRequestType: service, projectType: "not_sure", comfortNeeds: ["other"], systemType: "not_sure", timeline: "asap", financingInterest: "maybe", turnstileToken: token || "preview-bypass", website: "", attribution: { landingUrl: location.href, referrer: document.referrer, submittedAt: new Date().toISOString() }, ctaSource: "request-service" }) });
+      const response = await fetch("/api/installation-leads/", { method: "POST", headers: { "Content-Type": "application/json", "Idempotency-Key": crypto.randomUUID() }, body: JSON.stringify({ ...form, phone: digits, serviceRequestType: service, projectType: "not_sure", comfortNeeds: ["other"], systemType: "not_sure", timeline: "asap", financingInterest: "maybe", turnstileToken: token || "preview-bypass", website: "", attribution: { ...readStoredAttribution(), landingUrl: location.href, referrer: document.referrer, submittedAt: new Date().toISOString() }, ctaSource: "request-service" }) });
       const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error();
-      window.dataLayer = window.dataLayer ?? []; window.dataLayer.push({ event: "service_request_submit", lead_type: "service_request", service_type: service, lead_id: result.leadId, cta_source: "request-service" });
+      if (!response.ok || !result.ok || result.provider !== "housecall_pro" || !result.leadId) throw new Error();
+      sessionStorage.setItem("gc_service_request_conversion", JSON.stringify({ leadId: result.leadId, providerLeadId: result.providerLeadId, serviceType: service, ctaSource: "request-service" }));
       window.location.href = `/thank-you/installation-estimate/?lead=${encodeURIComponent(result.leadId)}`;
     } catch { setStatus("error"); }
   }

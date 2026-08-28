@@ -16,3 +16,10 @@ export function captureFirstAttribution(consentGranted: boolean): StoredAttribut
     localStorage.setItem(ATTRIBUTION_STORAGE_KEY, JSON.stringify(record)); return record;
   } catch { return null; }
 }
+
+export function readStoredAttribution(): StoredAttribution {
+  try {
+    const value = JSON.parse(localStorage.getItem(ATTRIBUTION_STORAGE_KEY) ?? "{}") as StoredAttribution;
+    return value.expiresAt && value.expiresAt > Date.now() ? value : {} as StoredAttribution;
+  } catch { return {} as StoredAttribution; }
+}

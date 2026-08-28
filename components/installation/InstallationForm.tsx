@@ -7,6 +7,7 @@ import {
   type InstallationErrors,
 } from "@/lib/installation-schema";
 import { INSTALLATION_CONSULTATION_CTA } from "@/lib/consultation";
+import { readStoredAttribution } from "@/lib/attribution";
 
 const EMPTY = {
   firstName: "",
@@ -87,7 +88,7 @@ export function InstallationForm() {
       sessionStorage.getItem("gc_quote_cta_source") ||
       new URLSearchParams(location.search).get("cta_source") ||
       "installation_page";
-    setForm((old) => ({ ...old, ctaSource: source }));
+    setForm((old) => ({ ...old, ctaSource: source, attribution: readStoredAttribution() }));
     const onQuoteClick = (event: MouseEvent) => {
       const element = (
         event.target as HTMLElement | null

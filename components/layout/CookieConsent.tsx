@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import { captureFirstAttribution } from "@/lib/attribution";
 const KEY = "cookieConsent";
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
-  useEffect(() => { setVisible(!localStorage.getItem(KEY)); }, []);
+  useEffect(() => { const consent = localStorage.getItem(KEY); if (consent === "accepted") captureFirstAttribution(true); setVisible(!consent); }, []);
   function choose(value: "accepted" | "denied") {
-    localStorage.setItem(KEY, value);
+    localStorage.setItem(KEY, value); if (value === "accepted") captureFirstAttribution(true);
     window.gtag?.("consent", "update", { ad_storage: value === "accepted" ? "granted" : "denied", analytics_storage: value === "accepted" ? "granted" : "denied", ad_user_data: value === "accepted" ? "granted" : "denied", ad_personalization: value === "accepted" ? "granted" : "denied" });
     window.dispatchEvent(new Event("gc:consent-updated")); setVisible(false);
   }
