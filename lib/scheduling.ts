@@ -1,4 +1,5 @@
 import type { ServiceType } from "@/lib/service-types";
+import { INSTALLATION_CONSULTATION_CTA } from "@/lib/consultation";
 
 const DISPATCH_URL = "https://customer.dispatch.me/booking?account_id=37&org_id=257895";
 
@@ -54,7 +55,7 @@ export function serviceIntentFromSlug(slug: string): ServiceType {
 }
 
 export function serviceCtaLabel(service: ServiceType) {
-  if (service === "installation" || service === "commercial_installation") return "Request a Free Installation Estimate";
+  if (service === "installation" || service === "commercial_installation") return INSTALLATION_CONSULTATION_CTA;
   if (service === "maintenance" || service === "commercial_maintenance") return "Schedule Maintenance";
   return "Schedule HVAC Repair";
 }

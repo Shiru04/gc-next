@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
 import { buildMetadata } from "@/lib/seo";
+import { INSTALLATION_CONSULTATION_CTA, INSTALLATION_CONSULTATION_HREF } from "@/lib/consultation";
 
 export const metadata = buildMetadata({
   title: "Financing | GC Heating & Cooling",
@@ -29,8 +30,12 @@ export default function FinancingPage() {
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
-            <Button href="/schedule-service/?service=installation" variant="primary" size="lg">
-              Request a Free Installation Estimate
+            <Button
+              href={INSTALLATION_CONSULTATION_HREF}
+              variant="primary"
+              size="lg"
+            >
+              {INSTALLATION_CONSULTATION_CTA}
             </Button>
             <Button
               href={`tel:${BUSINESS.phoneE164}`}
