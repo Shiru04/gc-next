@@ -157,14 +157,14 @@ export function MobileMenu({ variant }: { variant: "default" | "landing" }) {
                   href={es ? "/es/programar-servicio/" : "/schedule-service/"}
                   variant="primary"
                   size="md"
-                  ariaLabel={es ? "Solicitar servicio" : "Request service"}
+                  ariaLabel={es ? "Agendar una consulta HVAC gratuita" : "Book a Free HVAC Consultation"}
                   cta={{
                     id: "mobile-menu-schedule",
                     location: "mobile-menu",
                     type: "booking",
                   }}
                 >
-                  {es ? "Solicitar servicio" : "Request Service"}
+                  {es ? "Agendar consulta HVAC gratuita" : "Book Free HVAC Consultation"}
                 </Button>
               </div>
             </nav>

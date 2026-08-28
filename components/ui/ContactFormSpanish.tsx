@@ -28,6 +28,6 @@ export function ContactFormSpanish() {
     <div><label className="flex items-start gap-3"><input id="cf-consent" type="checkbox" checked={form.consent} onChange={(e) => update("consent", e.target.checked)} className="mt-1" /><span className="text-sm">Acepto que GC Heating & Cooling pueda comunicarse conmigo acerca de esta solicitud de servicio. Esto no es un consentimiento de comercialización.</span></label>{error("consent")}</div>
     <Turnstile onToken={(token) => update("turnstileToken", token)} />
     <div aria-live="polite">{status === "error" ? <p className="text-sm font-medium text-red-700">No pudimos enviar su solicitud. Por favor revise los campos o llámenos.</p> : null}</div>
-    <button type="submit" disabled={status === "sending"} className="h-12 w-full rounded-xl bg-brand-red font-semibold text-white disabled:opacity-60">{status === "sending" ? "Enviando…" : "Enviar solicitud de servicio"}</button>
+    <button type="submit" disabled={status === "sending"} className="h-12 w-full rounded-xl bg-brand-red font-semibold text-white disabled:opacity-60">{status === "sending" ? "Enviando…" : "Agendar una consulta HVAC gratuita"}</button>
   </form>;
 }

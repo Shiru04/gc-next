@@ -85,10 +85,10 @@ export function Header(props: { variant?: "default" | "landing" }) {
             href={isSpanish ? "/es/programar-servicio/" : "/schedule-service/"}
             variant="primary"
             size="sm"
-            ariaLabel={isSpanish ? "Solicitar servicio" : "Request service"}
+            ariaLabel={isSpanish ? "Agendar una consulta HVAC gratuita" : "Book a Free HVAC Consultation"}
             cta={{ id: "header-schedule", location: "header", type: "booking" }}
           >
-            {isSpanish ? "Solicitar servicio" : "Request Service"}
+            {isSpanish ? "Agendar consulta HVAC gratuita" : "Book Free HVAC Consultation"}
           </Button>
 
           {/* Mobile menu trigger + drawer */}

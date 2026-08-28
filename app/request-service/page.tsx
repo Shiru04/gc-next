@@ -8,8 +8,8 @@ export default async function RequestServicePage({ searchParams }: { searchParam
   const { service } = await searchParams;
   return <main className="mx-auto max-w-3xl px-4 py-16 sm:py-24">
     <p className="font-bold uppercase tracking-wide text-brand-red">GC Heating &amp; Cooling</p>
-    <h1 className="mt-3 text-4xl font-extrabold">Request Service</h1>
-    <p className="mt-4 max-w-2xl text-lg text-black/70">Tell us what you need and our team will help schedule the right service.</p>
+    <h1 className="mt-3 text-4xl font-extrabold">Book a Free HVAC Consultation</h1>
+    <p className="mt-4 max-w-2xl text-lg text-black/70">Tell us what you need and our team will help confirm the right next step for your HVAC service.</p>
     <aside className="mt-8 rounded-2xl border border-brand-red/25 bg-red-50 p-5 sm:p-6" aria-label="Installation and replacement consultation">
       <p className="font-bold uppercase tracking-wide text-brand-red">Installing or replacing a system?</p>
       <h2 className="mt-2 text-2xl font-extrabold">Request Your Free HVAC Consultation</h2>

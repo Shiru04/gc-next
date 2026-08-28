@@ -28,6 +28,6 @@ export function ContactForm() {
     <div><label className="flex items-start gap-3"><input id="cf-consent" type="checkbox" checked={form.consent} onChange={(e) => update("consent", e.target.checked)} className="mt-1" /><span className="text-sm">I agree that GC Heating & Cooling may contact me about this service request. This is not marketing consent.</span></label>{error("consent")}</div>
     <Turnstile onToken={(token) => update("turnstileToken", token)} />
     <div aria-live="polite">{status === "error" ? <p className="text-sm font-medium text-red-700">We could not send your request. Please review the fields or call us.</p> : null}</div>
-    <button type="submit" disabled={status === "sending"} className="h-12 w-full rounded-xl bg-brand-red font-semibold text-white disabled:opacity-60">{status === "sending" ? "Sending…" : "Send service request"}</button>
+    <button type="submit" disabled={status === "sending"} className="h-12 w-full rounded-xl bg-brand-red font-semibold text-white disabled:opacity-60">{status === "sending" ? "Sending…" : "Book a Free HVAC Consultation"}</button>
   </form>;
 }
