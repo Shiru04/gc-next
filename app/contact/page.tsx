@@ -53,7 +53,7 @@ export default function ContactPage() {
                 Call {BUSINESS.phoneDisplay}
               </Button>
               <Button href="/schedule-service/" variant="primary" size="lg">
-                Schedule Service
+                Request Service
               </Button>
             </div>
 

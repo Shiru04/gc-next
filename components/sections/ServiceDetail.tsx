@@ -175,7 +175,11 @@ export function ServiceDetail({
           <Card className="p-6">
             <h2 className="text-xl font-extrabold">Next steps</h2>
             <p className="mt-2 leading-relaxed text-black/70">
-              Choose the service you need so we can route your request accurately.
+              {serviceIntent === "installation" || serviceIntent === "commercial_installation"
+                ? "Book a free onsite HVAC consultation. We’ll evaluate your space and system needs before preparing options and pricing."
+                : serviceIntent === "maintenance" || serviceIntent === "commercial_maintenance"
+                  ? "Request your maintenance appointment online or call us. We’ll confirm the right time and service for your system."
+                  : "Request an appointment online or call us. A technician will diagnose the issue onsite and explain repair options and pricing before work begins."}
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Button href={schedulingHref} variant="primary" size="md">

@@ -52,8 +52,8 @@ export default function ContactPage() {
               >
                 Llamar {BUSINESS.phoneDisplay}
               </Button>
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-                Reserva ahora
+              <Button href="/es/programar-servicio/" variant="primary" size="lg">
+                Solicitar servicio
               </Button>
             </div>
 
@@ -140,8 +140,8 @@ export default function ContactPage() {
               <Button href="/es/areas-de-servicio" variant="primary" size="lg">
                 Ver áreas de servicio
               </Button>
-              <Button href={BUSINESS.bookingUrl} variant="secondary" size="lg">
-                Reservar consulta in situ
+              <Button href="/es/programar-servicio/" variant="secondary" size="lg">
+                Solicitar servicio
               </Button>
             </div>
           </div>

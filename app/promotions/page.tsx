@@ -42,24 +42,24 @@ export default function PromotionsHubPage() {
             kicker="New Installation"
             title={promoNewInstall.primaryOfferValue}
             description="Replace or install a new HVAC system with a trusted, licensed team. Energy-efficient equipment options available."
-            ctaLabel="View details"
-            ctaHref={promoNewInstall.slug}
+            ctaLabel="Book a Free HVAC Consultation"
+            ctaHref="/residential/residential-ac-installation/#free-hvac-quote"
             highlight="Popular"
           />
           <PromoCard
             kicker="Repairs"
             title={promoRepairs.primaryOfferValue}
             description="Quick diagnosis, straightforward recommendations, and urgent scheduling available. Residential & light commercial."
-            ctaLabel="View details"
-            ctaHref={promoRepairs.slug}
+            ctaLabel="Request HVAC Repair"
+            ctaHref="/schedule-service/?service=ac_repair"
             highlight="Fast Service"
           />
           <PromoCard
             kicker="Tune-Ups"
             title={promoTuneUps.primaryOfferValue}
             description="Regularly $174 — Save $25 — Now $149 with code GC149. Seasonal multi-point tune-up for one standard residential system."
-            ctaLabel="View details"
-            ctaHref={promoTuneUps.slug}
+            ctaLabel="Request a Tune-Up"
+            ctaHref="/schedule-service/?service=maintenance&coupon=GC149"
             highlight="Best Value"
           />
         </div>
@@ -72,8 +72,7 @@ export default function PromotionsHubPage() {
             Not sure which service you need?
           </h2>
           <p className="mt-3 max-w-xl mx-auto text-black/70">
-            Call us or choose the service that best matches your needs. We&apos;ll evaluate your
-            system and recommend the best option.
+            Choose your service to request an appointment. For a new system or replacement, book a free onsite HVAC consultation; we&apos;ll assess your needs before providing pricing.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button
@@ -84,7 +83,7 @@ export default function PromotionsHubPage() {
               Call {BUSINESS.phoneDisplay}
             </Button>
             <Button href="/schedule-service/" variant="primary" size="lg">
-              Choose a Service
+              Request Service
             </Button>
           </div>
         </div>

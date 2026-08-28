@@ -157,14 +157,14 @@ export function MobileMenu({ variant }: { variant: "default" | "landing" }) {
                   href={es ? "/es/programar-servicio/" : "/schedule-service/"}
                   variant="primary"
                   size="md"
-                  ariaLabel={es ? "Programar servicio" : "Schedule service"}
+                  ariaLabel={es ? "Solicitar servicio" : "Request service"}
                   cta={{
                     id: "mobile-menu-schedule",
                     location: "mobile-menu",
                     type: "booking",
                   }}
                 >
-                  {es ? "Programar servicio" : "Schedule Service"}
+                  {es ? "Solicitar servicio" : "Request Service"}
                 </Button>
               </div>
             </nav>

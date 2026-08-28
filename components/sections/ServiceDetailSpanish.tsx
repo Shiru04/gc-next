@@ -175,7 +175,11 @@ export function ServiceDetail({
           <Card className="p-6">
             <h2 className="text-xl font-extrabold">Próximos pasos</h2>
             <p className="mt-2 leading-relaxed text-black/70">
-              Solicite el servicio adecuado para que podamos dirigir su solicitud con precisión.
+              {serviceIntent === "installation" || serviceIntent === "commercial_installation"
+                ? "Agende una consulta HVAC gratuita en sitio. Evaluaremos el espacio y equipo antes de preparar opciones y precios."
+                : serviceIntent === "maintenance" || serviceIntent === "commercial_maintenance"
+                  ? "Solicite su cita de mantenimiento en línea o llámenos. Confirmaremos el horario y servicio adecuados para su sistema."
+                  : "Solicite una cita en línea o llámenos. Un técnico diagnosticará el problema en sitio y explicará las opciones y precios antes de comenzar el trabajo."}
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Button href={schedulingHref} variant="primary" size="md">

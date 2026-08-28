@@ -6,9 +6,11 @@ import { ServiceIcon, iconFromService } from "./ServiceIcon";
 export function ServiceCardGrid({
   services,
   basePath,
+  locale = "en",
 }: {
   services: Service[];
   basePath: "residential" | "commercial";
+  locale?: "en" | "es";
 }) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -31,11 +33,11 @@ export function ServiceCardGrid({
               <p className="mt-2 min-h-[44px] text-sm text-black/70">{s.short}</p>
               <div className="mt-5">
                 <Button
-                  href={`/${basePath}/${s.slug}`}
+                  href={locale === "es" ? `/es/${basePath === "residential" ? "residencial" : "comercial"}/${s.slug}` : `/${basePath}/${s.slug}`}
                   variant="primary"
                   size="md"
                 >
-                  Read more
+                  {locale === "es" ? `Ver ${s.name}` : "Read more"}
                 </Button>
               </div>
             </div>

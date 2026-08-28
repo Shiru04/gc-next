@@ -47,8 +47,8 @@ export default function ResidentialPage() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="/es/contacto" variant="primary" size="md">
-                Reserva ahora
+              <Button href="/es/programar-servicio/" variant="primary" size="md">
+                Solicitar servicio residencial de HVAC
               </Button>
               <Button href="tel:+15628674123" variant="secondary" size="md">
                 Llama al 562-867-4123
@@ -95,6 +95,7 @@ export default function ResidentialPage() {
           <ServiceCardGrid
             services={RESIDENTIAL_SERVICES}
             basePath="residential"
+            locale="es"
           />
         </div>
 

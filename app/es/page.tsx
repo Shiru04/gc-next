@@ -123,7 +123,7 @@ export default async function HomePage() {
             {/* CTAs */}
             <div className="mt-7 flex flex-wrap gap-3">
               <Button
-                href={BUSINESS.bookingUrl}
+                href="/es/programar-servicio/"
                 variant="primary"
                 size="lg"
                 cta={{
@@ -132,7 +132,7 @@ export default async function HomePage() {
                   type: "booking",
                 }}
               >
-                Reservar consulta in situ
+                Solicitar servicio
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
@@ -390,7 +390,7 @@ export default async function HomePage() {
               Llamar {BUSINESS.phoneDisplay}
             </Button>
             <Button
-              href={BUSINESS.bookingUrl}
+              href="/es/programar-servicio/"
               variant="primary"
               size="lg"
               cta={{
@@ -399,7 +399,7 @@ export default async function HomePage() {
                 type: "booking",
               }}
             >
-              Reservar consulta in situ
+                Solicitar servicio
             </Button>
           </div>
         </div>

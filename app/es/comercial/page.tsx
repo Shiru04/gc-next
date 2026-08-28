@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { COMMERCIAL_SERVICES } from "@/lib/services.es";
 import { ServiceCardGrid } from "@/components/sections/ServiceCardGrid";
 import { buildMetadata } from "@/lib/seo";
+import { INSTALLATION_CONSULTATION_HREF_ES } from "@/lib/consultation";
 
 export const metadata = buildMetadata({
   title: "Servicios comerciales de HVAC | Calefacción y refrigeración GC",
@@ -47,8 +48,8 @@ export default function CommercialPage() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="/es/contacto" variant="primary" size="md">
-                Solicitar una cotización
+              <Button href={INSTALLATION_CONSULTATION_HREF_ES} variant="primary" size="md">
+                Agendar una consulta HVAC comercial gratuita
               </Button>
               <Button href="tel:+15628674123" variant="secondary" size="md">
                 Llama al 562-867-4123
@@ -95,6 +96,7 @@ export default function CommercialPage() {
           <ServiceCardGrid
             services={COMMERCIAL_SERVICES}
             basePath="commercial"
+            locale="es"
           />
         </div>
 

@@ -85,10 +85,10 @@ export function Header(props: { variant?: "default" | "landing" }) {
             href={isSpanish ? "/es/programar-servicio/" : "/schedule-service/"}
             variant="primary"
             size="sm"
-            ariaLabel={isSpanish ? "Programar servicio" : "Schedule service"}
+            ariaLabel={isSpanish ? "Solicitar servicio" : "Request service"}
             cta={{ id: "header-schedule", location: "header", type: "booking" }}
           >
-            {isSpanish ? "Programar servicio" : "Schedule Service"}
+            {isSpanish ? "Solicitar servicio" : "Request Service"}
           </Button>
 
           {/* Mobile menu trigger + drawer */}

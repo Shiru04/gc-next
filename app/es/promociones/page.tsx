@@ -39,27 +39,27 @@ export default function PromotionsHubPage() {
       <Section className="bg-brand-gray">
         <div className="grid gap-6 md:grid-cols-2">
           <PromoCard
-            kicker="New Installation"
+            kicker="INSTALACIÓN NUEVA"
             title={promoNewInstall.primaryOfferValue}
             description="Reemplace o instale un nuevo sistema HVAC con un equipo autorizado y confiable. Opciones de equipos energéticamente eficientes disponibles."
-            ctaLabel="Ver detalles"
-            ctaHref={promoNewInstall.slug}
+            ctaLabel="Agendar una consulta HVAC gratuita"
+            ctaHref="/es/residencial/residential-ac-installation/#free-hvac-quote"
             highlight="Popular"
           />
           <PromoCard
-            kicker="Repairs"
+            kicker="REPARACIONES"
             title={promoRepairs.primaryOfferValue}
             description="Diagnóstico rápido, recomendaciones sencillas y programación urgente disponibles. Residencial y comercial ligero."
-            ctaLabel="Ver detalles"
-            ctaHref={promoRepairs.slug}
+            ctaLabel="Solicitar reparación de HVAC"
+            ctaHref="/es/programar-servicio/?service=ac_repair"
             highlight="Fast Service"
           />
           <PromoCard
-            kicker="Tune-Ups"
+            kicker="MANTENIMIENTO"
             title={promoTuneUps.primaryOfferValue}
             description="Precio regular $174 — Ahorre $25 — Ahora $149 con el código GC149. Afinación multipunto para un sistema residencial estándar."
-            ctaLabel="Ver detalles"
-            ctaHref={promoTuneUps.slug}
+            ctaLabel="Solicitar una afinación"
+            ctaHref="/es/programar-servicio/?service=maintenance&coupon=GC149"
             highlight="Best Value"
           />
         </div>
@@ -72,8 +72,7 @@ export default function PromotionsHubPage() {
             ¿No estás seguro de qué servicio necesitas?
           </h2>
           <p className="mt-3 max-w-xl mx-auto text-black/70">
-            Llámenos o reserve una consulta in situ. Evaluaremos tu
-            sistema y recomendar la mejor opción.
+            Elija su servicio para solicitar una cita. Para un sistema nuevo o reemplazo, agende una consulta HVAC gratuita en sitio; evaluaremos sus necesidades antes de proporcionar precios.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button
@@ -83,8 +82,8 @@ export default function PromotionsHubPage() {
             >
               Llamar {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Consulta de libros
+            <Button href="/es/programar-servicio/" variant="primary" size="lg">
+              Solicitar servicio
             </Button>
           </div>
         </div>

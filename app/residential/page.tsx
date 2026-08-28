@@ -47,8 +47,8 @@ export default function ResidentialPage() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="/contact" variant="primary" size="md">
-                Book now
+              <Button href="/schedule-service/" variant="primary" size="md">
+                Request Residential HVAC Service
               </Button>
               <Button href="tel:+15628674123" variant="secondary" size="md">
                 Call 562-867-4123

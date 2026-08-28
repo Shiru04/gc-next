@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { COMMERCIAL_SERVICES } from "@/lib/services";
 import { ServiceCardGrid } from "@/components/sections/ServiceCardGrid";
 import { buildMetadata } from "@/lib/seo";
+import { INSTALLATION_CONSULTATION_HREF } from "@/lib/consultation";
 
 export const metadata = buildMetadata({
   title: "Commercial HVAC Services | GC Heating & Cooling",
@@ -47,8 +48,8 @@ export default function CommercialPage() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href="/contact" variant="primary" size="md">
-                Request a quote
+              <Button href={INSTALLATION_CONSULTATION_HREF} variant="primary" size="md">
+                Book a Free Commercial HVAC Consultation
               </Button>
               <Button href="tel:+15628674123" variant="secondary" size="md">
                 Call 562-867-4123

@@ -132,7 +132,7 @@ export default async function HomePage() {
                   type: "booking",
                 }}
               >
-                Schedule Service
+                Request Service
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
@@ -225,7 +225,7 @@ export default async function HomePage() {
                   Los Angeles &amp; Orange County
                 </div>
                 <div className="mt-2 text-sm text-black/70">
-                  Reliable scheduling. Clear options. Professional workmanship.
+                  Tell us what you need. We’ll help schedule the right service or onsite consultation.
                 </div>
               </div>
             </div>

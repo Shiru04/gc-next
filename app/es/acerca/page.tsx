@@ -136,8 +136,8 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-                Reserva ahora
+              <Button href="/es/programar-servicio/" variant="primary" size="lg">
+                Solicitar servicio
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
@@ -295,11 +295,11 @@ export default function AboutPage() {
                   Llamar {BUSINESS.phoneDisplay}
                 </Button>
                 <Button
-                  href={BUSINESS.bookingUrl}
+                  href="/es/residencial/residential-ac-installation/#free-hvac-quote"
                   variant="secondary"
                   size="lg"
                 >
-                  Consulta de libros
+                  Agendar una consulta HVAC gratuita
                 </Button>
               </div>
             </div>
@@ -339,8 +339,8 @@ export default function AboutPage() {
               de un contratista que trabaja en su hogar.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
-              <Button href={BUSINESS.bookingUrl} variant="primary" size="sm">
-                Reserva ahora
+              <Button href="/es/programar-servicio/" variant="primary" size="sm">
+                Solicitar servicio
               </Button>
               <Button
                 href={`tel:${BUSINESS.phoneE164}`}
@@ -404,8 +404,8 @@ export default function AboutPage() {
             >
               Llamar {BUSINESS.phoneDisplay}
             </Button>
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Reserva ahora
+            <Button href="/es/programar-servicio/" variant="primary" size="lg">
+              Solicitar servicio
             </Button>
           </div>
         </div>
