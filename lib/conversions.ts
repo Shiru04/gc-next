@@ -1,6 +1,6 @@
 "use client";
 import type { ServiceType } from "@/lib/service-types";
-export type ConversionEventName = "schedule_service_click" | "phone_click" | "dispatch_booking_start" | "dispatch_booking_complete" | "housecall_pro_booking_start" | "installation_guide_open" | "contact_form_start" | "contact_form_submit" | "installation_estimate_request" | "financing_click";
+export type ConversionEventName = "schedule_service_click" | "phone_click" | "dispatch_booking_start" | "dispatch_booking_complete" | "housecall_pro_booking_start" | "installation_guide_open" | "installation_consultation_click" | "repair_request_start" | "maintenance_request_start" | "contact_form_start" | "contact_form_submit" | "installation_estimate_request" | "financing_click";
 declare global { interface Window { dataLayer?: Array<Record<string, unknown>>; } }
 const recent = new Map<string, number>();
 export function readAttribution(): { trafficSource?: string; campaign?: string; serviceType?: ServiceType } {
