@@ -103,7 +103,7 @@ export async function POST(request: Request) {
 
   const leadId = randomUUID(); const receivedAt = new Date().toISOString(); const idempotencyKey = request.headers.get("Idempotency-Key") || leadId;
   const isServiceRequest = Boolean(parsed.data.serviceRequestType);
-  const lead = { leadId, leadType: isServiceRequest ? "service_request" : "installation", label: isServiceRequest ? "GC — Request Service Lead" : "GC — Free HVAC Quote Lead", status: isServiceRequest ? "new_service_request" : "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
+  const lead = { leadId, leadType: isServiceRequest ? "service_request" : "installation", label: isServiceRequest ? "GC — Request Service Lead" : "GC — Free HVAC Installation Consultation Lead", status: isServiceRequest ? "new_service_request" : "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
   const endpoint = process.env.OPERATIONS_HUB_FORM_ENDPOINT;
   const formId = isServiceRequest ? process.env.OPERATIONS_HUB_SERVICE_REQUEST_FORM_ID : process.env.OPERATIONS_HUB_INSTALLATION_FORM_ID;
   if (!endpoint || !formId) return NextResponse.json({ ok: false, error: "primary_storage_unavailable" }, { status: 503 });
@@ -111,8 +111,8 @@ export async function POST(request: Request) {
   catch { return NextResponse.json({ ok: false, error: "primary_storage_failed" }, { status: 502 }); }
 
   const notification = Promise.allSettled([
-    deliver(process.env.INSTALLATION_EMAIL_WEBHOOK_URL, { to: process.env.INSTALLATION_NOTIFICATION_EMAIL, subject: "GC — Free HVAC Quote Lead", lead }, process.env.INSTALLATION_NOTIFICATION_TOKEN ? `Bearer ${process.env.INSTALLATION_NOTIFICATION_TOKEN}` : undefined),
-    deliver(process.env.INSTALLATION_SLACK_WEBHOOK_URL, { text: `GC — Free HVAC Quote Lead\n${lead.firstName} ${lead.lastName}\n${lead.phone} · ${lead.email}\nProject: ${lead.projectType} · System: ${lead.systemType}\nZIP: ${lead.zipCode} · Timeline: ${lead.timeline}\nSource: ${String(value(lead.attribution, "utm_campaign") || value(lead.attribution, "gclid") || "direct")}` }),
+    deliver(process.env.INSTALLATION_EMAIL_WEBHOOK_URL, { to: process.env.INSTALLATION_NOTIFICATION_EMAIL, subject: "GC — Free HVAC Installation Consultation Lead", lead }, process.env.INSTALLATION_NOTIFICATION_TOKEN ? `Bearer ${process.env.INSTALLATION_NOTIFICATION_TOKEN}` : undefined),
+    deliver(process.env.INSTALLATION_SLACK_WEBHOOK_URL, { text: `GC — Free HVAC Installation Consultation Lead\n${lead.firstName} ${lead.lastName}\n${lead.phone} · ${lead.email}\nProject: ${lead.projectType} · System: ${lead.systemType}\nZIP: ${lead.zipCode} · Timeline: ${lead.timeline}\nSource: ${String(value(lead.attribution, "utm_campaign") || value(lead.attribution, "gclid") || "direct")}` }),
   ]);
   try {
     const providerLeadId = await createHousecallProLead(parsed.data, leadId, idempotencyKey); await notification;
