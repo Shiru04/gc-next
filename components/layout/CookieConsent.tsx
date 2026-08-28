@@ -2,11 +2,35 @@
 import { useEffect, useState } from "react";
 import { captureFirstAttribution } from "@/lib/attribution";
 const KEY = "cookieConsent";
+
+/** Loads the Google Ads destination only after analytics/ads consent is granted. */
+function initializeGoogleAds(): void {
+  if (typeof window === "undefined" || document.getElementById("gc-google-ads-tag")) return;
+
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || ((...args: any[]) => { window.dataLayer?.push(args as unknown as Record<string, unknown>); });
+  window.gtag("js", new Date());
+  window.gtag("config", "AW-800582055");
+
+  const tag = document.createElement("script");
+  tag.id = "gc-google-ads-tag";
+  tag.async = true;
+  tag.src = "https://www.googletagmanager.com/gtag/js?id=AW-800582055";
+  document.head.appendChild(tag);
+}
+
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
-  useEffect(() => { const consent = localStorage.getItem(KEY); if (consent === "accepted") captureFirstAttribution(true); setVisible(!consent); }, []);
+  useEffect(() => {
+    const consent = localStorage.getItem(KEY);
+    if (consent === "accepted") {
+      captureFirstAttribution(true);
+      initializeGoogleAds();
+    }
+    setVisible(!consent);
+  }, []);
   function choose(value: "accepted" | "denied") {
-    localStorage.setItem(KEY, value); if (value === "accepted") captureFirstAttribution(true);
+    localStorage.setItem(KEY, value); if (value === "accepted") { captureFirstAttribution(true); initializeGoogleAds(); }
     window.gtag?.("consent", "update", { ad_storage: value === "accepted" ? "granted" : "denied", analytics_storage: value === "accepted" ? "granted" : "denied", ad_user_data: value === "accepted" ? "granted" : "denied", ad_personalization: value === "accepted" ? "granted" : "denied" });
     window.dispatchEvent(new Event("gc:consent-updated")); setVisible(false);
   }
