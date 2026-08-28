@@ -59,9 +59,11 @@ export function serviceIntentFromSlug(slug: string): ServiceType {
 
 export function serviceCtaLabel(service: ServiceType, locale: "en" | "es" = "en") {
   if (locale === "es") {
-    if (service === "commercial_installation") return "Agendar una consulta HVAC comercial gratuita";
+    if (service === "commercial_installation") return "Obtener un estimado comercial gratuito";
+    if (service === "installation") return "Obtener un estimado gratuito";
     return "Agendar una consulta HVAC gratuita";
   }
-  if (service === "commercial_installation") return "Book a Free Commercial HVAC Consultation";
+  if (service === "commercial_installation") return "Get a Free Commercial HVAC Estimate";
+  if (service === "installation") return "Get a Free Estimate";
   return "Book a Free HVAC Consultation";
 }
