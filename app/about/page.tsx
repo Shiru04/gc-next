@@ -299,7 +299,7 @@ export default function AboutPage() {
                   variant="secondary"
                   size="lg"
                 >
-                  Book a Free HVAC Consultation
+                  Get a Free Estimate
                 </Button>
               </div>
             </div>

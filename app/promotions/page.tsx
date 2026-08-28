@@ -42,7 +42,7 @@ export default function PromotionsHubPage() {
             kicker="New Installation"
             title={promoNewInstall.primaryOfferValue}
             description="Replace or install a new HVAC system with a trusted, licensed team. Energy-efficient equipment options available."
-            ctaLabel="Book a Free HVAC Consultation"
+            ctaLabel="Get a Free Estimate"
             ctaHref="/residential/residential-ac-installation/#free-hvac-quote"
             highlight="Popular"
           />
@@ -72,7 +72,7 @@ export default function PromotionsHubPage() {
             Not sure which service you need?
           </h2>
           <p className="mt-3 max-w-xl mx-auto text-black/70">
-            Choose your service to request an appointment. For a new system or replacement, book a free onsite HVAC consultation; we&apos;ll assess your needs before providing pricing.
+            Choose your service to request an appointment. For a new system or replacement, get a free onsite estimate; we&apos;ll assess your needs before providing pricing.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button

@@ -203,10 +203,10 @@ export const SERVICES: Service[] = [
     name: "Residential AC Installation & Replacement",
     short:
       "New AC installs and replacements for homes — options for efficiency and financing.",
-    seoTitle: "Free HVAC Installation Consultation in Los Angeles & Orange County",
+    seoTitle: "Free HVAC Installation Estimate in Los Angeles & Orange County",
     seoDescription:
       "Upgrade your home comfort with residential AC installation in LA & OC. GC Heating & Cooling offers free estimates and financing options. Call or book now.",
-    h1: "Free HVAC Installation Consultation for AC Replacement",
+    h1: "Free HVAC Installation Estimate for AC Replacement",
     intro:
       "If your home system struggles to keep up or needs frequent repairs, a replacement can improve comfort and efficiency. We’ll help you choose the right fit.",
     overview: [
@@ -428,10 +428,10 @@ export const SERVICES: Service[] = [
     name: "Commercial HVAC Installation & Replacement",
     short:
       "New installs and replacements for commercial properties — efficient systems sized for your space.",
-    seoTitle: "Free Commercial HVAC Installation Consultation in Los Angeles & Orange County",
+    seoTitle: "Free Commercial HVAC Installation Estimate in Los Angeles & Orange County",
     seoDescription:
-      "Commercial HVAC installation and replacement across LA & OC. Right-sized systems for offices and light commercial. Free onsite consultation.",
-    h1: "Free Commercial HVAC Installation Consultation",
+      "Commercial HVAC installation and replacement across LA & OC. Right-sized systems for offices and light commercial. Free onsite estimate.",
+    h1: "Free Commercial HVAC Installation Estimate",
     intro:
       "If your commercial system is aging, oversized, or no longer efficient, a replacement can lower operating costs and improve comfort. We design for your space and operating hours.",
     overview: [

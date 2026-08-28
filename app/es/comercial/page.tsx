@@ -49,7 +49,7 @@ export default function CommercialPage() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Button href={INSTALLATION_CONSULTATION_HREF_ES} variant="primary" size="md">
-                Agendar una consulta HVAC comercial gratuita
+                Obtener un estimado comercial gratuito
               </Button>
               <Button href="tel:+15628674123" variant="secondary" size="md">
                 Llama al 562-867-4123

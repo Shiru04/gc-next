@@ -299,7 +299,7 @@ export default function AboutPage() {
                   variant="secondary"
                   size="lg"
                 >
-                  Agendar una consulta HVAC gratuita
+                  Obtener un estimado gratuito
                 </Button>
               </div>
             </div>

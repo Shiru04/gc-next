@@ -9,7 +9,7 @@ import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 export const metadata = buildMetadata({
   title: "Contact | GC Heating & Cooling",
   description:
-    "Contact GC Heating & Cooling for HVAC installation, repair, and maintenance across Los Angeles & Orange County. Free estimates available.",
+    "Contact GC Heating & Cooling for HVAC installation, repair, and maintenance across Los Angeles & Orange County. Free HVAC consultations available; free estimates for installation and replacement.",
   path: "/contact",
 });
 

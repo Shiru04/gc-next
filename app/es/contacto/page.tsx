@@ -9,7 +9,7 @@ import { ResponsiveImage } from "@/components/ui/ResponsiveImage";
 export const metadata = buildMetadata({
   title: "Contacto | Calefacción y refrigeración GC",
   description:
-    "Comuníquese con GC Heating & Cooling para la instalación, reparación y mantenimiento de HVAC en Los Ángeles y el condado de Orange. Presupuestos gratuitos disponibles.",
+    "Comuníquese con GC Heating & Cooling para la instalación, reparación y mantenimiento de HVAC en Los Ángeles y el condado de Orange. Consultas HVAC gratuitas; estimados gratuitos para instalación y reemplazo.",
   path: "/es/contacto",
 });
 

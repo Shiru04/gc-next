@@ -49,7 +49,7 @@ export default function CommercialPage() {
 
             <div className="mt-6 flex flex-wrap gap-3">
               <Button href={INSTALLATION_CONSULTATION_HREF} variant="primary" size="md">
-                Book a Free Commercial HVAC Consultation
+                Get a Free Commercial HVAC Estimate
               </Button>
               <Button href="tel:+15628674123" variant="secondary" size="md">
                 Call 562-867-4123

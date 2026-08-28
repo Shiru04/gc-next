@@ -42,7 +42,7 @@ export default function PromotionsHubPage() {
             kicker="INSTALACIÓN NUEVA"
             title={promoNewInstall.primaryOfferValue}
             description="Reemplace o instale un nuevo sistema HVAC con un equipo autorizado y confiable. Opciones de equipos energéticamente eficientes disponibles."
-            ctaLabel="Agendar una consulta HVAC gratuita"
+            ctaLabel="Obtener un estimado gratuito"
             ctaHref="/es/residencial/residential-ac-installation/#free-hvac-quote"
             highlight="Popular"
           />
@@ -72,7 +72,7 @@ export default function PromotionsHubPage() {
             ¿No estás seguro de qué servicio necesitas?
           </h2>
           <p className="mt-3 max-w-xl mx-auto text-black/70">
-            Elija su servicio para solicitar una cita. Para un sistema nuevo o reemplazo, agende una consulta HVAC gratuita en sitio; evaluaremos sus necesidades antes de proporcionar precios.
+            Elija su servicio para solicitar una cita. Para un sistema nuevo o reemplazo, obtenga un estimado gratuito en sitio; evaluaremos sus necesidades antes de proporcionar precios.
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button

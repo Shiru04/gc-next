@@ -70,7 +70,7 @@ export default function ArticlePage() {
             Find the right system for your home
           </h2>
           <p className="mt-3 text-black/70">
-            Get professional sizing plus a free HVAC installation consultation and estimate for
+            Get professional sizing plus a free HVAC installation estimate for
             a mini-split, central AC or heat pump.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
