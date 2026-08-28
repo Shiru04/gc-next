@@ -2,6 +2,7 @@ import { Section } from "@/components/ui/Section";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
+import { INSTALLATION_CONSULTATION_CTA_ES, INSTALLATION_CONSULTATION_HREF_ES } from "@/lib/consultation";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
@@ -29,8 +30,8 @@ export default function FinancingPage() {
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
-            <Button href={BUSINESS.bookingUrl} variant="primary" size="lg">
-              Reservar consulta in situ
+            <Button href={INSTALLATION_CONSULTATION_HREF_ES} variant="primary" size="lg">
+              {INSTALLATION_CONSULTATION_CTA_ES}
             </Button>
             <Button
               href={`tel:${BUSINESS.phoneE164}`}

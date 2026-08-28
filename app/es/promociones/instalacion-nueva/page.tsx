@@ -69,10 +69,9 @@ export default function NewInstallationPromoPage() {
             />
 
             <div className="rounded-2xl bg-neutral-950 p-6 text-white">
-              <p className="text-sm font-bold">¿Listo para programar?</p>
+              <p className="text-sm font-bold">Solicite su consulta HVAC gratuita</p>
               <p className="mt-2 text-sm text-white/85">
-                Reserva online en minutos. Si necesita la ruta más rápida, llame
-                ahora.
+                Obtenga un estimado gratuito de instalación o reemplazo antes de elegir una cita.
               </p>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -106,11 +105,10 @@ export default function NewInstallationPromoPage() {
 
         <section className="mt-14 rounded-3xl bg-red-600 px-7 py-10 text-white">
           <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">
-            Programación prioritaria para Los Ángeles y el condado de Orange
+            Consultas HVAC gratuitas para Los Ángeles y el condado de Orange
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-white/90">
-            Reserva ahora para entrar en el calendario. Confirmaremos disponibilidad y el
-            La mejor ruta de instalación para su hogar.
+            Comience con una consulta y estimado gratuitos. Le recomendaremos la mejor opción de instalación para su hogar.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a

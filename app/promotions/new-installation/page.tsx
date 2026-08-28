@@ -69,10 +69,9 @@ export default function NewInstallationPromoPage() {
             />
 
             <div className="rounded-2xl bg-neutral-950 p-6 text-white">
-              <p className="text-sm font-bold">Ready to schedule?</p>
+              <p className="text-sm font-bold">Request your free HVAC consultation</p>
               <p className="mt-2 text-sm text-white/85">
-                Book online in minutes. If you need the fastest routing, call
-                now.
+                Get a free installation or replacement estimate before choosing an appointment.
               </p>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -106,11 +105,10 @@ export default function NewInstallationPromoPage() {
 
         <section className="mt-14 rounded-3xl bg-red-600 px-7 py-10 text-white">
           <h2 className="text-2xl font-extrabold tracking-tight md:text-3xl">
-            Priority scheduling for Los Angeles & Orange County
+            Free HVAC consultations for Los Angeles & Orange County
           </h2>
           <p className="mt-3 max-w-2xl text-sm text-white/90">
-            Book now to get on the calendar. We’ll confirm availability and the
-            best installation path for your home.
+            Start with a free consultation and estimate. We’ll recommend the best installation path for your home.
           </p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a

@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { BUSINESS } from "@/lib/constants";
 import type { Service } from "@/lib/services.es";
-import { customerFlowHref, serviceIntentFromSlug } from "@/lib/scheduling";
+import { customerFlowHref, serviceCtaLabel, serviceIntentFromSlug } from "@/lib/scheduling";
 
 const SITE_URL = "https://gc-heatingandcooling.com";
 
@@ -15,7 +15,9 @@ export function ServiceDetail({
   basePath: "residential" | "commercial";
 }) {
   const hubLabel = basePath === "residential" ? "Residencial" : "Comercial";
-  const schedulingHref = customerFlowHref(serviceIntentFromSlug(service.slug), "es");
+  const serviceIntent = serviceIntentFromSlug(service.slug);
+  const schedulingHref = customerFlowHref(serviceIntent, "es");
+  const schedulingLabel = serviceCtaLabel(serviceIntent, "es");
 
   const serviceJsonLd = {
     "@context": "https://schema.org",
@@ -86,7 +88,7 @@ export function ServiceDetail({
               Llamar {BUSINESS.phoneDisplay}
             </Button>
             <Button href={schedulingHref} variant="primary" size="lg">
-              Programar servicio
+              {schedulingLabel}
             </Button>
           </div>
         </div>
@@ -173,12 +175,11 @@ export function ServiceDetail({
           <Card className="p-6">
             <h2 className="text-xl font-extrabold">Próximos pasos</h2>
             <p className="mt-2 leading-relaxed text-black/70">
-              Reserve una consulta en el sitio para obtener un diagnóstico preciso, opciones,
-              y recomendaciones claras.
+              Solicite el servicio adecuado para que podamos dirigir su solicitud con precisión.
             </p>
             <div className="mt-5 flex flex-wrap gap-3">
               <Button href={schedulingHref} variant="primary" size="md">
-                Reservar consulta in situ
+                {schedulingLabel}
               </Button>
               <Button href="/es/promociones" variant="secondary" size="md">
                 Ver promociones

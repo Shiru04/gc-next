@@ -1,6 +1,7 @@
 // lib/promotions.ts
 import { SITE } from "./site";
 import { customerFlowHref } from "./scheduling";
+import { INSTALLATION_CONSULTATION_CTA_ES } from "./consultation";
 export type PromotionKey = "new-installation" | "repairs" | "tune-ups";
 
 export const PROMOTIONS: Record<
@@ -31,7 +32,7 @@ export const PROMOTIONS: Record<
       "Nueva instalación de HVAC en Los Ángeles y el condado de Orange | Hasta $2000 de reembolso",
     metaDescription:
       "Reemplace o instale un nuevo sistema HVAC con GC Heating & Cooling. Hasta $2,000 de reembolsos disponibles. Programación rápida para Los Ángeles y el condado de Orange.",
-    heroKicker: "Programación prioritaria",
+    heroKicker: "Consulta HVAC gratuita",
     heroHeadline: "Nueva instalación de HVAC: bien hecha, sin esperas",
     heroSubheadline:
       "Instale o reemplace su sistema con un equipo autorizado, garantizado y asegurado. Sirviendo a Los Ángeles y el Condado de Orange con programación rápida y mano de obra limpia.",
@@ -63,7 +64,7 @@ export const PROMOTIONS: Record<
         a: "La programación depende de la demanda y la disponibilidad del equipo. Nuestro objetivo es incluirlo en el calendario lo antes posible, especialmente durante las horas pico de calor.",
       },
     ],
-    ctaPrimary: { label: "Iniciar mi cotización HVAC gratuita", href: customerFlowHref("installation", "es") },
+    ctaPrimary: { label: INSTALLATION_CONSULTATION_CTA_ES, href: customerFlowHref("installation", "es") },
     ctaSecondary: {
       label: "Llama al 562-867-4123",
       href: `tel:${SITE.phoneE164}`,
