@@ -1,0 +1,7 @@
+import Link from "next/link";
+import type { Locale } from "@/lib/acquisition-content";
+/** Excerpt from Maria Pastrana's Google review already published on GC's Home. */
+export function InstallationProof({ locale = "en" }: { locale?: Locale }) {
+ const es=locale==="es";
+ return <section className="gc-proof gc-wrap"><div><span className="gc-kicker">{es?"UNA EXPERIENCIA DE REEMPLAZO COMPLETO":"A COMPLETE SYSTEM REPLACEMENT"}</span><h2>{es?"Una Decisión Importante Contada Por Una Cliente":"A Big Decision In A Customer’s Words"}</h2><p>{es?"En su reseña de Google, Maria describe un sistema nuevo para su casa adosada, financiamiento, una cotización competitiva y una instalación compleja con apoyo de la oficina.":"In her Google review, Maria describes a new system for her townhome, financing, a competitive quote and a complex installation supported by responsive office staff."}</p></div><figure><blockquote lang={es?"es":"en"}>{es?"“Tuvimos que instalar una unidad completamente nueva en nuestra casa adosada… Pude financiar este proyecto importante con ellos.”":"“We had to get a full new unit in our townhome… I was able to finance this major project with them.”"}</blockquote><figcaption><strong>Maria Pastrana</strong><span>Google · {es?"Reseña de instalación · Extracto traducido":"Installation review · Excerpt"}</span></figcaption><Link className="gc-text-link" href={es?"/es/resenas/":"/reviews/"}>{es?"Ver Reseñas":"Read Customer Reviews"}</Link></figure></section>;
+}

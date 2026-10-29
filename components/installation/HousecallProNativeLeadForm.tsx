@@ -1,4 +1,15 @@
+"use client";
+
+import { useRef } from "react";
+import { sendGoogleEvent } from "@/lib/google-tag";
+
 export function HousecallProNativeLeadForm({ url }: { url: string }) {
+  const started = useRef(false);
+  const handleLoad = () => {
+    if (started.current) return;
+    started.current = true;
+    sendGoogleEvent("housecall_pro_booking_start", { cta_location: "installation_native_form", lead_type: "installation" });
+  };
   return (
     <div>
       <p className="mb-4 text-sm text-black/65">
@@ -12,6 +23,7 @@ export function HousecallProNativeLeadForm({ url }: { url: string }) {
         className="min-h-[760px] w-full rounded-xl border border-black/10"
         loading="eager"
         referrerPolicy="strict-origin-when-cross-origin"
+        onLoad={handleLoad}
       />
     </div>
   );

@@ -30,6 +30,7 @@ async function apiFetch<T>(path: string, fallback: T): Promise<T> {
     const response = await fetch(`${API_URL}${path}`, {
       headers: { "X-Site-Key": SITE_KEY },
       next: { revalidate: REVALIDATE_SECONDS, tags: ["hive-blog"] },
+      signal: AbortSignal.timeout(10000),
     });
     if (!response.ok) {
       console.warn(`[hive-blog] ${response.status} for ${path}`);

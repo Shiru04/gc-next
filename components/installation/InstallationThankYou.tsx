@@ -1,20 +1,35 @@
 "use client";
 import { useEffect } from "react";
+import { sendConfirmedLeadConversion } from "@/lib/google-tag";
 
-declare global { interface Window { gtag?: (...args: any[]) => void; dataLayer?: Array<Record<string, unknown>>; } }
+const sent = new Set<string>();
+const freshConfirmation = (lead: Record<string, unknown>) =>
+  typeof lead.confirmedAt === "number" && Date.now() >= lead.confirmedAt && Date.now() - lead.confirmedAt <= 300000;
 
-const ADS = {
-  installation: "AW-800582055/Ix72CKqVyukcEKfT3_0C",
-  service: "AW-800582055/j7wKCKeVyukcEKfT3_0C",
-} as const;
-
-function fireOnce(kind: keyof typeof ADS, lead: Record<string, unknown>) {
+export function fireOnce(kind: "installation" | "service", lead: Record<string, unknown>): boolean {
   const leadId = typeof lead.leadId === "string" ? lead.leadId : "";
-  if (!leadId) return;
-  const key = `gc_google_ads_conversion_${kind}_${leadId}`;
-  if (localStorage.getItem(key)) return;
-  localStorage.setItem(key, "1");
-  window.gtag?.("event", "conversion", { send_to: ADS[kind], value: 1.0, currency: "USD" });
+  if (!/^[0-9a-f-]{36}$/i.test(leadId) || typeof lead.providerLeadId !== "string" || !lead.providerLeadId) return false;
+  const key = `gc_success_conversion_${kind}_${leadId}`;
+  if (sent.has(key)) return true;
+  try { if (localStorage.getItem(key)) return true; } catch {}
+  const parameters = kind === "installation" ? {
+      lead_type: "installation",
+      request_id: leadId,
+      system_type: lead.systemType,
+      project_type: lead.projectType,
+      timeline: lead.timeline,
+      financing_interest: lead.financingInterest,
+      source: "free_hvac_quote_guide",
+      cta_location: "installation_page",
+    } : {
+      lead_type: "service_request",
+      service_type: lead.serviceType,
+      cta_location: lead.ctaSource,
+    };
+  if (!sendConfirmedLeadConversion(kind, leadId, parameters)) return false;
+  sent.add(key);
+  try { localStorage.setItem(key, "1"); } catch {}
+  return true;
 }
 
 export function InstallationThankYou() {
@@ -23,20 +38,20 @@ export function InstallationThankYou() {
       const installation = sessionStorage.getItem("gc_installation_conversion");
       if (installation) {
         const lead = JSON.parse(installation) as Record<string, unknown>;
-        window.dataLayer = window.dataLayer ?? [];
-        window.dataLayer.push({ event: "installation_lead_submit", lead_type: "installation", internal_lead_id: lead.leadId, housecall_pro_lead_id: lead.providerLeadId, system_type: lead.systemType, project_type: lead.projectType, timeline: lead.timeline, financing_interest: lead.financingInterest, zip_code: lead.zipCode, source: "free_hvac_quote_guide", cta_source: lead.ctaSource });
-        fireOnce("installation", lead);
-        sessionStorage.removeItem("gc_installation_conversion");
+        const expectedLead = new URLSearchParams(location.search).get("lead");
+        if (lead.leadId === expectedLead && freshConfirmation(lead)) fireOnce("installation", lead);
         return;
       }
       const service = sessionStorage.getItem("gc_service_request_conversion");
       if (!service) return;
+      const expectedLead = new URLSearchParams(location.search).get("lead");
       const lead = JSON.parse(service) as Record<string, unknown>;
-      window.dataLayer = window.dataLayer ?? [];
-      window.dataLayer.push({ event: "service_request_submit", lead_type: "service_request", service_type: lead.serviceType, internal_lead_id: lead.leadId, housecall_pro_lead_id: lead.providerLeadId, cta_source: lead.ctaSource });
-      fireOnce("service", lead);
-      sessionStorage.removeItem("gc_service_request_conversion");
-    } catch {}
+      if (lead.leadId === expectedLead && freshConfirmation(lead)) fireOnce("service", lead);
+    } catch {} finally {
+      try {
+        for (const key of ["gc_installation_conversion", "gc_installation_submission_id", "gc_service_request_conversion", "gc_service_request_submission_id"]) sessionStorage.removeItem(key);
+      } catch {}
+    }
   }, []);
   return null;
 }

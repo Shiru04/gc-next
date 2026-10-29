@@ -1,0 +1,9 @@
+tmp/
+.env*
+public.zip
+docs/qa-redesign/
+.claude/
+docs/
+README*
+.translation-cache.json
+tsconfig.tsbuildinfo

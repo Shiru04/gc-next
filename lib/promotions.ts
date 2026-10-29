@@ -28,18 +28,15 @@ export const PROMOTIONS: Record<
     key: "new-installation",
     slug: "/promotions/new-installation",
     pageTitle: "New HVAC Installation",
-    metaTitle:
-      "New HVAC Installation in Los Angeles & Orange County | Up to $2,000 Rebates",
-    metaDescription:
-      "Replace or install a new HVAC system with GC Heating & Cooling. Up to $2,000 rebates available. Fast scheduling for Los Angeles & Orange County.",
+    metaTitle: "Free HVAC Installation Estimate | Los Angeles & Orange County",
+    metaDescription: "Request a free written estimate to install or replace your HVAC system. Ask about financing options and potential incentives.",
     heroKicker: "Free HVAC Installation Estimate",
-    heroHeadline: "New HVAC Installation — done right, without the wait",
-    heroSubheadline:
-      "Install or replace your system with a licensed, bonded & insured team. Serving Los Angeles & Orange County with fast scheduling and clean workmanship.",
-    primaryOfferTitle: "Up to",
-    primaryOfferValue: "$2,000 Rebates",
+    heroHeadline: "HVAC installation: clear options for your property",
+    heroSubheadline: "Install or replace your system with GC Heating & Cooling. Serving Los Angeles and Orange County.",
+    primaryOfferTitle: "Installation & Replacement",
+    primaryOfferValue: "Free Written Estimate",
     primaryOfferDetails: [
-      "Equipment starting at $6,800 (installation quoted separately).",
+      "Equipment and installation are quoted for your project.",
       "Rebates vary by equipment and program availability.",
       "Final rebate amount is confirmed during your consultation.",
       "We’ll help you choose the best option for comfort and efficiency.",

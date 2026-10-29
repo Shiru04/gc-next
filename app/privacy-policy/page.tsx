@@ -12,7 +12,7 @@ export const metadata = buildMetadata({
 });
 
 const CONTACT_EMAIL = "info@gc-heatingandcooling.com";
-const EFFECTIVE_DATE = "May 29, 2026";
+const EFFECTIVE_DATE = "October 29, 2026";
 
 function H2({ children }: { children: React.ReactNode }) {
   return (
@@ -143,9 +143,16 @@ export default function PrivacyPolicyPage() {
             <P>
               Our website uses cookies and similar technologies to operate the
               site, remember preferences, measure traffic, and support
-              advertising. You can control cookies through your browser
-              settings, and where required by law, through our cookie consent
-              banner.
+              advertising. Analytics and limited advertising measurement are
+              enabled by default. You can opt out at any time through the
+              &ldquo;Your Privacy Choices&rdquo; control in the footer. We honor
+              supported Global Privacy Control signals as an opt-out.
+            </P>
+            <P>
+              Advertising personalization is disabled. If you opt out or send
+              a supported Global Privacy Control signal, we stop sending
+              analytics and advertising conversion events from this website.
+              We still process any service request you choose to submit.
             </P>
             <P>
               Third-party services we currently use may include:
@@ -161,8 +168,10 @@ export default function PrivacyPolicyPage() {
                 performance and reach relevant audiences on Meta platforms.
               </li>
               <li>
-                <strong>Dispatch (dispatch.me)</strong> — to power our online
-                booking and scheduling experience.
+                <strong>Hotjar</strong> - to understand site navigation through heatmaps and session recordings. Hotjar loads only after you choose to keep measurement and does not load when Global Privacy Control is active. Form fields and their contents are masked from recordings.
+              </li>
+              <li>
+                <strong>Housecall Pro</strong> - to receive service requests and manage customer scheduling.
               </li>
             </UL>
             <P>
@@ -257,10 +266,11 @@ export default function PrivacyPolicyPage() {
               </li>
             </UL>
             <P>
-              To exercise these rights, please contact us using the information
-              below. We may need to verify your identity before responding.
-              Authorized agents may submit requests on your behalf with proper
-              written authorization.
+              To opt out of analytics and advertising storage, use &ldquo;Your
+              Privacy Choices&rdquo; in the footer. You may also contact us using
+              the information below to exercise other rights. We may need to
+              verify your identity before responding. Authorized agents may
+              submit requests on your behalf with proper written authorization.
             </P>
 
             <H2>9. Children&apos;s Privacy</H2>

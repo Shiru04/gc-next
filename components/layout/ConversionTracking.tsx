@@ -44,7 +44,7 @@ function resolveLocation(el: HTMLElement): string {
   return pageSlug();
 }
 
-/** "/residential/ac-repair/" → "residential-ac-repair"; "/" → "home". */
+/** "/residential/ac-repair/" "residential-ac-repair"; "/" "home". */
 function pageSlug(): string {
   const path = window.location.pathname.replace(/^\/+|\/+$/g, "");
   return path ? slugifyCta(path) : "home";

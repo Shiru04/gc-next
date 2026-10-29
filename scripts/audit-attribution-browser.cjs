@@ -1,0 +1,63 @@
+const { chromium, devices } = require('../tmp/tracking-browser/node_modules/playwright');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = '/residential/residential-ac-installation/';
+const params = 'gclid=TEST_ONLY_GC_20260910&gbraid=TEST_GBRAID&wbraid=TEST_WBRAID&utm_source=qa&utm_medium=validation&utm_campaign=gc_installation_qa&utm_content=desktop_mobile&utm_term=synthetic&test_event=true';
+(async () => {
+ const browser = await chromium.launch({channel:'chrome', headless:true});
+ const report = {simulated:true, note:'Local browser: Google and HCP requests intercepted. Not DebugView, Tag Assistant or real HCP evidence.', results:[]};
+ try {
+ for(const device of ['desktop','mobile']) {
+  const context = await browser.newContext(device === 'mobile' ? devices['iPhone 13'] : {viewport:{width:1440,height:1000}});
+  await context.route(/google-analytics\.com|googletagmanager\.com|googleadservices\.com|doubleclick\.net/, r => r.fulfill({status:200,contentType:'application/javascript',body:''}));
+  await context.route('**/challenges.cloudflare.com/**', r => r.fulfill({status:200,contentType:'application/javascript',body:'window.turnstile={render:(element,options)=>{setTimeout(()=>options.callback("synthetic-token"),10);return "qa-widget"},remove:()=>{}};'}));
+  const page = await context.newPage();
+  const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  let fail = true, submitted;
+  const leadId = device==='desktop' ? '12345678-1234-4234-8234-123456789012' : '22345678-1234-4234-8234-123456789012';
+  await page.route('**/api/installation-leads/', async r => {submitted=r.request().postDataJSON();await r.fulfill({status:fail?503:200,contentType:'application/json',body:JSON.stringify(fail?{ok:false,error:'hcp_unavailable',error_stage:'hcp'}:{ok:true,leadId,providerLeadId:'mock-hcp-'+device,provider:'housecall_pro'})});});
+  await page.goto('http://localhost:3100'+path+'?'+params+'#free-hvac-quote');
+  await page.getByRole('button',{name:'Accept analytics and advertising',exact:true}).waitFor();
+  const entries=()=>page.evaluate(()=>Array.from(window.dataLayer||[],x=>Array.from(x)));
+  let events=await entries();
+  assert.equal(events.some(e=>e[0]==='event'),false);
+  assert.equal(await page.locator('#google-tag').count(),0);
+  assert.equal(new URL(page.url()).searchParams.get('gclid'),'TEST_ONLY_GC_20260910');
+  await page.getByRole('button',{name:'Accept analytics and advertising',exact:true}).click();
+  await page.waitForFunction(()=>Array.from(window.dataLayer||[]).some(e=>e[1]==='installation_page_view'));
+  assert.equal(await page.locator('#google-tag').count(),1);
+  await page.getByRole('button',{name:'Continue',exact:true}).click();
+  await page.getByLabel('High energy bills',{exact:true}).check();
+  await page.getByRole('button',{name:'Continue',exact:true}).click();
+  await page.getByRole('button',{name:'Continue',exact:true}).click();
+  await page.getByRole('button',{name:'Continue',exact:true}).click();
+  for (const [id,value] of Object.entries({firstName:'Synthetic',lastName:'Validation',phone:'2025550100',email:'qa@example.invalid',zipCode:'90703'})) await page.locator('#if-'+id).fill(value);
+  await page.locator('#if-consent').focus();
+  await page.locator('#if-consent').press('Space');
+  await page.locator('form button[type=submit]').click();
+  await page.getByRole('button',{name:'Try again',exact:true}).waitFor();
+  events=await entries();assert.equal(events.filter(e=>e[1]==='conversion').length,0);
+  assert.equal(events.filter(e=>e[1]==='installation_lead_submit').length,0);
+  fail=false;await page.getByRole('button',{name:'Try again',exact:true}).click();
+  await page.waitForURL('**/thank-you/installation-estimate/**');
+  events=await entries();
+  for(const event of ['installation_page_view','installation_guide_open','installation_form_start','installation_contact_step_view','installation_lead_submit','conversion']) assert.equal(events.filter(e=>e[1]===event).length,1,event);
+  assert.equal(events.some(e=>e[1]==='service_request_submit'),false);
+  assert.equal(events.find(e=>e[1]==='conversion')[2].send_to,'AW-800582055/Ix72CKqVyukcEKfT3_0C');
+  assert.equal(submitted.attribution.firstTouch.gclid,'TEST_ONLY_GC_20260910');
+  assert.ok(submitted.attribution.firstTouch.timestamp);
+  const serialized=JSON.stringify(events); for(const pii of ['qa@example.invalid','2025550100','Synthetic','Validation','90703']) assert.equal(serialized.includes(pii),false,pii);
+  await page.reload();await page.getByRole('button',{name:'Cookie settings',exact:true}).waitFor();
+  let reloaded=await entries();assert.equal(reloaded.some(e=>['conversion','installation_lead_submit'].includes(e[1])),false);
+  await page.goto('http://localhost:3100'+path);
+  await page.waitForFunction(()=>Array.from(window.dataLayer||[]).some(e=>e[1]==='installation_page_view'));
+  const cookies=await context.cookies();const touch=JSON.parse(decodeURIComponent(cookies.find(c=>c.name==='gc_attribution_latest').value));assert.equal(touch.gclid,'TEST_ONLY_GC_20260910');
+  assert.equal(errors.length,0,errors.join('\n'));
+  report.results.push({device,passed:true,leadId,providerLeadId:'mock-hcp-'+device,attribution:submitted.attribution,events});
+  await page.screenshot({path:'docs/attribution-local-'+device+'.png',fullPage:false});
+  await context.close();
+ }
+ fs.writeFileSync('docs/attribution-browser-2026-09-10.json',JSON.stringify(report,null,2)+'\n');
+ console.log('PASS desktop/mobile: consent, URL, funnel, mocked HCP failure/success, conversion once, reload, return visit, no form PII.');
+ }finally{await browser.close();}
+})().catch(e=>{console.error(e);process.exitCode=1});

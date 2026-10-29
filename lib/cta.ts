@@ -73,7 +73,7 @@ export const META_EVENTS: Partial<Record<CtaType, string>> = {
 export function inferCtaType(href: string): CtaType | null {
   if (!href) return null;
   if (href.startsWith("tel:")) return "phone";
-  if (href.includes("dispatch.me")) return "booking";
+  if (href.includes("dispatch.me") || /housecallpro\.com|housecall\.pro/i.test(href)) return "booking";
   if (href.startsWith("mailto:")) return "contact";
 
   // Solo miramos el path para no confundirnos con querystrings.

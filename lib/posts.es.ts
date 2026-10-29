@@ -76,16 +76,16 @@ export const POSTS: Post[] = [
       },
     ],
     related: [
-      { href: "/residencial/reparacion-de-aire-acondicionado-residencial", label: "Reparación de aire acondicionado" },
+      { href: "/es/residencial/residential-ac-repair", label: "Reparación de aire acondicionado" },
       {
-        href: "/residencial/mantenimiento-climatizacion-residencial",
+        href: "/es/residencial/residential-hvac-maintenance",
         label: "Mantenimiento de climatización",
       },
       {
-        href: "/residencial/instalacion-ac-residencial",
+        href: "/es/residencial/residential-ac-installation",
         label: "Instalación de CA",
       },
-      { href: "/promociones", label: "Promociones actuales" },
+      { href: "/es/promociones", label: "Promociones actuales" },
     ],
   },
   {
@@ -145,13 +145,13 @@ export const POSTS: Post[] = [
     ],
     related: [
       {
-        href: "/residencial/mantenimiento-climatizacion-residencial",
+        href: "/es/residencial/residential-hvac-maintenance",
         label: "Mantenimiento de climatización",
       },
       { href: "/es/promociones/mantenimiento", label: "Ahorre $25 — Afinación ahora $149" },
-      { href: "/residencial/reparacion-de-aire-acondicionado-residencial", label: "Reparación de aire acondicionado" },
+      { href: "/es/residencial/residential-ac-repair", label: "Reparación de aire acondicionado" },
       {
-        href: "/residencial/aislamiento-ático-residencial",
+        href: "/es/residencial/residential-attic-insulation",
         label: "Aislamiento del ático",
       },
     ],

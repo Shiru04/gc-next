@@ -1,3 +1,5 @@
+import { APPROVED_SERVICE_AREAS } from "./service-area-coverage";
+
 export type ServiceArea = {
   slug: string;
   name: string;
@@ -7,7 +9,8 @@ export type ServiceArea = {
   intro: string;
 };
 
-export const SERVICE_AREAS: ServiceArea[] = [
+const SERVICE_AREA_CATALOG: ServiceArea[] = [
+  ...["Cerritos", "Lakewood", "Bellflower"].map(name => ({ slug: name.toLowerCase()+"-ca", name: name+", CA", county: "Los Angeles County" as const, seoTitle: "HVAC en "+name+", CA | GC Heating & Cooling", seoDescription: "Instalación, reparación y mantenimiento HVAC en "+name+". Llame al 562-867-4123.", intro: "GC Heating & Cooling atiende hogares y negocios en "+name+" desde Cerritos." })),
   // -------------------------
   // ORANGE COUNTY
   // -------------------------
@@ -369,6 +372,15 @@ export const SERVICE_AREAS: ServiceArea[] = [
     intro: "Servicio HVAC de Redondo Beach para reparaciones, puestas a punto y actualizaciones del sistema rápidas.",
   },
 ];
+
+export const SERVICE_AREAS: ServiceArea[] = APPROVED_SERVICE_AREAS.map((approved) =>
+  SERVICE_AREA_CATALOG.find((area) => area.slug === approved.slug) ?? {
+    ...approved,
+    seoTitle: `HVAC en ${approved.name} | GC Heating & Cooling`,
+    seoDescription: `Reparación, mantenimiento e instalación de HVAC en ${approved.name}. Llame a GC al 562-867-4123.`,
+    intro: `GC Heating & Cooling atiende hogares y negocios en ${approved.name}.`,
+  },
+);
 
 export function getAreaBySlug(slug: string) {
   return SERVICE_AREAS.find((a) => a.slug === slug);

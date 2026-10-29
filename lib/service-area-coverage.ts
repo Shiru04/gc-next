@@ -1,0 +1,85 @@
+export type ApprovedServiceArea = {
+  slug: string;
+  name: string;
+  county: "Los Angeles County" | "Orange County";
+};
+
+const approvedCoverage: Array<[
+  string,
+  ApprovedServiceArea["county"],
+]> = [
+  ["Anaheim", "Orange County"],
+  ["Buena Park", "Orange County"],
+  ["Orange", "Orange County"],
+  ["Santa Ana", "Orange County"],
+  ["Tustin", "Orange County"],
+  ["North Tustin", "Orange County"],
+  ["Irvine", "Orange County"],
+  ["Newport Beach", "Orange County"],
+  ["Laguna Beach", "Orange County"],
+  ["Costa Mesa", "Orange County"],
+  ["Huntington Beach", "Orange County"],
+  ["Fountain Valley", "Orange County"],
+  ["Villa Park", "Orange County"],
+  ["Yorba Linda", "Orange County"],
+  ["Brea", "Orange County"],
+  ["La Habra", "Orange County"],
+  ["Whittier", "Los Angeles County"],
+  ["La Mirada", "Los Angeles County"],
+  ["Rowland Heights", "Los Angeles County"],
+  ["Hacienda Heights", "Los Angeles County"],
+  ["La Puente", "Los Angeles County"],
+  ["West Covina", "Los Angeles County"],
+  ["El Monte", "Los Angeles County"],
+  ["Monterey Park", "Los Angeles County"],
+  ["Montebello", "Los Angeles County"],
+  ["Pico Rivera", "Los Angeles County"],
+  ["Santa Fe Springs", "Los Angeles County"],
+  ["Norwalk", "Los Angeles County"],
+  ["Cerritos", "Los Angeles County"],
+  ["Hawaiian Gardens", "Los Angeles County"],
+  ["Cypress", "Orange County"],
+  ["La Palma", "Orange County"],
+  ["Stanton", "Orange County"],
+  ["Westminster", "Orange County"],
+  ["Garden Grove", "Orange County"],
+  ["Fullerton", "Orange County"],
+  ["Placentia", "Orange County"],
+  ["Seal Beach", "Orange County"],
+  ["Los Alamitos", "Orange County"],
+  ["Long Beach", "Los Angeles County"],
+  ["Signal Hill", "Los Angeles County"],
+  ["Bellflower", "Los Angeles County"],
+  ["Lakewood", "Los Angeles County"],
+  ["Artesia", "Los Angeles County"],
+  ["Downey", "Los Angeles County"],
+  ["Paramount", "Los Angeles County"],
+  ["Lynwood", "Los Angeles County"],
+  ["Compton", "Los Angeles County"],
+  ["Bell Gardens", "Los Angeles County"],
+  ["Commerce", "Los Angeles County"],
+  ["Maywood", "Los Angeles County"],
+  ["Huntington Park", "Los Angeles County"],
+  ["South Gate", "Los Angeles County"],
+  ["Inglewood", "Los Angeles County"],
+  ["Manhattan Beach", "Los Angeles County"],
+  ["Hermosa Beach", "Los Angeles County"],
+  ["Marina del Rey", "Los Angeles County"],
+  ["Redondo Beach", "Los Angeles County"],
+  ["Torrance", "Los Angeles County"],
+  ["Palos Verdes Estates", "Los Angeles County"],
+  ["Rancho Palos Verdes", "Los Angeles County"],
+  ["Lomita", "Los Angeles County"],
+  ["Rolling Hills Estates", "Los Angeles County"],
+  ["Carson", "Los Angeles County"],
+  ["Gardena", "Los Angeles County"],
+  ["Hawthorne", "Los Angeles County"],
+];
+
+function slugify(name: string) {
+  return `${name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}-ca`;
+}
+
+export const APPROVED_SERVICE_AREAS: ApprovedServiceArea[] = approvedCoverage.map(
+  ([name, county]) => ({ name: `${name}, CA`, slug: slugify(name), county }),
+);

@@ -1,132 +1,66 @@
-import { randomUUID } from "crypto";
-import { NextResponse } from "next/server";
-import { validateInstallation, type InstallationInput } from "@/lib/installation-schema";
+import { NextRequest, NextResponse } from "next/server";
+import { validateInstallation } from "@/lib/installation-schema";
+import { deliverOnce, leadFingerprint, LeadDeliveryError, ProviderRejection, redisDeliveryStore } from "@/lib/lead-delivery";
 export const runtime = "nodejs";
 
-async function verifyTurnstile(token: string) {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  // Preview deployments can be exercised without production CAPTCHA secrets;
-  // Production still requires server-side Turnstile verification.
-  if (!secret) return process.env.VERCEL_ENV !== "production";
-  const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: new URLSearchParams({ secret, response: token }), cache: "no-store" });
-  return response.ok && Boolean((await response.json() as { success?: boolean }).success);
+async function verify(token: string) {
+ const secret=process.env.TURNSTILE_SECRET_KEY;
+ if(!secret)return process.env.NODE_ENV==="development";
+ const response=await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify",{method:"POST",body:new URLSearchParams({secret,response:token}),cache:"no-store",signal:AbortSignal.timeout(10000)});
+ return response.ok && Boolean((await response.json()).success);
 }
-async function deliver(url: string | undefined, payload: unknown, authorization?: string, extraHeaders: Record<string, string> = {}) {
-  if (!url) return { skipped: true };
-  const response = await fetch(url, { method: "POST", headers: { "Content-Type": "application/json", ...(authorization ? { Authorization: authorization } : {}), ...extraHeaders }, body: JSON.stringify(payload), cache: "no-store" });
-  const body = await response.json().catch(() => ({})) as Record<string, unknown>;
-  if (!response.ok) {
-    const providerErrors = Array.isArray(body)
-      ? body.map((item) => typeof item === "string" ? item : item && typeof item === "object" && typeof (item as Record<string, unknown>).message === "string" ? (item as Record<string, string>).message : "").filter(Boolean).join("; ")
-      : Array.isArray(body.errors)
-      ? body.errors.map((item) => {
-        if (!item || typeof item !== "object") return "";
-        const candidate = item as Record<string, unknown>;
-        const field = typeof candidate.field === "string" ? candidate.field : typeof candidate.path === "string" ? candidate.path : "";
-        const message = typeof candidate.message === "string" ? candidate.message : typeof candidate.detail === "string" ? candidate.detail : "";
-        return [field, message].filter(Boolean).join(": ");
-      }).filter(Boolean).join("; ")
-      : "";
-    const nestedError = body.error && typeof body.error === "object" ? body.error as Record<string, unknown> : null;
-    const providerMessage = providerErrors || (typeof body.message === "string"
-      ? body.message
-      : typeof body.error === "string"
-        ? body.error
-        : typeof nestedError?.message === "string"
-          ? nestedError.message
-          : typeof nestedError?.code === "string"
-            ? nestedError.code
-            : typeof body.detail === "string" ? body.detail : "");
-    const shape = Object.keys(body).sort().join(",") || "empty_body";
-    throw new Error(`delivery_${response.status}${providerMessage ? `_${providerMessage.slice(0, 160)}` : ""}_body_${shape}`);
-  }
-  return { delivered: true, body };
+async function hcp(path: string, body: unknown, requestId: string) {
+ const base=process.env.HOUSECALL_PRO_API_BASE_URL || "https://api.housecallpro.com";
+ const response=await fetch(base.replace(/\/$/,"")+path,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Token "+process.env.HOUSECALL_PRO_API_KEY,"Idempotency-Key":requestId},body:JSON.stringify(body),cache:"no-store",signal:AbortSignal.timeout(15000)});
+ if(!response.ok){
+  if([400,401,403,404,422,429].includes(response.status))throw new ProviderRejection("hcp_rejected");
+  throw new LeadDeliveryError("hcp_outcome_unknown");
+ }
+ const data=await response.json();
+ const id=data.id || data.customer?.id || data.lead?.id;
+ if(typeof id!=="string" || !id)throw new LeadDeliveryError("hcp_unconfirmed");
+ return id;
 }
-function value(source: Record<string, unknown>, key: string) {
-  const direct = source[key]; if (typeof direct === "string") return direct;
-  const clickIds = source.clickIds; if (clickIds && typeof clickIds === "object" && typeof (clickIds as Record<string, unknown>)[key] === "string") return (clickIds as Record<string, string>)[key];
-  return undefined;
-}
-function serviceDetails(lead: InstallationInput, leadId: string) {
-  const a = lead.attribution;
-  return [
-    `GC website lead: ${leadId}`, `Requested service: ${lead.serviceRequestType || "installation quote"}`, `Project: ${lead.projectType}`, `Comfort needs: ${lead.comfortNeeds.join(", ")}`,
-    `Preferred system: ${lead.systemType}`, `Timeline: ${lead.timeline}`, `Financing: ${lead.financingInterest}`,
-    `Property relationship: ${lead.homeownerStatus}`, `ZIP: ${lead.zipCode}`, `CTA source: ${lead.ctaSource}`,
-    `GCLID: ${value(a, "gclid") || ""}`, `GBRAID: ${value(a, "gbraid") || ""}`, `WBRAID: ${value(a, "wbraid") || ""}`,
-    `UTM source: ${value(a, "utm_source") || value(a, "trafficSource") || "direct"}`, `UTM medium: ${value(a, "utm_medium") || ""}`,
-    `UTM campaign: ${value(a, "utm_campaign") || value(a, "campaign") || ""}`, `UTM content: ${value(a, "utm_content") || ""}`, `UTM term: ${value(a, "utm_term") || ""}`,
-    `Landing page: ${value(a, "landingPage") || value(a, "landingUrl") || ""}`, lead.comments ? `Comments: ${lead.comments}` : "",
+export async function POST(request: NextRequest) {
+ const id=request.headers.get("Idempotency-Key")?.trim() || "";
+ const fail=(error:string,status:number,errors?:unknown)=>NextResponse.json({ok:false,error,error_stage:error.startsWith("verification")?"cloudflare":error.startsWith("invalid")||error==="submission_id_required"?"validation":error.includes("store")?"storage":"hcp",request_id:id,...(errors?{errors}:{})},{status});
+ if(!/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id))return fail("submission_id_required",400);
+ const origin=request.headers.get("origin");
+ if(origin && origin!==request.nextUrl.origin)return fail("origin_rejected",403);
+ let raw;try{raw=await request.json();}catch{return fail("invalid_json",400);}
+ const cookie=(name:string)=>{try{return JSON.parse(decodeURIComponent(request.cookies.get(name)?.value || "{}"));}catch{return {};}};
+ const firstTouch=cookie("gc_attribution_first"),latestTouch=cookie("gc_attribution_latest");
+ if(raw && typeof raw==="object" && (Object.keys(firstTouch).length || Object.keys(latestTouch).length))raw.attribution={firstTouch,latestTouch};
+ const parsed=validateInstallation(raw);if(!parsed.success)return fail("invalid_fields",422,parsed.errors);
+ const lead=parsed.data;if(lead.website)return fail("request_rejected",400);
+ if(process.env.HOUSECALL_PRO_MODE!=="api" || !process.env.HOUSECALL_PRO_API_KEY)return fail("hcp_configuration",503);
+ try{
+  if(!await verify(lead.turnstileToken))return fail("verification_failed",403);
+  const store=redisDeliveryStore();
+  const {turnstileToken:_token,attribution:_attribution,...stable}=lead;
+  const fingerprint=leadFingerprint(stable);
+  const note=[
+   "GC website submission: "+id,"Service intent: "+(lead.serviceIntent || lead.serviceRequestType || "installation"),
+   "Project: "+lead.projectType,"Timing: "+lead.timeline,"System interest: "+lead.systemType,
+   "Financing interest: "+lead.financingInterest,"Property relationship: "+lead.homeownerStatus,
+   "ZIP: "+lead.zipCode,"Form placement: "+lead.ctaSource,"Company: "+lead.company,
+   "Property type: "+lead.propertyType,"Equipment: "+lead.equipmentType,"Service needed: "+lead.serviceNeeded,
+   "Urgency: "+lead.urgency,"Comfort concerns: "+lead.comfortNeeds.join(", "),"Comments: "+lead.comments,
+   "First/latest attribution: "+JSON.stringify(lead.attribution),
+   lead.serviceRequestType==="maintenance"?"Maintenance offer: Regular $174; save $25; final $149; coupon GC149":""
   ].filter(Boolean).join("\n");
-}
-async function createHousecallProLead(lead: InstallationInput, leadId: string, idempotencyKey: string) {
-  if (process.env.HOUSECALL_PRO_MODE !== "api") throw new Error("housecall_pro_api_not_enabled");
-  const apiKey = process.env.HOUSECALL_PRO_API_KEY; const base = process.env.HOUSECALL_PRO_API_BASE_URL || "https://api.housecallpro.com";
-  if (!apiKey) throw new Error("housecall_pro_credentials_missing");
-  const authorization = `Token ${apiKey}`; const headers = { "Idempotency-Key": idempotencyKey };
-  // HCP requires a complete address object when `addresses` is supplied. The
-  // quote guide only collects ZIP, so omit the partial address and retain ZIP
-  // in the lead note instead of causing a provider-side 400.
-  let customer;
-  try {
-    // Housecall Pro validates lead_source against the account's configured source
-    // list even on customer creation. Keep attribution in the note and avoid
-    // failing the customer creation when that account-specific source is absent.
-    const normalizedPhoneDigits = lead.phone.replace(/\D/g, "");
-    const mobileNumber = normalizedPhoneDigits.length === 11 && normalizedPhoneDigits.startsWith("1")
-      ? normalizedPhoneDigits.slice(1)
-      : normalizedPhoneDigits;
-    customer = await deliver(`${base.replace(/\/$/, "")}/customers`, { first_name: lead.firstName, last_name: lead.lastName, email: lead.email, mobile_number: mobileNumber, notifications_enabled: true }, authorization, headers);
-  } catch (error) {
-    throw new Error(`housecall_pro_customer_${error instanceof Error ? error.message : "failed"}`);
-  }
-  const customerBody = customer.body ?? {}; const customerId = String(customerBody.id || (customerBody.customer as Record<string, unknown> | undefined)?.id || "");
-  if (!customerId) throw new Error("housecall_pro_customer_unconfirmed");
-  let created;
-  try {
-    const leadSource = process.env.HOUSECALL_PRO_LEAD_SOURCE?.trim() || "GC Website";
-    created = await deliver(`${base.replace(/\/$/, "")}/leads`, { customer_id: customerId, lead_source: leadSource, note: serviceDetails(lead, leadId) }, authorization, headers);
-  } catch (error) {
-    throw new Error(`housecall_pro_lead_${error instanceof Error ? error.message : "failed"}`);
-  }
-  const createdBody = created.body ?? {}; const providerLeadId = String(createdBody.id || (createdBody.lead as Record<string, unknown> | undefined)?.id || "");
-  if (!providerLeadId) throw new Error("housecall_pro_lead_unconfirmed");
-  return providerLeadId;
-}
-
-export async function POST(request: Request) {
-  let body: unknown; try { body = await request.json(); } catch { return NextResponse.json({ ok: false, error: "invalid_json" }, { status: 400 }); }
-  const parsed = validateInstallation(body); if (!parsed.success) return NextResponse.json({ ok: false, errors: parsed.errors }, { status: 422 });
-  if (parsed.data.website) return NextResponse.json({ ok: true, leadId: randomUUID(), provider: "spam_trap" });
-  const isVercelPreview = process.env.VERCEL_ENV === "preview" || (request.headers.get("host") || "").split(":")[0].endsWith(".vercel.app");
-  if (!isVercelPreview && !(await verifyTurnstile(parsed.data.turnstileToken))) return NextResponse.json({ ok: false, error: "verification_failed" }, { status: 403 });
-
-  const leadId = randomUUID(); const receivedAt = new Date().toISOString(); const idempotencyKey = request.headers.get("Idempotency-Key") || leadId;
-  const isServiceRequest = Boolean(parsed.data.serviceRequestType);
-  const lead = { leadId, leadType: isServiceRequest ? "service_request" : "installation", label: isServiceRequest ? "GC — Request Service Lead" : "GC — Free HVAC Installation Estimate Lead", status: isServiceRequest ? "new_service_request" : "new_installation_lead", receivedAt, ...parsed.data, turnstileToken: undefined };
-  const endpoint = process.env.OPERATIONS_HUB_FORM_ENDPOINT;
-  const formId = isServiceRequest ? process.env.OPERATIONS_HUB_SERVICE_REQUEST_FORM_ID : process.env.OPERATIONS_HUB_INSTALLATION_FORM_ID;
-  if (!endpoint || !formId) return NextResponse.json({ ok: false, error: "primary_storage_unavailable" }, { status: 503 });
-  try { await deliver(`${endpoint.replace(/\/$/, "")}/${encodeURIComponent(formId)}/submit`, { data: lead }, process.env.OPERATIONS_HUB_API_KEY ? `Bearer ${process.env.OPERATIONS_HUB_API_KEY}` : undefined, { "Idempotency-Key": idempotencyKey }); }
-  catch { return NextResponse.json({ ok: false, error: "primary_storage_failed" }, { status: 502 }); }
-
-  const notification = Promise.allSettled([
-    deliver(process.env.INSTALLATION_EMAIL_WEBHOOK_URL, { to: process.env.INSTALLATION_NOTIFICATION_EMAIL, subject: "GC — Free HVAC Installation Estimate Lead", lead }, process.env.INSTALLATION_NOTIFICATION_TOKEN ? `Bearer ${process.env.INSTALLATION_NOTIFICATION_TOKEN}` : undefined),
-    deliver(process.env.INSTALLATION_SLACK_WEBHOOK_URL, { text: `GC — Free HVAC Installation Estimate Lead\n${lead.firstName} ${lead.lastName}\n${lead.phone} · ${lead.email}\nProject: ${lead.projectType} · System: ${lead.systemType}\nZIP: ${lead.zipCode} · Timeline: ${lead.timeline}\nSource: ${String(value(lead.attribution, "utm_campaign") || value(lead.attribution, "gclid") || "direct")}` }),
-  ]);
-  try {
-    const providerLeadId = await createHousecallProLead(parsed.data, leadId, idempotencyKey); await notification;
-    return NextResponse.json({ ok: true, leadId, provider: "housecall_pro", providerLeadId });
-  } catch (error) {
-    // Keep the customer-facing response generic, but retain the provider
-    // failure reason in Vercel logs for integration diagnostics. Never log
-    // credentials or the submitted contact payload.
-    console.error("[installation-leads] Housecall Pro delivery failed", {
-      reason: error instanceof Error ? error.message : "unknown_error",
-      leadId,
-      backupSaved: true,
-    });
-    await notification;
-    return NextResponse.json({ ok: false, error: "housecall_pro_unconfirmed", leadId, backupSaved: true }, { status: 502 });
-  }
+  const providerLeadId=await deliverOnce(id,fingerprint,store,{
+   customer:()=>hcp("/customers",{first_name:lead.firstName,last_name:lead.lastName,...(lead.email?{email:lead.email}:{}),mobile_number:lead.phone,notifications_enabled:false},id+"-customer"),
+   lead:customerId=>hcp("/leads",{customer_id:customerId,lead_source:process.env.HOUSECALL_PRO_LEAD_SOURCE?.trim() || "GC Website",note},id+"-lead")
+  });
+  // HCP is the primary destination. Optional reporting storage cannot turn a confirmed lead into a failure.
+  const endpoint=process.env.OPERATIONS_HUB_FORM_ENDPOINT;
+  const formId=(lead.serviceRequestType?process.env.OPERATIONS_HUB_SERVICE_REQUEST_FORM_ID:undefined) || process.env.OPERATIONS_HUB_INSTALLATION_FORM_ID;
+  if(endpoint && formId)await fetch(endpoint.replace(/\/$/,"")+"/"+encodeURIComponent(formId)+"/submit",{method:"POST",headers:{"Content-Type":"application/json","Idempotency-Key":id,...(process.env.OPERATIONS_HUB_API_KEY?{Authorization:"Bearer "+process.env.OPERATIONS_HUB_API_KEY}:{})},body:JSON.stringify({data:{...stable,attribution:lead.attribution,request_id:id,leadId:id,providerLeadId,status:"hcp_confirmed",receivedAt:new Date().toISOString()}}),signal:AbortSignal.timeout(5000)}).catch(()=>undefined);
+  return NextResponse.json({ok:true,provider:"housecall_pro",providerLeadId,leadId:id,request_id:id});
+ }catch(error){
+  if(error instanceof LeadDeliveryError)return fail(error.code,error.status);
+  if(error instanceof ProviderRejection)return fail("hcp_rejected",502);
+  return fail("delivery_unconfirmed",503);
+ }
 }

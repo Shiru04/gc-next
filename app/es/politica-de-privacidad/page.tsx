@@ -12,7 +12,7 @@ export const metadata = buildMetadata({
 });
 
 const CONTACT_EMAIL = "info@gc-heatingandcooling.com";
-const EFFECTIVE_DATE = "May 29, 2026";
+const EFFECTIVE_DATE = "29 de octubre de 2026";
 
 function H2({ children }: { children: React.ReactNode }) {
   return (
@@ -143,9 +143,17 @@ export default function PrivacyPolicyPage() {
             <P>
               Nuestro sitio web utiliza cookies y tecnologías similares para operar el
               sitio, recordar preferencias, medir el tráfico y brindar soporte
-              publicidad. Puedes controlar las cookies a través de tu navegador
-              configuración, y cuando lo exija la ley, a través de nuestro consentimiento de cookies
-              pancarta.
+              publicidad. La analítica y la medición publicitaria limitada están
+              activas de forma predeterminada. Puede excluirse en cualquier momento
+              mediante &ldquo;Sus opciones de privacidad&rdquo; en el pie de página.
+              Respetamos las señales compatibles de Global Privacy Control como una
+              solicitud de exclusión.
+            </P>
+            <P>
+              La personalizaci&oacute;n de anuncios est&aacute; desactivada. Si se excluye
+              o env&iacute;a una se&ntilde;al compatible de Global Privacy Control, dejamos
+              de enviar eventos de anal&iacute;tica y conversiones publicitarias desde
+              este sitio. Seguimos procesando las solicitudes de servicio que usted decida enviar.
             </P>
             <P>
               Los servicios de terceros que utilizamos actualmente pueden incluir:
@@ -161,8 +169,10 @@ export default function PrivacyPolicyPage() {
                 rendimiento y llegar a audiencias relevantes en las plataformas Meta.
               </li>
               <li>
-                <strong>Despacho (dispatch.me)</strong> — para impulsar nuestro en línea
-                Experiencia en reservas y programación.
+                <strong>Hotjar</strong> - para comprender la navegaci&oacute;n del sitio mediante mapas de calor y grabaciones de sesiones. Hotjar solo se carga despu&eacute;s de elegir mantener la medici&oacute;n y no se carga cuando est&aacute; activo Global Privacy Control. Los campos de formularios y su contenido se ocultan en las grabaciones.
+              </li>
+              <li>
+                <strong>Housecall Pro</strong> - para recibir solicitudes de servicio y gestionar las citas de clientes.
               </li>
             </UL>
             <P>
@@ -257,10 +267,12 @@ export default function PrivacyPolicyPage() {
               </li>
             </UL>
             <P>
-              Para ejercer estos derechos, por favor póngase en contacto con nosotros utilizando la información
-              abajo. Es posible que necesitemos verificar su identidad antes de responder.
-              Los agentes autorizados pueden presentar solicitudes en su nombre con la debida
-              autorización escrita.
+              Para excluirse de la analítica y el almacenamiento publicitario, use
+              &ldquo;Sus opciones de privacidad&rdquo; en el pie de página. También
+              puede contactarnos mediante la información a continuación para ejercer
+              otros derechos. Es posible que necesitemos verificar su identidad antes
+              de responder. Los agentes autorizados pueden presentar solicitudes en
+              su nombre con la debida autorización escrita.
             </P>
 
             <H2>9. Privacidad de los niños</H2>

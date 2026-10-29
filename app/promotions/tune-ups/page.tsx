@@ -1,3 +1,4 @@
+import { buildMetadata } from "@/lib/seo";
 // app/promotions/tune-ups/page.tsx
 import { Metadata } from "next";
 import { SITE } from "@/lib/site";
@@ -10,19 +11,7 @@ import { PromoJsonLd } from "@/components/promotions/PromoJsonLd";
 
 const promo = PROMOTIONS["tune-ups"];
 
-export const metadata: Metadata = {
-  title: promo.metaTitle,
-  description: promo.metaDescription,
-  alternates: {
-    canonical: promo.slug,
-  },
-  openGraph: {
-    title: promo.metaTitle,
-    description: promo.metaDescription,
-    type: "website",
-    url: promo.slug,
-  },
-};
+export const metadata: Metadata = buildMetadata({ title: promo.metaTitle, description: promo.metaDescription, path: promo.slug });
 
 export default function TuneUpsPromoPage() {
   const pageUrl = promo.slug;

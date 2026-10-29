@@ -21,10 +21,6 @@ export const COMMERCIAL = {
   name: verified("GC Heating & Cooling", "existing brand identity"),
   phone: verified("+15628674123", "GC office number"),
   phoneDisplay: verified("562-867-4123", "GC office number"),
-  dispatchUrl: verified(
-    "https://customer.dispatch.me/booking?account_id=37&org_id=257895",
-    "current public Dispatch booking URL",
-  ),
   address: verified({
     street: "17777 Center Court Dr, Suite 600",
     city: "Cerritos",

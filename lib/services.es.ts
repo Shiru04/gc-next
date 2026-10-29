@@ -211,7 +211,7 @@ export const SERVICES: Service[] = [
       "Si el sistema de su hogar tiene dificultades para mantenerse al día o necesita reparaciones frecuentes, un reemplazo puede mejorar la comodidad y la eficiencia. Le ayudaremos a elegir el ajuste adecuado.",
     overview: [
       "La parte más importante de una instalación de aire acondicionado ocurre antes de que llegue cualquier equipo: el dimensionamiento. Un sistema de gran tamaño realiza ciclos cortos y deja las habitaciones húmedas; uno de tamaño insuficiente corre constantemente y nunca lo alcanza. Evaluamos los metros cuadrados, el aislamiento, los conductos y la exposición al sol de su casa para recomendar un sistema del tamaño adecuado para cómo su casa realmente retiene el calor, no solo un intercambio similar de lo que había antes.",
-      "Los sistemas modernos de alta eficiencia pueden reducir significativamente los costos de refrigeración en comparación con los equipos de hace diez o quince años, y lo guiaremos a través de las compensaciones realistas entre eficiencia y comodidad en cada nivel de precio. El equipo comienza en $6,800 con la instalación cotizada por separado, los estimados son gratuitos y hay opciones de financiamiento disponibles, para que pueda decidir basándose en números claros en lugar de presión.",
+      "Los sistemas modernos de alta eficiencia pueden reducir significativamente los costos de refrigeración en comparación con los equipos de hace diez o quince años, y lo guiaremos a través de las compensaciones realistas entre eficiencia y comodidad en cada nivel de precio. El equipo y la instalación se cotizan para su proyecto, los estimados son gratuitos y hay opciones de financiamiento disponibles, para que pueda decidir basándose en números claros en lugar de presión.",
     ],
     process: [
       {
@@ -232,7 +232,7 @@ export const SERVICES: Service[] = [
       },
     ],
     bullets: [
-      "Equipo desde $6,800 (la instalación se cotiza por separado)",
+      "Estimado gratuito por escrito para su equipo e instalación",
       "Recomendaciones de sistemas con el tamaño adecuado (comodidad + eficiencia)",
       "Desmontaje e instalación profesional.",
       "Consideraciones sobre conductos y flujo de aire",
@@ -496,10 +496,10 @@ export function getServiceBySlug(slug: string) {
  * Used by the legacy /services/[slug] route to render SEO-safe redirects.
  */
 export const LEGACY_SERVICE_REDIRECTS: Record<string, string> = {
-  "ac-repair": "/residencial/reparacion-de-aire-acondicionado-residencial",
-  "heating-repair": "/residencial/reparación-de-calefacción-residencial",
-  "hvac-maintenance": "/residencial/mantenimiento-climatizacion-residencial",
-  "ac-installation": "/residencial/instalacion-ac-residencial",
-  "attic-insulation": "/residencial/aislamiento-ático-residencial",
-  "commercial-hvac": "/comercial",
+  "ac-repair": "/es/residencial/residential-ac-repair",
+  "heating-repair": "/es/residencial/residential-heating-repair",
+  "hvac-maintenance": "/es/residencial/residential-hvac-maintenance",
+  "ac-installation": "/es/residencial/residential-ac-installation",
+  "attic-insulation": "/es/residencial/residential-attic-insulation",
+  "commercial-hvac": "/es/comercial",
 };

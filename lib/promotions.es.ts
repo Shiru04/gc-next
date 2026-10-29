@@ -26,20 +26,17 @@ export const PROMOTIONS: Record<
 > = {
   "new-installation": {
     key: "new-installation",
-    slug: "/promociones/nueva-instalacion",
+    slug: "/es/promociones/instalacion-nueva",
     pageTitle: "Nueva instalación de climatización",
-    metaTitle:
-      "Nueva instalación de HVAC en Los Ángeles y el condado de Orange | Hasta $2000 de reembolso",
-    metaDescription:
-      "Reemplace o instale un nuevo sistema HVAC con GC Heating & Cooling. Hasta $2,000 de reembolsos disponibles. Programación rápida para Los Ángeles y el condado de Orange.",
+    metaTitle: "Estimado gratuito de instalación HVAC | Los Ángeles y Orange",
+    metaDescription: "Solicite un estimado gratuito por escrito para instalar o reemplazar su sistema HVAC. Consulte sobre financiamiento y posibles incentivos.",
     heroKicker: "Consulta HVAC gratuita",
-    heroHeadline: "Nueva instalación de HVAC: bien hecha, sin esperas",
-    heroSubheadline:
-      "Instale o reemplace su sistema con un equipo autorizado, garantizado y asegurado. Sirviendo a Los Ángeles y el Condado de Orange con programación rápida y mano de obra limpia.",
-    primaryOfferTitle: "Arriba a",
-    primaryOfferValue: "$2,000 reembolsos",
+    heroHeadline: "Instalación HVAC: opciones claras para su propiedad",
+    heroSubheadline: "Instale o reemplace su sistema con GC Heating & Cooling. Atendemos los condados de Los Ángeles y Orange.",
+    primaryOfferTitle: "Instalación y reemplazo",
+    primaryOfferValue: "Estimado gratuito por escrito",
     primaryOfferDetails: [
-      "Equipo desde $6,800 (la instalación se cotiza por separado).",
+      "Cotizamos el equipo y la instalación según el alcance de su proyecto.",
       "Los reembolsos varían según el equipo y la disponibilidad del programa.",
       "El monto final del reembolso se confirma durante su consulta.",
       "Le ayudaremos a elegir la mejor opción en términos de comodidad y eficiencia.",
@@ -73,7 +70,7 @@ export const PROMOTIONS: Record<
 
   repairs: {
     key: "repairs",
-    slug: "/promociones/reparaciones",
+    slug: "/es/promociones/reparaciones",
     pageTitle: "Reparaciones de climatización",
     metaTitle: "Reparación de HVAC en Los Ángeles y el condado de Orange | Diagnóstico rápido",
     metaDescription:
@@ -118,7 +115,7 @@ export const PROMOTIONS: Record<
 
   "tune-ups": {
     key: "tune-ups",
-    slug: "/promociones/puestas a punto",
+    slug: "/es/promociones/mantenimiento",
     pageTitle: "Puesta a punto de HVAC",
     metaTitle: "Afinación HVAC | Precio regular $174 — Ahorre $25 — Ahora $149",
     metaDescription:

@@ -1,0 +1,21 @@
+"use client";
+import { useId, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+
+const systems = [
+  { slug: "central-ac", value: "central_ac", title: ["Central AC", "Aire Central"], image: "/services/commercial/commercial-detail.webp", alt: ["Outdoor HVAC equipment", "Equipos HVAC exteriores"], use: ["Comfort Throughout Your Home", "Confort En Toda Su Casa"], body: ["A ducted system distributes cooled air throughout the home. Start by checking the existing ducts and how evenly they serve each room.", "Un sistema con conductos distribuye aire frío por la casa. Empiece por revisar los conductos y cómo atienden cada habitación."], check: ["Duct condition, system sizing and indoor/outdoor equipment pairing.", "Estado de conductos, capacidad y combinación de equipos interiores y exteriores."] },
+  { slug: "heat-pumps", value: "heat_pump", title: ["Heat Pumps", "Bombas De Calor"], image: "/services/maintenance/maintenance-detail.webp", alt: ["Outdoor equipment and refrigerant service gauges", "Equipo exterior y manómetros de servicio"], use: ["Heating And Cooling In One System", "Frío Y Calor En Un Sistema"], body: ["Explore an electric system that provides both heating and cooling. Your home's electrical capacity and distribution help determine the right installation approach.", "Explore un sistema eléctrico para calefacción y refrigeración. La capacidad eléctrica y la distribución de su hogar determinan el enfoque de instalación."], check: ["Electrical capacity, ductwork or ductless layout, and equipment eligibility for current programs.", "Capacidad eléctrica, conductos o distribución sin conductos y elegibilidad del equipo para programas vigentes."] },
+  { slug: "mini-splits", value: "mini_split", title: ["Mini-Splits", "Mini-Splits"], image: "/services/installation/mini-split-wall-v2.webp", alt: ["Wall-mounted ductless mini-split in a living room", "Mini-split sin conductos instalado en la pared de una sala"], use: ["Ductless Or Ducted Zoned Comfort", "Confort Por Zonas Con O Sin Conductos"], body: ["Mini-splits can be ductless or ducted. Compare a visible wall-mounted unit, a concealed ducted layout, and single-zone or multi-zone options for an addition, ADU, or whole-home comfort plan.", "Los mini-splits pueden ser sin conductos o con conductos. Compare una unidad mural, una solución oculta con conductos y opciones de una o varias zonas para una ampliación, ADU o toda la casa."], check: ["Indoor unit style, ducted or ductless layout, drainage, electrical supply and number of zones.", "Estilo de unidad interior, diseño con o sin conductos, drenaje, alimentación eléctrica y número de zonas."] },
+];
+
+export function SystemExplorer({ locale = "en" }: { locale?: "en" | "es" }) {
+  const [selected, setSelected] = useState(0); const id = useId(); const i = locale === "es" ? 1 : 0; const es = i === 1; const system = systems[selected];
+  return <div className="gc-explorer">
+    <div className="gc-system-switch" role="group" aria-label={es ? "Comparar sistemas HVAC" : "Compare HVAC systems"}>{systems.map((item, index) => <button type="button" key={item.slug} aria-pressed={selected === index} aria-controls={id} onClick={() => setSelected(index)}>{item.title[i]}</button>)}</div>
+    <div className="gc-explorer-body" id={id}>
+      <figure><Image key={system.image} src={system.image} alt={system.alt[i]} width={960} height={640} sizes="(max-width: 767px) 100vw, 50vw" /><figcaption>{es ? "Imagen de referencia de equipo HVAC. El diseño y los modelos varían." : "HVAC equipment reference. Designs and models vary."}</figcaption></figure>
+      <div className="gc-explorer-copy" key={system.slug} aria-live="polite"><span className="gc-kicker">{system.title[i]}</span><h3>{system.use[i]}</h3><p>{system.body[i]}</p><dl><dt>{es ? "Qué revisar con GC" : "What to review with GC"}</dt><dd>{system.check[i]}</dd></dl><div className="gc-actions"><Link className="gc-button" href={`${es ? "/es" : ""}/installation-replacement/${system.slug}/?system_interest=${system.value}#free-hvac-quote`}>{es ? "Consultar este sistema" : "Get an Estimate for This System"}</Link><Link className="gc-text-link" href={`${es ? "/es" : ""}/installation-replacement/${system.slug}/`}>{es ? "Ver detalles" : "See details"}</Link></div></div>
+    </div>
+  </div>;
+}

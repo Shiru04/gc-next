@@ -7,7 +7,7 @@
     "dev": "next dev",
     "prebuild": "tsx scripts/optimize-images.ts",
     "build": "next build",
-    "test": "tsx scripts/test-core.ts && tsx scripts/test-spanish-parity.ts",
+    "test": "tsx scripts/test-core.ts && tsx scripts/test-spanish-parity.ts && tsx scripts/test-installation.ts && tsx scripts/test-lead-delivery.ts",
     "start": "next start",
     "lint": "next lint"
   },

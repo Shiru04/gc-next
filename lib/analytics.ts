@@ -5,14 +5,6 @@ import {
 } from "@/lib/cta";
 import { pushConversionEvent } from "@/lib/conversions";
 
-declare global {
-  interface Window {
-    gtag?: (...args: any[]) => void;
-    fbq?: (...args: any[]) => void;
-    dataLayer?: Array<Record<string, unknown>>;
-  }
-}
-
 export type CtaEvent = CtaMeta & {
   /** Path donde ocurrió el click. */
   page: string;
@@ -34,7 +26,9 @@ export type CtaEvent = CtaMeta & {
  */
 export function trackCta(event: CtaEvent): void {
   if (typeof window === "undefined") return;
-  const name = event.type === "phone" ? "phone_click" : event.type === "booking" ? "schedule_service_click" : event.type === "financing" ? "financing_click" : event.type === "form" ? "contact_form_submit" : null;
+  let name: import("@/lib/conversions").ConversionEventName | null = event.type === "phone" ? "phone_click" : event.type === "booking" ? "schedule_service_click" : event.type === "financing" ? "financing_click" : event.type === "form" ? "contact_form_submit" : null;
+  if (event.href?.includes("#free-hvac-quote")) name = "installation_guide_open";
+  if (event.href && /housecallpro\.com|housecall\.pro/i.test(event.href)) name = "hcp_booking_start";
   if (name) pushConversionEvent(name, { ctaLocation: event.location, linkUrl: event.href });
 }
 

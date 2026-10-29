@@ -1,5 +1,5 @@
 import { buildMetadata } from "@/lib/seo";
-import ServiceAreasClient from "./ServiceAreasClient";
+import { AreaDirectory } from "@/components/acquisition/AreaDirectory";
 
 export const metadata = buildMetadata({
   title: "Áreas de Servicio | Calefacción y refrigeración GC",
@@ -9,5 +9,5 @@ export const metadata = buildMetadata({
 });
 
 export default function ServiceAreasPage() {
-  return <ServiceAreasClient />;
+  return <AreaDirectory locale="es" />;
 }

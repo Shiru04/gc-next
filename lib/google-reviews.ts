@@ -15,10 +15,7 @@ export interface GooglePlaceData {
 
 /**
  * Fetches reviews from the Google Places API.
- * Runs at build-time only (static export).
- *
- * Returns `null` when env vars are missing so the build
- * can proceed with fallback / dummy reviews.
+ * Reads the latest available place metrics and reviews from Google.
  */
 export async function fetchGoogleReviews(): Promise<GooglePlaceData | null> {
   const apiKey = process.env.GOOGLE_PLACES_API_KEY;
@@ -34,7 +31,9 @@ export async function fetchGoogleReviews(): Promise<GooglePlaceData | null> {
   try {
     const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=name,rating,user_ratings_total,reviews&reviews_sort=newest&key=${apiKey}`;
 
-    const res = await fetch(url);
+    // Keep ratings and review excerpts current without turning every page view
+    // into a billable Places request.
+    const res = await fetch(url, { next: { revalidate: 300 }, signal: AbortSignal.timeout(8000) });
     const data = await res.json();
 
     if (data.status !== "OK") {

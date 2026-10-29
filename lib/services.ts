@@ -211,7 +211,7 @@ export const SERVICES: Service[] = [
       "If your home system struggles to keep up or needs frequent repairs, a replacement can improve comfort and efficiency. We’ll help you choose the right fit.",
     overview: [
       "The most important part of an AC installation happens before any equipment arrives: sizing. An oversized system short-cycles and leaves rooms clammy; an undersized one runs constantly and never quite catches up. We assess your home’s square footage, insulation, ductwork, and sun exposure to recommend a system that’s right-sized for how your home actually holds heat — not just a like-for-like swap of whatever was there before.",
-      "Modern high-efficiency systems can meaningfully cut cooling costs compared to equipment from ten or fifteen years ago, and we’ll walk you through the realistic efficiency and comfort trade-offs at each price point. Equipment starts at $6,800 with installation quoted separately, estimates are free, and financing options are available — so you can decide based on clear numbers instead of pressure.",
+      "Modern high-efficiency systems can meaningfully cut cooling costs compared to equipment from ten or fifteen years ago, and we’ll walk you through the realistic efficiency and comfort trade-offs at each price point. Equipment and installation are quoted for your project, estimates are free, and financing options are available — so you can decide based on clear numbers instead of pressure.",
     ],
     process: [
       {
@@ -232,7 +232,7 @@ export const SERVICES: Service[] = [
       },
     ],
     bullets: [
-      "Equipment starting at $6,800 (installation quoted separately)",
+      "Free written estimate for equipment and installation",
       "Right-sized system recommendations (comfort + efficiency)",
       "Removal and professional installation",
       "Ductwork and airflow considerations",

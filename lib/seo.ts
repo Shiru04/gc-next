@@ -4,7 +4,7 @@ import { alternateLocalePath } from "@/lib/routes";
 
 function getSiteUrl(): string | undefined {
   const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (!raw) return undefined;
+  if (!raw) return "https://gc-heatingandcooling.com";
 
   // normalize: remove trailing slash
   return raw.replace(/\/+$/, "");

@@ -4,6 +4,8 @@ import { POSTS as ENGLISH_LOCAL_POSTS } from "@/lib/posts";
 import { POSTS as SPANISH_LOCAL_POSTS } from "@/lib/posts.es";
 import { SERVICES } from "@/lib/services";
 import { getAllBlogPosts } from "@/lib/hive-blog";
+import { ACQUISITION_PAGES, acquisitionPath } from "@/lib/acquisition-content";
+import { URL_MIGRATION } from "@/lib/url-migration";
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || "https://gc-heatingandcooling.com").replace(/\/+$/, "");
 
@@ -20,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const entries = new Map<string, MetadataRoute.Sitemap[number]>();
   const add = (path: string, lastModified?: string | Date) => {
+    if (process.env.GC_ENABLE_URL_MIGRATION === "true" && URL_MIGRATION[path.endsWith("/")?path:path+"/"]) return;
     const url = absolute(path);
     entries.set(url, { url, ...(lastModified ? { lastModified } : {}) });
   };
@@ -36,6 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     "/es/promociones/instalacion-nueva", "/es/programar-servicio",
     "/es/politica-de-privacidad",
   ].forEach((path) => add(path));
+  for(const page of ACQUISITION_PAGES) { add(acquisitionPath(page.slug,"en")); add(acquisitionPath(page.slug,"es")); }
 
   for (const service of SERVICES) {
     add(`/${service.audience}/${service.slug}`);

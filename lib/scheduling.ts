@@ -1,69 +1,28 @@
 import type { ServiceType } from "@/lib/service-types";
-import { INSTALLATION_CONSULTATION_CTA } from "@/lib/consultation";
-
-const DISPATCH_URL = "https://customer.dispatch.me/booking?account_id=37&org_id=257895";
-
-export function housecallProBookingHref(service: ServiceType, coupon?: string) {
-  const configured = process.env.NEXT_PUBLIC_HOUSECALL_PRO_ONLINE_BOOKING_URL;
-  // Dispatch intentionally remains the fallback until Housecall Pro passes production QA.
-  if (!configured) return dispatchServiceHref(service, coupon);
-  const url = new URL(configured);
-  url.searchParams.set("service", service);
-  url.searchParams.set("utm_source", "gc-website");
-  url.searchParams.set("utm_medium", "online-booking");
-  if (coupon) { url.searchParams.set("coupon", coupon); url.searchParams.set("utm_content", coupon); }
-  return url.toString();
-}
-
+import { acquisitionPath } from "@/lib/acquisition-content";
 export function customerFlowHref(service: ServiceType, locale: "en" | "es" = "en", coupon?: string) {
-  if (service === "installation" || service === "commercial_installation") {
-    const path = locale === "es" ? "/es/residencial/residential-ac-installation/" : "/residential/residential-ac-installation/";
-    return `${path}#free-hvac-quote`;
-  }
-  if (["ac_repair", "heating_repair", "maintenance", "commercial_repair", "commercial_maintenance", "other"].includes(service)) {
-    const path = locale === "es" ? "/es/request-service/" : "/request-service/";
-    return `${path}?service=${encodeURIComponent(service === "heating_repair" ? "ac_repair" : service)}`;
-  }
-  return scheduleServiceHref(service, locale, coupon);
+ const slug=service.startsWith("commercial")?"commercial":service==="installation"?"installation-replacement":service==="maintenance"?"maintenance":service==="other"?"": "repair";
+ const base=slug?acquisitionPath(slug,locale):locale==="es"?"/es/":"/";
+ return base+(coupon?"?coupon="+encodeURIComponent(coupon):"")+"#free-hvac-quote";
 }
-
-export function scheduleServiceHref(service: ServiceType, locale: "en" | "es" = "en", coupon?: string) {
-  const base = locale === "es" ? "/es/programar-servicio/" : "/schedule-service/";
-  const query = new URLSearchParams({ service });
-  if (coupon) query.set("coupon", coupon);
-  return `${base}?${query.toString()}`;
+export function housecallProBookingHref(service: ServiceType, coupon?: string) {
+ const configured=process.env.NEXT_PUBLIC_HOUSECALL_PRO_ONLINE_BOOKING_URL;
+ if(!configured)return customerFlowHref(service,"en",coupon);
+ try{const url=new URL(configured);if(url.protocol!=="https:" || !/(^|\.)(housecallpro\.com|housecall\.pro)$/.test(url.hostname))return customerFlowHref(service,"en",coupon);url.searchParams.set("service",service);if(coupon)url.searchParams.set("coupon",coupon);return url.toString();}catch{return customerFlowHref(service,"en",coupon);}
 }
-
-export function dispatchServiceHref(service: ServiceType, coupon?: string) {
-  const url = new URL(DISPATCH_URL);
-  url.searchParams.set("service", service);
-  url.searchParams.set("utm_source", "gc-website");
-  url.searchParams.set("utm_medium", "service-scheduler");
-  url.searchParams.set("utm_campaign", service);
-  if (coupon) {
-    url.searchParams.set("coupon", coupon);
-    url.searchParams.set("utm_content", coupon);
-    url.searchParams.set("promotion", "HVAC Tune-Up — Regularly $174 — Save $25 — Now $149");
-    url.searchParams.set("service_label", "HVAC Tune-Up — Regularly $174 — Save $25 — Now $149");
-  }
-  return url.toString();
+export const scheduleServiceHref=customerFlowHref;
+/** Compatibility for older imports; the destination is always a GC/HCP journey. */
+export const dispatchServiceHref=(service:ServiceType,coupon?:string)=>customerFlowHref(service,"en",coupon);
+export function serviceIntentFromSlug(slug:string):ServiceType {
+ if(slug.startsWith("commercial-"))return slug.includes("installation")?"commercial_installation":slug.includes("maintenance")?"commercial_maintenance":"commercial_repair";
+ if(slug.includes("installation") || slug.includes("insulation"))return "installation";
+ if(slug.includes("maintenance"))return "maintenance";
+ return slug.includes("heating")?"heating_repair":"ac_repair";
 }
-
-export function serviceIntentFromSlug(slug: string): ServiceType {
-  if (slug.includes("installation") || slug.includes("insulation")) return slug.startsWith("commercial-") ? "commercial_installation" : "installation";
-  if (slug.includes("maintenance")) return slug.startsWith("commercial-") ? "commercial_maintenance" : "maintenance";
-  if (slug.includes("heating")) return "heating_repair";
-  if (slug.startsWith("commercial-")) return "commercial_repair";
-  return "ac_repair";
-}
-
-export function serviceCtaLabel(service: ServiceType, locale: "en" | "es" = "en") {
-  if (locale === "es") {
-    if (service === "commercial_installation") return "Obtener un estimado comercial gratuito";
-    if (service === "installation") return "Obtener un estimado gratuito";
-    return "Agendar una consulta HVAC gratuita";
-  }
-  if (service === "commercial_installation") return "Get a Free Commercial HVAC Estimate";
-  if (service === "installation") return "Get a Free Estimate";
-  return "Book a Free HVAC Consultation";
+export function serviceCtaLabel(service:ServiceType,locale:"en"|"es"="en"){
+ const es=locale==="es";
+ if(service.startsWith("commercial"))return es?"Solicitar servicio HVAC comercial":"Request Commercial HVAC Service";
+ if(service==="installation")return es?"Obtener un estimado gratuito":"Get a Free Estimate";
+ if(service==="maintenance")return es?"Solicitar mantenimiento por $149":"Book the $149 Tune-Up";
+ return es?"Solicitar servicio HVAC":"Request HVAC Service";
 }

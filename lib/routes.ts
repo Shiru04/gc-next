@@ -20,5 +20,7 @@ export function alternateLocalePath(path: string): { en: string; es: string } {
     if (clean === es || clean.startsWith(`${es}/`)) return { en: clean.replace(es, en) || "/", es: clean };
     if (clean === en || (en !== "/" && clean.startsWith(`${en}/`))) return { en: clean, es: clean.replace(en, es) };
   }
-  return { en: clean, es: `/es${clean}` };
+  return clean.startsWith("/es/")
+    ? { en: clean.slice(3), es: clean }
+    : { en: clean, es: `/es${clean}` };
 }
