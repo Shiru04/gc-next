@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { trackCta } from "@/lib/analytics";
+import { sendGoogleEvent } from "@/lib/google-tag";
 import { inferCtaType, slugifyCta, type CtaMeta, type CtaType } from "@/lib/cta";
 
 /**
@@ -112,6 +113,19 @@ export function ConversionTracking() {
       if (!el) return;
 
       const href = el.getAttribute("href") || "";
+      if (href && el instanceof HTMLAnchorElement) {
+        const destination = new URL(href, window.location.href);
+        if (destination.origin === window.location.origin && destination.hash === "#free-hvac-quote") {
+          const location = el.closest(".gc-mobile-actions") ? "mobile_sticky" : el.closest(".gc-hero-copy") ? "hero" : el.closest(".gc-final") ? "final" : resolveLocation(el);
+          const key = `form-anchor:${location}:${window.location.pathname}`;
+          const now = e.timeStamp || performance.now();
+          if (now - (lastFired.get(key) ?? -Infinity) >= DEDUPE_MS) {
+            lastFired.set(key, now);
+            try { sendGoogleEvent("lead_form_cta_click", { cta_location: location }); } catch {}
+          }
+          return;
+        }
+      }
       const cta = resolveCta(el, href);
       if (!cta) return;
 

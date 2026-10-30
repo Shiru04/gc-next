@@ -7,3 +7,5 @@ docs/
 README*
 .translation-cache.json
 tsconfig.tsbuildinfo
+.next/
+node_modules/

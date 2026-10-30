@@ -18,6 +18,7 @@ export type GoogleEventName =
   | "service_request_submit"
   | "installation_page_view"
   | "installation_form_start"
+  | "lead_form_cta_click"
   | "installation_contact_step_view"
   | "installation_submit_attempt"
   | "installation_form_error"
