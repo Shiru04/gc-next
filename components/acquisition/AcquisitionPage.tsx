@@ -23,6 +23,7 @@ export function TrustStrip({ locale, googleReviews = null }: { locale: Locale; g
       <div className="gc-proof-facts"><div><strong>25+</strong><span>{es ? "Años · Empresa Familiar Desde 1999" : "Years · Family Owned Since 1999"}</span></div><div><strong>#794228</strong><span>{es ? "Licencia De California · Fianza · Seguro" : "California Licensed · Bonded · Insured"}</span></div></div>
     </div>
     <div className="gc-trust-badges">
+      <span className="gc-trust-mitsubishi"><Image src="/trust/mitsubishi-diamond-contractor.webp" alt="Mitsubishi Electric Diamond Contractor" width={512} height={148}/></span>
       <span><Image src="/trust/angieslist-w192.webp" alt="Angie’s List Super Service Award 2013–2020" width={148} height={112}/></span>
       <span><Image src="/trust/american-standard-w192.webp" alt="American Standard Customer Care Dealer" width={152} height={96}/></span>
       <span><Image src="/trust/homeadvisor-w192.webp" alt="HomeAdvisor Screened and Approved" width={126} height={112}/></span>
