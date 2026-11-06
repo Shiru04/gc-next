@@ -48,9 +48,10 @@ export function LeadForm({ locale = "en", mode = "home", placement = "hero" }: {
     const draft = read(key);
     if (draft?.version === 2 && typeof draft.savedAt === "number" && Date.now() - draft.savedAt < 86400000) {
       draftSavedAt.current = draft.savedAt;
-      setValues(old => ({ ...old, projectType: draft.values?.projectType || old.projectType, systemType: draft.values?.systemType || old.systemType, timeline: draft.values?.timeline || old.timeline }));
+      const restoredZip = typeof draft.values?.zipCode === "string" && /^\d{5}$/.test(draft.values.zipCode) ? draft.values.zipCode : "";
+      setValues(old => ({ ...old, zipCode: restoredZip, projectType: draft.values?.projectType || old.projectType, systemType: draft.values?.systemType || old.systemType, timeline: draft.values?.timeline || old.timeline }));
       if (["replace", "install", "repair", "maintenance", "unknown", "commercial"].includes(draft.intent)) setIntent(draft.intent);
-      setStep(draft.step === 1 ? 1 : 0);
+      setStep(draft.step === 1 && (mode !== "installation" || restoredZip) ? 1 : 0);
       if (typeof draft.submissionId === "string") submissionId.current = draft.submissionId;
       if (draft.success) setStatus("success");
     } else {
@@ -61,7 +62,7 @@ export function LeadForm({ locale = "en", mode = "home", placement = "hero" }: {
     setReady(true);
   }, [key]);
   useEffect(() => {
-    if (ready) save(key, { version: 2, savedAt: draftSavedAt.current, values: { projectType: values.projectType, systemType: values.systemType, timeline: values.timeline }, intent, step, submissionId: submissionId.current, success: status === "success" });
+    if (ready) save(key, { version: 2, savedAt: draftSavedAt.current, values: { zipCode: /^\d{5}$/.test(values.zipCode) ? values.zipCode : "", projectType: values.projectType, systemType: values.systemType, timeline: values.timeline }, intent, step, submissionId: submissionId.current, success: status === "success" });
   }, [values, intent, step, ready, key, status]);
 
   function start(selected = intent) {
@@ -74,6 +75,7 @@ export function LeadForm({ locale = "en", mode = "home", placement = "hero" }: {
     start(); setValues(old => ({ ...old, [field]: value })); setErrors(old => ({ ...old, [field]: "" }));
   }
   function report(next: Record<string, string>) {
+    if (mode === "installation" && step === 1 && next.zipCode) setStep(0);
     setErrors(next);
     for (const field of Object.keys(next)) if (installation) trackFormEvent("installation_form_error", { form_name: mode, form_location: placement, step: step + 1, field_name: field, error_type: "validation" });
     requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>("[aria-invalid=true]")?.focus());
@@ -101,7 +103,7 @@ export function LeadForm({ locale = "en", mode = "home", placement = "hero" }: {
     setFailureCategory(null);
     busy.current = true; setStatus("sending");
     submissionId.current ??= crypto.randomUUID();
-    save(key, { version: 2, savedAt: draftSavedAt.current, values: { projectType: values.projectType, systemType: values.systemType, timeline: values.timeline }, intent, step, submissionId: submissionId.current });
+    save(key, { version: 2, savedAt: draftSavedAt.current, values: { zipCode: values.zipCode, projectType: values.projectType, systemType: values.systemType, timeline: values.timeline }, intent, step, submissionId: submissionId.current });
     let nextFailure: "verification" | "validation" | "rejected" | "delivery" = "delivery";
     try {
       let token: string;
